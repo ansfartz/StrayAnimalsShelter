@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "454734155052",
+    "firebase_url": "https://bcs-app-2082e.firebaseio.com",
+    "project_id": "bcs-app-2082e",
+    "storage_bucket": "bcs-app-2082e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454734155052:android:666257ddfdb6dbe0",
+        "android_client_info": {
+          "package_name": "com.bcs.andy.strayanimalsshelter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454734155052-ge7qh59k4ol1mmc0njd1phmtm7hth00h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bcs.andy.strayanimalsshelter",
+            "certificate_hash": "f1964d8362b931cc2798bbd9d7d42e3ac051c85f"
+          }
+        },
+        {
+          "client_id": "454734155052-f0h3r0nl1vd64llv8vuqcr6eptgae0is.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5ifGOHCjCCzFsi1IBOOCUwNFKX0Y4dFI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454734155052-f0h3r0nl1vd64llv8vuqcr6eptgae0is.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
