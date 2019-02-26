@@ -34,6 +34,14 @@ public class MyAnimalsActivity extends AppCompatActivity {
 
         listAnimals = new ArrayList<>();
 
+        for(Integer i = 0; i < 10; i++) {
+            Animal animal = new Animal("someName","someSpecies",i,i.toString());
+            listAnimals.add(animal);
+        }
+
+        animalAdapter = new AnimalAdapter(listAnimals, this);
+        recyclerView.setAdapter(animalAdapter);
+
 
     }
 }
