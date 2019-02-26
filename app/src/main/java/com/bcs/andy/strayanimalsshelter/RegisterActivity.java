@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -91,7 +92,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 user.updateProfile(profileUpdates);
                                 Toast.makeText(RegisterActivity.this, "Update complete", Toast.LENGTH_SHORT).show();
 
-                                startActivity(new Intent(RegisterActivity.this, AccountActivity.class));
+
+
+                                startActivity(new Intent(RegisterActivity.this, AccountActivity.class).putExtra("displayName", name));
                                 finish();
 
                             }

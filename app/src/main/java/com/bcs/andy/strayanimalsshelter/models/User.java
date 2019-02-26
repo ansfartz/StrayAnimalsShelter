@@ -1,21 +1,21 @@
 package com.bcs.andy.strayanimalsshelter.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
+    private String email;
     private String name;
-    private String email;   // used to Login
-    private String phone;
-    private ArrayList<User> friends;
+    private List<User> friends;
+    private List <Marker> markers;
+    private List<Animal> animals;
 
-    public User() { }
+    public User() {
+    }
 
-    public User(String email, String name, String phone) {
+    public User(String email, String name) {
         this.email = email;
         this.name = name;
-        this.phone = phone;
-        friends = new ArrayList<>();
     }
 
     public String getEmail() {
@@ -34,19 +34,19 @@ public class User {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public ArrayList<User> getFriends() {
+    public List<User> getFriends() {
         return friends;
     }
 
-    public void setFriends(ArrayList<User> friends) {
+    public void setFriends(List<User> friends) {
         this.friends = friends;
+    }
+
+    public List<Marker> getMarkers() {
+        return markers;
+    }
+
+    public void setMarkers(List<Marker> markers) {
+        this.markers = markers;
     }
 }
