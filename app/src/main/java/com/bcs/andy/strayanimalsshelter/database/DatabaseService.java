@@ -30,7 +30,7 @@ public class DatabaseService {
     }
 
 
-    private interface FirebaseCallback {
+    public interface FirebaseCallback {
         void onCallback(List<Animal> list);
     }
 
