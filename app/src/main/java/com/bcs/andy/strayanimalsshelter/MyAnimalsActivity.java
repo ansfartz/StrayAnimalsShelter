@@ -25,30 +25,34 @@ public class MyAnimalsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_animals);
 
-        DatabaseService databaseService = new DatabaseService();
-//        databaseService.readData();
-
-        databaseService.readItemsFromDatabase(new DatabaseService.FirebaseCallback() {
-            @Override
-            public void onCallback(List<Animal> list) {
-                listAnimals.addAll(list);
-                Log.d("DATABASE_TAG", "MYLIST: " + listAnimals.toString());
-            }
-        });
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true); //every item of the RecyclerView has a fixed size;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        for(Integer i = 0; i < 10; i++) {
-            Animal animal = new Animal("someName","someSpecies",i,i.toString());
-            listAnimals.add(animal);
-        }
+
+        DatabaseService databaseService = new DatabaseService();
+
+        databaseService.readItemsFromDatabase(new DatabaseService.FirebaseCallback() {
+            @Override
+            public void onCallback(List<Animal> list) {
+                listAnimals.clear();
+                listAnimals.addAll(list);
+                Log.d("DATABASE_TAG", "MYLIST: " + listAnimals.toString());
+
+                animalAdapter = new AnimalAdapter(listAnimals, MyAnimalsActivity.this);
+                recyclerView.setAdapter(animalAdapter);
+
+            }
+        });
+
+//        for(Integer i = 0; i < 10; i++) {
+//            Animal animal = new Animal("someName","someSpecies",i,i.toString());
+//            listAnimals.add(animal);
+//        }
 
         Log.d("DATABASE_TAG", "AFTER FOR: " + listAnimals.toString());
 
-        animalAdapter = new AnimalAdapter(listAnimals, this);
-        recyclerView.setAdapter(animalAdapter);
+
 
 
     }

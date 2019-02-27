@@ -27,18 +27,18 @@
             android:padding="20dp">
 
             <TextView
-                android:id="@+id/textViewHead"
+                android:id="@+id/textViewName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Heading"
+                android:text="Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
 
             <TextView
-                android:id="@+id/textViewDesc"
+                android:id="@+id/textViewObs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description" />
+                android:text="Observations" />
 
 
         </LinearLayout>

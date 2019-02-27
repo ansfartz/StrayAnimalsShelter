@@ -35,8 +35,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Animal animal = listAnimals.get(position);
-        holder.textViewHead.setText(animal.getAnimalName());
-        holder.textViewDesc.setText(animal.getObservations());
+        holder.textViewName.setText(animal.getAnimalName());
+        holder.textViewObs.setText(animal.getObservations());
 
     }
 
@@ -47,13 +47,13 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textViewHead;
-        public TextView textViewDesc;
+        public TextView textViewName;
+        public TextView textViewObs;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewHead = (TextView) itemView.findViewById(R.id.textViewHead);
-            textViewDesc = (TextView) itemView.findViewById(R.id.textViewDesc);
+            textViewName = (TextView) itemView.findViewById(R.id.textViewName);
+            textViewObs = (TextView) itemView.findViewById(R.id.textViewObs);
         }
     }
 
