@@ -11,12 +11,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bcs.andy.strayanimalsshelter.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.UUID;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -25,10 +30,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText passwordEditText2;
     private Button registerButton;
-    private String name, email, phone, password, password2;
+    private String name, email, password, password2;
 
+    private DatabaseReference usersRef;
     private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
 
 
     @Override
@@ -36,28 +41,15 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        usersRef = FirebaseDatabase.getInstance().getReference("users");
+        firebaseAuth = FirebaseAuth.getInstance();
+
         nameEditText = (EditText) findViewById(R.id.registerNameEditText);
         emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
         passwordEditText = (EditText) findViewById(R.id.registerPasswordEditText);
         passwordEditText2 = (EditText) findViewById(R.id.registerPasswordEditText2);
         registerButton = (Button) findViewById(R.id.registerBtn);
 
-
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        // firebaseAuth.createUserWithEmailAndPassword(email, password)
-        // ^ creates AND logs in.
-        // as soon as Account creation has happened, prompt the user back to the Login page
-//        mAuthListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                if (firebaseAuth.getCurrentUser() != null) {
-//                    startActivity(new Intent(RegisterActivity.this, AccountActivity.class));
-//                    finish();
-//
-//                }
-//            }
-//        };
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,26 +78,32 @@ public class RegisterActivity extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(RegisterActivity.this, "Could not complete registration", Toast.LENGTH_SHORT).show();
                             } else {
+
+                                // ----------- add used to Firebase Database ----------------------
+
+                                String uid = task.getResult().getUser().getUid();
+                                User mUser = new User(email, name);
+                                usersRef.child(uid).setValue(mUser);
+
+                                // ----------------------------------------------------------------
+
+
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(name).build();
                                 user.updateProfile(profileUpdates);
                                 Toast.makeText(RegisterActivity.this, "Update complete", Toast.LENGTH_SHORT).show();
 
-
-
                                 startActivity(new Intent(RegisterActivity.this, AccountActivity.class).putExtra("displayName", name));
                                 finish();
 
                             }
-
-
                         }
                     });
 
         }
-
     }
+
 
     public void init() {
         name = nameEditText.getText().toString().trim();
@@ -114,8 +112,8 @@ public class RegisterActivity extends AppCompatActivity {
         password2 = passwordEditText2.getText().toString().trim();
     }
 
-    public boolean validate() {
 
+    public boolean validate() {
         if (name.isEmpty() || name.length() > 40) {
             nameEditText.setError("Please enter valid name.");
             return false;
@@ -125,20 +123,15 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
         if (password.isEmpty() || password.length() < 5) {
-            passwordEditText.setError("Please enter valid password.");
+            passwordEditText.setError("Short passwords are easy to guess. Try one with at least 6 characters.");
             return false;
         }
         if (password2.isEmpty() || password2.compareTo(password) != 0) {
-            passwordEditText2.setError("Password does not match.");
+            passwordEditText2.setError("Passwords don't match.");
             return false;
         }
-
         return true;
     }
 
 
-//    @Override
-//    public void onBackPressed() {
-//
-//    }
 }

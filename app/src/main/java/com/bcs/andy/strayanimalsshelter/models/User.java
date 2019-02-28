@@ -4,6 +4,7 @@ import java.util.List;
 
 public class User {
 
+    private String uuid;
     private String email;
     private String name;
     private List<User> friends;
@@ -16,6 +17,28 @@ public class User {
     public User(String email, String name) {
         this.email = email;
         this.name = name;
+    }
+
+    public User(String uuid, String email, String name) {
+        this.uuid = uuid;
+        this.email = email;
+        this.name = name;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public List<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
     }
 
     public String getEmail() {
@@ -48,5 +71,13 @@ public class User {
 
     public void setMarkers(List<Marker> markers) {
         this.markers = markers;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

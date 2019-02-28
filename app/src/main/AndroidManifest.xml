@@ -11,10 +11,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".AddAnimalsPopUpActivity"
+            android:theme="@style/AppTheme.myPopUpTheme">
 
-        <activity android:name=".MyAnimalsActivity"></activity>
+        </activity>
+
+        <activity android:name=".MyAnimalsActivity" />
+
         <activity android:name=".RegisterActivity" />
+
         <activity android:name=".AccountActivity" />
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,8 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
 
     </application>
 
