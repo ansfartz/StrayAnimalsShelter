@@ -14,8 +14,14 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
 
+        <!-- daca folosesc add_animals_popup_bg.xml -->
         <!-- pt ca atunci cand rotunjesc colturile, sa nu raman alb in fostele colturi (Care acum sunt rotunjite)-->
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+
+        <!-- must use these in pop up, in order to remove the original ActionBar ( DarkActionBar )  -->
+        <!-- otherwise it will clash with my ToolBar and Error -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 
     </style>
 

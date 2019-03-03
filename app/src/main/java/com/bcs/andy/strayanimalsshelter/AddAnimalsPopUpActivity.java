@@ -3,10 +3,14 @@ package com.bcs.andy.strayanimalsshelter;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import com.bcs.andy.strayanimalsshelter.models.Animal;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +31,7 @@ public class AddAnimalsPopUpActivity extends AppCompatActivity {
     private EditText newAnimalAge;
     private EditText newAnimalSpecies;
     private EditText newAnimalObservations;
+    Toolbar tb1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +47,14 @@ public class AddAnimalsPopUpActivity extends AppCompatActivity {
         getWindow().setLayout(width, height);
 
 
+
+
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         animalsForUserRef = FirebaseDatabase.getInstance().getReference("users");
+
+        tb1 = (Toolbar) findViewById(R.id.TB1);
+        setSupportActionBar(tb1);
 
         acceptButton = (FloatingActionButton) findViewById(R.id.acceptBtn);
         deleteButton = (FloatingActionButton) findViewById(R.id.deleteBtn);
@@ -75,8 +86,15 @@ public class AddAnimalsPopUpActivity extends AppCompatActivity {
             }
         });
 
+    }
 
 
+    // for the toolbar / ActionBar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater mi = getMenuInflater();
 
+        mi.inflate(R.menu.actionbar1, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
