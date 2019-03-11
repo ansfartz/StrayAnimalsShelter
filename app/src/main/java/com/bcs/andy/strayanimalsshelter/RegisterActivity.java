@@ -8,10 +8,9 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bcs.andy.strayanimalsshelter.models.User;
+import com.bcs.andy.strayanimalsshelter.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,8 +19,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.UUID;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -35,21 +32,27 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference usersRef;
     private FirebaseAuth firebaseAuth;
 
+    private void initFirebase() {
+        usersRef = FirebaseDatabase.getInstance().getReference("users");
+        firebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    private void init() {
+        nameEditText = (EditText) findViewById(R.id.registerNameEditText);
+        emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
+        passwordEditText = (EditText) findViewById(R.id.registerPasswordEditText);
+        passwordEditText2 = (EditText) findViewById(R.id.registerPasswordEditText2);
+        registerButton = (Button) findViewById(R.id.registerBtn);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        usersRef = FirebaseDatabase.getInstance().getReference("users");
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        nameEditText = (EditText) findViewById(R.id.registerNameEditText);
-        emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
-        passwordEditText = (EditText) findViewById(R.id.registerPasswordEditText);
-        passwordEditText2 = (EditText) findViewById(R.id.registerPasswordEditText2);
-        registerButton = (Button) findViewById(R.id.registerBtn);
-
+        initFirebase();
+        init();
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,9 +65,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    //TODO: upon entering AccountActivity, DisplayName is not updated, a logout and login is required. WHY? Still looking into it.
+    //TODO: upon entering MainActivity, DisplayName is not updated, a logout and login is required. WHY? Still looking into it.
     public void startRegister() {
-        init();
+        initFields();
         if (!validate()) {
 
             Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
@@ -79,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.makeText(RegisterActivity.this, "Could not complete registration", Toast.LENGTH_SHORT).show();
                             } else {
 
-                                // ----------- add used to Firebase Database ----------------------
+                                // ----------- add user to Firebase Database ----------------------
 
                                 String uid = task.getResult().getUser().getUid();
                                 User mUser = new User(email, name);
@@ -94,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 user.updateProfile(profileUpdates);
                                 Toast.makeText(RegisterActivity.this, "Update complete", Toast.LENGTH_SHORT).show();
 
-                                startActivity(new Intent(RegisterActivity.this, AccountActivity.class).putExtra("displayName", name));
+                                startActivity(new Intent(RegisterActivity.this, MainActivity.class).putExtra("displayName", name));
                                 finish();
 
                             }
@@ -105,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    public void init() {
+    public void initFields() {
         name = nameEditText.getText().toString().trim();
         email = emailEditText.getText().toString().trim();
         password = passwordEditText.getText().toString().trim();

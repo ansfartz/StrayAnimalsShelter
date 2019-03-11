@@ -1,4 +1,4 @@
-package com.bcs.andy.strayanimalsshelter.models;
+package com.bcs.andy.strayanimalsshelter.model;
 
 public class Marker {
 

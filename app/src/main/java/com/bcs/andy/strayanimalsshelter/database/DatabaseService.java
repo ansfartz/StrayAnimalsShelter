@@ -3,7 +3,8 @@ package com.bcs.andy.strayanimalsshelter.database;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.bcs.andy.strayanimalsshelter.models.Animal;
+import com.bcs.andy.strayanimalsshelter.model.Animal;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +25,8 @@ public class DatabaseService {
 
         this.firebaseDatabase = FirebaseDatabase.getInstance();
         this.firebaseRootRef = firebaseDatabase.getReference();
-        this.animalsRef = firebaseDatabase.getReference("animals");
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        this.animalsRef = firebaseDatabase.getReference("users").child(userUid).child("animals");
 
         animalsList = new ArrayList<>();
     }

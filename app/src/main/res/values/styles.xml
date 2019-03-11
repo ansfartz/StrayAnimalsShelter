@@ -10,7 +10,7 @@
 
 
 
-    <style name="AppTheme.myPopUpTheme">
+    <style name="AppTheme.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
 
@@ -20,9 +20,14 @@
 
         <!-- must use these in pop up, in order to remove the original ActionBar ( DarkActionBar )  -->
         <!-- otherwise it will clash with my ToolBar and Error -->
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
+
+    <style name="AppTheme.customToolBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
     </style>
 
 

@@ -12,15 +12,12 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".AddAnimalsPopUpActivity"
-            android:theme="@style/AppTheme.myPopUpTheme">
-
-        </activity>
-
-        <activity android:name=".MyAnimalsActivity" />
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".RegisterActivity" />
 
-        <activity android:name=".AccountActivity" />
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.customToolBar"/>
 
         <activity android:name=".LoginActivity">
             <intent-filter>

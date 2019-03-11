@@ -1,4 +1,4 @@
-package com.bcs.andy.strayanimalsshelter.models;
+package com.bcs.andy.strayanimalsshelter.model;
 
 import java.util.List;
 
