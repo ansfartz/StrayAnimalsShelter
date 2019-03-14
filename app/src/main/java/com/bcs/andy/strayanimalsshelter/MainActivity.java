@@ -127,7 +127,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_map:
 //                Toast.makeText(this, "MAP", Toast.LENGTH_SHORT).show();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+                startActivity(new Intent(MainActivity.this, MapsActivity.class));
                 break;
             case R.id.nav_markers:
                 Toast.makeText(this, "MARKERS", Toast.LENGTH_SHORT).show();
