@@ -1,4 +1,4 @@
-package com.bcs.andy.strayanimalsshelter;
+package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,7 +46,6 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = (Button) findViewById(R.id.registerBtn);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,17 +61,13 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
 
-    //TODO: upon entering MainActivity, DisplayName is not updated, a logout and login is required. WHY? Still looking into it.
     public void startRegister() {
         initFields();
         if (!validate()) {
-
             Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
-
         } else {
 
             firebaseAuth.createUserWithEmailAndPassword(email, password)

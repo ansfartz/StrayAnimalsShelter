@@ -1,4 +1,4 @@
-package com.bcs.andy.strayanimalsshelter;
+package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bcs.andy.strayanimalsshelter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -74,6 +75,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    /**
+     *  Check if email and password input are both filled and correct.
+     *  If one or both of them is empty, or if they do not match, prompts a Toast message.
+     *  <br>
+     *  Continues to {@link MainActivity}
+     */
     private void startSignIn() {
 
         String email = emailEditText.getText().toString();
@@ -81,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (email.isEmpty() || password.isEmpty()) {
 
-            Toast.makeText(LoginActivity.this, "Fields are empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Both Fields must be completed.", Toast.LENGTH_SHORT).show();
 
         } else {
 

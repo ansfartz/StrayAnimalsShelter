@@ -1,4 +1,4 @@
-package com.bcs.andy.strayanimalsshelter;
+package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.DatabaseService;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.model.AnimalAdapter;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment {
+public class MyAnimalsFragment extends Fragment {
 
 
     private FirebaseAuth firebaseAuth;
@@ -45,7 +46,7 @@ public class HomeFragment extends Fragment {
     private TextView accountTextView;
     private ConstraintLayout LL;
 
-    public HomeFragment() {
+    public MyAnimalsFragment() {
         // Required empty public constructor
     }
 
@@ -101,7 +102,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LL = (ConstraintLayout) inflater.inflate(R.layout.fragment_home, container, false);
+        LL = (ConstraintLayout) inflater.inflate(R.layout.fragment_myanimals, container, false);
 
         initFirebase();
         init();

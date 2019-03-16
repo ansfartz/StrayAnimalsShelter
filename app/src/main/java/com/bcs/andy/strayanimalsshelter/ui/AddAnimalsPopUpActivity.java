@@ -1,4 +1,4 @@
-package com.bcs.andy.strayanimalsshelter;
+package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

@@ -1,36 +1,22 @@
-package com.bcs.andy.strayanimalsshelter;
+package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bcs.andy.strayanimalsshelter.database.DatabaseService;
-import com.bcs.andy.strayanimalsshelter.model.Animal;
-import com.bcs.andy.strayanimalsshelter.model.AnimalAdapter;
+import com.bcs.andy.strayanimalsshelter.MapsActivity;
+import com.bcs.andy.strayanimalsshelter.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -78,11 +64,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initFirebase();
         init();
 
-
-
         if (savedInstanceState == null) {
             // this will open our MessageFragment upon creation of the activity, before clicking anything
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyAnimalsFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
@@ -123,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyAnimalsFragment()).commit();
                 break;
             case R.id.nav_map:
 //                Toast.makeText(this, "MAP", Toast.LENGTH_SHORT).show();
