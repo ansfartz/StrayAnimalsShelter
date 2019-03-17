@@ -2,12 +2,14 @@ package com.bcs.andy.strayanimalsshelter.model;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
 
@@ -23,7 +25,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         this.context = context;
     }
 
-    // whenever our ViewHolder is created = Whenever an instance of the bottom class ViewHolder is created
+    // whenever a ViewHolder is created
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,14 +34,23 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         return new ViewHolder(v);
     }
 
-    // called right after above method, this will bind the data to the ViewHolder.
+    // called right after onCreateViewHolder method
+    // binds the data to the ViewHolder.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Animal animal = listAnimals.get(position);
         String age = String.valueOf(animal.getAge()) + " yrs";
         holder.textViewAge.setText(age);
         holder.textViewName.setText(animal.getAnimalName());
-        holder.textViewObs.setText(animal.getObservations());
+
+        if(animal.getObservations().length() > 145) {
+            String obs = animal.getObservations().substring(0, 142).concat("...");
+            holder.textViewObs.setText(obs);
+        }
+        else {
+            holder.textViewObs.setText(animal.getObservations());
+        }
+
 
         switch (animal.getSpecies()) {
             case "Dog":
@@ -52,6 +63,15 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                 holder.imageViewSpecies.setImageResource(R.drawable.dog_icon);
         }
 
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "You have clicked " + holder.textViewName.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
 
     }
 
@@ -62,6 +82,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public CardView cardView;
+
         public TextView textViewName;
         public TextView textViewObs;
         public TextView textViewAge;
@@ -69,10 +91,11 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-            textViewObs = (TextView) itemView.findViewById(R.id.textViewObs);
-            textViewAge = (TextView) itemView.findViewById(R.id.textViewAge);
+            textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
+            textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
+            textViewAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
             imageViewSpecies = (ImageView) itemView.findViewById(R.id.imageViewSpecies);
+            cardView = (CardView) itemView.findViewById(R.id.list_item_CardView);
         }
     }
 

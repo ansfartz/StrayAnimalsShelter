@@ -16,6 +16,8 @@ import java.util.List;
 
 public class DatabaseService {
 
+    private static final String TAG = "DatabaseService";
+
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference firebaseRootRef;
     private DatabaseReference animalsRef;
@@ -32,11 +34,7 @@ public class DatabaseService {
     }
 
 
-    public interface FirebaseCallback {
-        void onCallback(List<Animal> list);
-    }
-
-    public void readItemsFromDatabase(final FirebaseCallback firebaseCallback) {
+    public void readCurrentUserAnimals(final FirebaseCallback firebaseCallback) {
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -44,7 +42,7 @@ public class DatabaseService {
                 animalsList.clear();
 
                 //dataSnapshot.getChildren() ---> iterate through entire dataSnapshot Object, to get the items names
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Animal animal;
                     animal = ds.getValue(Animal.class);
                     animalsList.add(animal);
@@ -56,22 +54,18 @@ public class DatabaseService {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("DATABASE_TAG", databaseError.getMessage());
+                Log.d(TAG, databaseError.getMessage());
             }
+
         };
 
         animalsRef.addValueEventListener(valueEventListener);
 
     }
 
-
-    public void readData() {
-        readItemsFromDatabase(new FirebaseCallback() {
-            @Override
-            public void onCallback(List<Animal> list) {
-                Log.d("DATABASE_TAG", list.toString());
-            }
-        });
+    public interface FirebaseCallback {
+        void onCallback(List<Animal> list);
     }
+
 
 }

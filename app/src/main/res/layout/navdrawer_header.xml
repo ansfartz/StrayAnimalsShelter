@@ -21,15 +21,18 @@
         android:layout_marginStart="10dp"
         android:text="Name"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:id="@+id/nav_username"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="6dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="-5dp"
         android:text="user@email.com"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:id="@+id/nav_email"/>
 
 </LinearLayout>

@@ -30,12 +30,14 @@ import java.util.List;
 
 public class MyAnimalsFragment extends Fragment {
 
+    private static final String TAG = "MyAnimalsFragment";
 
+    // Firebase components
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
 
-
+    // UI components
     private ProgressBar myProgressBar;
     private FloatingActionButton addAnimalsBtn;
     private RecyclerView recyclerView;
@@ -45,6 +47,8 @@ public class MyAnimalsFragment extends Fragment {
     private Button addDataBtn;
     private TextView accountTextView;
     private ConstraintLayout LL;
+
+
 
     public MyAnimalsFragment() {
         // Required empty public constructor
@@ -70,15 +74,12 @@ public class MyAnimalsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         DatabaseService databaseService = new DatabaseService();
-        databaseService.readItemsFromDatabase(new DatabaseService.FirebaseCallback() {
+        databaseService.readCurrentUserAnimals(new DatabaseService.FirebaseCallback() {
             @Override
             public void onCallback(List<Animal> list) {
                 listAnimals.clear();
@@ -92,7 +93,7 @@ public class MyAnimalsFragment extends Fragment {
             }
         });
 
-        // code UNDER readItemsFromDatabase(..) will happen first, because method is asynchronous
+        // code UNDER readCurrentUserAnimals(..) will happen first, because method is asynchronous
 
 
         Log.d("DATABASE_TAG", "AFTER FOR: " + listAnimals.toString());

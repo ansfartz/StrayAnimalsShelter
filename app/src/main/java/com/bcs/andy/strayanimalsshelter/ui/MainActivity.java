@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.MapsActivity;
@@ -20,14 +22,19 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    // Firebase vars
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
 
-
+    // Widgets
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+
+    private View headerView;
+    private TextView navigationViewUsername;
+    private TextView navigationViewEmail;
 
     private void initFirebase() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -43,17 +50,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        // nav_view is inside activity_main.xml
+        // which contains navdrawer_header and navdrawer_menu
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                return false;
-//            }
-//        });
-//
-//        instead of this^ we implemented that class in here, and did @Override on onNavigationItemSelected, and wrote set..(this)
+        headerView = navigationView.getHeaderView(0);
+        navigationViewUsername = (TextView) headerView.findViewById(R.id.nav_username);
+        navigationViewEmail = (TextView) headerView.findViewById(R.id.nav_email);
+    }
+
+    private void setNavigationUserDetails() {
+        if (user.getDisplayName() == null)
+            navigationViewUsername.setText(getIntent().getExtras().getString("displayName"));
+        else navigationViewUsername.setText(user.getDisplayName());
+        navigationViewEmail.setText(user.getEmail());
     }
 
     @Override
@@ -63,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         initFirebase();
         init();
+
+        setNavigationUserDetails();
 
         if (savedInstanceState == null) {
             // this will open our MessageFragment upon creation of the activity, before clicking anything
@@ -110,8 +123,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyAnimalsFragment()).commit();
                 break;
             case R.id.nav_map:
-//                Toast.makeText(this, "MAP", Toast.LENGTH_SHORT).show();
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
                 startActivity(new Intent(MainActivity.this, MapsActivity.class));
                 break;
             case R.id.nav_markers:
