@@ -1,5 +1,6 @@
 package com.bcs.andy.strayanimalsshelter.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,18 +10,23 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bcs.andy.strayanimalsshelter.MapsActivity;
 import com.bcs.andy.strayanimalsshelter.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "MainActivity";
+    private static final int ERROR_DIALOG_REQUEST = 9001;
 
     // Firebase vars
     private FirebaseAuth firebaseAuth;
@@ -72,10 +78,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initFirebase();
-        init();
+        if(isServicesOK()) {
+            initFirebase();
+            init();
+            setNavigationUserDetails();
+        }
 
-        setNavigationUserDetails();
+
+
 
         if (savedInstanceState == null) {
             // this will open our MessageFragment upon creation of the activity, before clicking anything
@@ -123,7 +133,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyAnimalsFragment()).commit();
                 break;
             case R.id.nav_map:
-                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_markers:
                 Toast.makeText(this, "MARKERS", Toast.LENGTH_SHORT).show();
@@ -138,4 +149,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    public boolean isServicesOK() {
+        Log.d(TAG, "isServicesOK: checking Google Services version");
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
+
+        if(available == ConnectionResult.SUCCESS){
+            //everything is fine, and the user can make map requests
+            Log.d(TAG, "isServicesOK: Google Play services is working");
+            return true;
+        } else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            // ann error occured but we can resolve it
+            Log.d(TAG, "isServicesOK: an error occurred, but you can fix it");
+
+            //we get a dialog right from google for this error
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+
+        } else {
+            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+
 }

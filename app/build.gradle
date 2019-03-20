@@ -49,10 +49,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.0.6'
     // Firebase Messaging (not used yet)
     implementation 'com.google.firebase:firebase-messaging:17.4.0'
+
     // Google Location and Activity Recognition
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+
+
     implementation 'android.arch.navigation:navigation-fragment:1.0.0-rc02'
-    //
+
 }
 
 apply plugin: 'com.google.gms.google-services'
