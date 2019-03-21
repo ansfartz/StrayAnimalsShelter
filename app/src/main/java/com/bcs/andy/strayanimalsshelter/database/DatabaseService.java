@@ -34,7 +34,7 @@ public class DatabaseService {
     }
 
 
-    public void readCurrentUserAnimals(final FirebaseCallback firebaseCallback) {
+    public void readCurrentUserAnimals(final DatabaseServiceListener databaseServiceListener) {
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -48,7 +48,7 @@ public class DatabaseService {
                     animalsList.add(animal);
                 }
 
-                firebaseCallback.onCallback(animalsList);
+                databaseServiceListener.onCallback(animalsList);
 
             }
 
@@ -63,7 +63,7 @@ public class DatabaseService {
 
     }
 
-    public interface FirebaseCallback {
+    public interface DatabaseListener {
         void onCallback(List<Animal> list);
     }
 

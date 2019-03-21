@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/list_item_markers_CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <!-- modify padding to fix top Card going out of window -->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="391dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:paddingEnd="30dp">
+
+            <ImageView
+                android:id="@+id/imageViewMarker"
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_marker" />
+
+            <ImageView
+                android:id="@+id/markerDeleteIV"
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="300dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_delete" />
+
+            <TextView
+                android:id="@+id/markerLocationTV"
+                android:layout_width="151dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="2dp"
+                android:text="Location"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/imageViewMarker"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/markerLatitudeTV"
+                android:layout_width="110dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Latitude"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/staticLatTV"
+                app:layout_constraintTop_toBottomOf="@+id/markerLocationTV" />
+
+            <TextView
+                android:id="@+id/markerLongitudeTV"
+                android:layout_width="110dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Longitude"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/markerLocationTV" />
+
+            <TextView
+                android:id="@+id/staticLatTV"
+                android:layout_width="36dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="16dp"
+                android:text="Lat:"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewMarker" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="36dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="Long:"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintStart_toEndOf="@+id/markerLatitudeTV"
+                app:layout_constraintTop_toBottomOf="@+id/markerLocationTV" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

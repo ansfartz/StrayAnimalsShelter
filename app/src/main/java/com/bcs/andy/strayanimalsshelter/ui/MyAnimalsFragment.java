@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.DatabaseService;
+import com.bcs.andy.strayanimalsshelter.database.DatabaseServiceListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.model.AnimalAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,9 +80,10 @@ public class MyAnimalsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         DatabaseService databaseService = new DatabaseService();
-        databaseService.readCurrentUserAnimals(new DatabaseService.FirebaseCallback() {
+        databaseService.readCurrentUserAnimals(new DatabaseServiceListener() {
             @Override
             public void onCallback(List<Animal> list) {
+                // TODO: dont clear() and allAll, just add the new ones. for efficiency
                 listAnimals.clear();
                 listAnimals.addAll(list);
                 myProgressBar.setVisibility(View.GONE);
@@ -96,14 +98,15 @@ public class MyAnimalsFragment extends Fragment {
         // code UNDER readCurrentUserAnimals(..) will happen first, because method is asynchronous
 
 
-        Log.d("DATABASE_TAG", "AFTER FOR: " + listAnimals.toString());
+        Log.d(TAG, "AFTER FOR: " + listAnimals.toString());
 
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LL = (ConstraintLayout) inflater.inflate(R.layout.fragment_myanimals, container, false);
+        // use this LL inside init()
+        LL = (ConstraintLayout) inflater.inflate(R.layout.fragment_my_animals, container, false);
 
         initFirebase();
         init();

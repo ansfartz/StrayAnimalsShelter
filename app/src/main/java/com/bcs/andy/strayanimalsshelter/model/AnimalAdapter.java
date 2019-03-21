@@ -30,7 +30,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_my_sheltered_animals, parent, false);
+                .inflate(R.layout.list_item_my_animals, parent, false);
         return new ViewHolder(v);
     }
 
@@ -94,8 +94,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
             textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
             textViewAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
-            imageViewSpecies = (ImageView) itemView.findViewById(R.id.imageViewSpecies);
-            cardView = (CardView) itemView.findViewById(R.id.list_item_CardView);
+            imageViewSpecies = (ImageView) itemView.findViewById(R.id.imageViewMarker);
+            cardView = (CardView) itemView.findViewById(R.id.list_item_animals_CardView);
         }
     }
 

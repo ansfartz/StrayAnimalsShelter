@@ -2,9 +2,9 @@ package com.bcs.andy.strayanimalsshelter.model;
 
 public class Marker {
 
-    private double longitude;
-    private double latitude;
-    private String removalRequest_user;
+    private String locationName;
+    private Double longitude;
+    private Double latitude;
 
     public Marker() {
     }
@@ -14,7 +14,13 @@ public class Marker {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Marker(String locationName, double longitude, double latitude) {
+        this.locationName = locationName;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
         return longitude;
     }
 
@@ -22,7 +28,7 @@ public class Marker {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
@@ -30,11 +36,11 @@ public class Marker {
         this.latitude = latitude;
     }
 
-    public String getRemovalRequest_user() {
-        return removalRequest_user;
+    public String getLocationName() {
+        return locationName;
     }
 
-    public void setRemovalRequest_user(String removalRequest_user) {
-        this.removalRequest_user = removalRequest_user;
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 }

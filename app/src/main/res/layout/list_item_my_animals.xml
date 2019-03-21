@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- layout_height="wrap_content so it doesnt add the spacing from Constraints in the RecyclerView   -->
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/list_item_CardView"
+        android:id="@+id/list_item_animals_CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -32,10 +33,12 @@
                 android:id="@+id/animalNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
                 android:text="Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageViewMarker"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -57,18 +60,20 @@
                 android:id="@+id/animalAgeTV"
                 android:layout_width="109dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
                 android:text="Age"
                 android:textSize="24sp"
                 app:layout_constraintStart_toEndOf="@+id/animalNameTV"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageViewSpecies"
+                android:id="@+id/imageViewMarker"
                 android:layout_width="41dp"
                 android:layout_height="41dp"
-                android:layout_marginEnd="35dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/cat_icon" />
 

@@ -116,10 +116,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
 
-                if(actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
                         || keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
-                    // execute method for seatching
 
                     geoLocate();
 
@@ -142,7 +142,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
 
     private void geoLocate() {
-        Log.d(TAG, "geoLocate: geolocating");
+        Log.d(TAG, "geoLocate: geoLocating");
 
         String searchString = mSearchText.getText().toString();
 

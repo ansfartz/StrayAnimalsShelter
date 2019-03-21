@@ -78,13 +78,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(isServicesOK()) {
+        if (isServicesOK()) {
             initFirebase();
             init();
             setNavigationUserDetails();
         }
-
-
 
 
         if (savedInstanceState == null) {
@@ -155,12 +153,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "isServicesOK: checking Google Services version");
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
 
-        if(available == ConnectionResult.SUCCESS){
+        if (available == ConnectionResult.SUCCESS) {
             //everything is fine, and the user can make map requests
             Log.d(TAG, "isServicesOK: Google Play services is working");
             return true;
-        } else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
-            // ann error occured but we can resolve it
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
+            // an error occurred but we can resolve it
             Log.d(TAG, "isServicesOK: an error occurred, but you can fix it");
 
             //we get a dialog right from google for this error
