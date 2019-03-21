@@ -3,7 +3,7 @@ package com.bcs.andy.strayanimalsshelter.model;
 public class Animal {
 
     private String animalName;
-    private String species;        // Dog / Cat / Bird
+    private String species;        // Dog / Cat / Rodent / Bird
     private int age;
     private String observations;
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SelectedAnimalActivity">
+
+    <include
+        android:id="@+id/default_toolbar"
+        layout="@layout/default_toolbar">
+
+    </include>
+
+    <TextView
+        android:id="@+id/selectedAnimalNameTV"
+        android:layout_width="235dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:text="Animal Name"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="38dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/default_toolbar" />
+
+    <TextView
+        android:id="@+id/staticSelectedAnimalAgeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:text="Age: "
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalNameTV" />
+
+    <TextView
+        android:id="@+id/selectedAnimalAgeTV"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="4dp"
+        android:textAlignment="viewStart"
+        android:text="8 yrs"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="28dp"
+        app:layout_constraintStart_toEndOf="@+id/staticSelectedAnimalAgeTV"
+        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalNameTV" />
+
+    <ImageView
+        android:id="@+id/selectedAnimalIconIV"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/dog_icon"
+        app:layout_constraintStart_toEndOf="@+id/selectedAnimalNameTV"
+        app:layout_constraintTop_toBottomOf="@+id/default_toolbar" />
+
+    <TextView
+        android:id="@+id/selectedAnimalObsTV"
+        android:layout_width="344dp"
+        android:layout_height="366dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:scrollbars="vertical"
+        android:text="sample text # # # # # # # # # # # # # # # # # # # # # # # # # # # "
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.342"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalAgeTV" />
+
+</android.support.constraint.ConstraintLayout>

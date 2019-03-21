@@ -1,4 +1,4 @@
-package com.bcs.andy.strayanimalsshelter.model;
+package com.bcs.andy.strayanimalsshelter.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
+import com.bcs.andy.strayanimalsshelter.model.Animal;
 
 import java.util.List;
 
@@ -19,19 +19,21 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
     private List<Animal> listAnimals;
     private Context context;
+    private AnimalAdapterListener animalAdapterListener;
 
-    public AnimalAdapter(List<Animal> listAnimals, Context context) {
+    public AnimalAdapter(List<Animal> listAnimals, Context context, AnimalAdapterListener animalAdapterListener) {
         this.listAnimals = listAnimals;
         this.context = context;
+        this.animalAdapterListener = animalAdapterListener;
     }
 
     // whenever a ViewHolder is created
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_my_animals, parent, false);
-        return new ViewHolder(v);
+        return new ViewHolder(view, animalAdapterListener);
     }
 
     // called right after onCreateViewHolder method
@@ -43,8 +45,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         holder.textViewAge.setText(age);
         holder.textViewName.setText(animal.getAnimalName());
 
-        if(animal.getObservations().length() > 145) {
-            String obs = animal.getObservations().substring(0, 142).concat("...");
+        if(animal.getObservations().length() > 110) {
+            String obs = animal.getObservations().substring(0, 107).concat("...");
             holder.textViewObs.setText(obs);
         }
         else {
@@ -63,13 +65,6 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                 holder.imageViewSpecies.setImageResource(R.drawable.dog_icon);
         }
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "You have clicked " + holder.textViewName.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
 
 
 
@@ -80,23 +75,35 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         return listAnimals.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public CardView cardView;
+        CardView cardView;
+        TextView textViewName, textViewObs, textViewAge;
+        ImageView imageViewSpecies;
 
-        public TextView textViewName;
-        public TextView textViewObs;
-        public TextView textViewAge;
-        public ImageView imageViewSpecies;
+        AnimalAdapterListener animalAdapterListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, AnimalAdapterListener animalAdapterListener) {
             super(itemView);
             textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
             textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
             textViewAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
             imageViewSpecies = (ImageView) itemView.findViewById(R.id.imageViewMarker);
             cardView = (CardView) itemView.findViewById(R.id.list_item_animals_CardView);
+
+            this.animalAdapterListener = animalAdapterListener;
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            animalAdapterListener.onAnimalClick(getAdapterPosition(), listAnimals.get(getAdapterPosition()));
+        }
+    }
+
+    public interface AnimalAdapterListener {
+        void onAnimalClick(int position, Animal animal);
     }
 
 

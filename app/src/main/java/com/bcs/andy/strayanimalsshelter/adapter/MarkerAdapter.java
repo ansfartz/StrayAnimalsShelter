@@ -1,4 +1,4 @@
-package com.bcs.andy.strayanimalsshelter.model;
+package com.bcs.andy.strayanimalsshelter.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bcs.andy.strayanimalsshelter.R;
+import com.bcs.andy.strayanimalsshelter.model.Marker;
 
 import java.util.List;
 

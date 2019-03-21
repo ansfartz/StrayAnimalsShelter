@@ -14,12 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.DatabaseService;
 import com.bcs.andy.strayanimalsshelter.database.DatabaseServiceListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
-import com.bcs.andy.strayanimalsshelter.model.AnimalAdapter;
+import com.bcs.andy.strayanimalsshelter.adapter.AnimalAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MyAnimalsFragment extends Fragment {
+public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalAdapterListener{
 
     private static final String TAG = "MyAnimalsFragment";
 
@@ -47,7 +48,7 @@ public class MyAnimalsFragment extends Fragment {
 
     private Button addDataBtn;
     private TextView accountTextView;
-    private ConstraintLayout LL;
+    private ConstraintLayout CL;
 
 
 
@@ -62,15 +63,16 @@ public class MyAnimalsFragment extends Fragment {
     }
 
     private void init() {
-        accountTextView = (TextView) LL.findViewById(R.id.AccountTextView);
-        addDataBtn = (Button) LL.findViewById(R.id.addDataBtn);
+        accountTextView = (TextView) CL.findViewById(R.id.AccountTextView);
+        addDataBtn = (Button) CL.findViewById(R.id.addDataBtn);
 
-        myProgressBar = (ProgressBar) LL.findViewById(R.id.loadingProgressBar);
+        myProgressBar = (ProgressBar) CL.findViewById(R.id.loadingProgressBar);
         myProgressBar.setVisibility(View.VISIBLE);
 
-        addAnimalsBtn = (FloatingActionButton) LL.findViewById(R.id.addAnimalsFloatingActionBtn);
+        addAnimalsBtn = (FloatingActionButton) CL.findViewById(R.id.addAnimalsFloatingActionBtn);
 
-        recyclerView = (RecyclerView) LL.findViewById(R.id.recyclerView);
+
+        recyclerView = (RecyclerView) CL.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(false); // no adapter content ( card with data ) has fixed size. They may vary, depending on the length of text inside them; use this for recyclerView internal optimisation! Won't affect anything else
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -87,9 +89,9 @@ public class MyAnimalsFragment extends Fragment {
                 listAnimals.clear();
                 listAnimals.addAll(list);
                 myProgressBar.setVisibility(View.GONE);
-                Log.d("DATABASE_TAG", "MYLIST: " + listAnimals.toString());
+                Log.d(TAG, "MYLIST: " + listAnimals.toString());
 
-                animalAdapter = new AnimalAdapter(listAnimals, getActivity());
+                animalAdapter = new AnimalAdapter(listAnimals, getActivity(), MyAnimalsFragment.this);
                 recyclerView.setAdapter(animalAdapter);
 
             }
@@ -105,8 +107,8 @@ public class MyAnimalsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // use this LL inside init()
-        LL = (ConstraintLayout) inflater.inflate(R.layout.fragment_my_animals, container, false);
+        // use this CL inside init()
+        CL = (ConstraintLayout) inflater.inflate(R.layout.fragment_my_animals, container, false);
 
         initFirebase();
         init();
@@ -142,12 +144,19 @@ public class MyAnimalsFragment extends Fragment {
             accountTextView.setText(greeting);
         }
 
-
-        return LL;
-
+        return CL;
 
     }
 
+    @Override
+    public void onAnimalClick(int position, Animal animal) {
+//        Toast.makeText(getActivity(), String.valueOf(position) + " " + animal.getAnimalName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), SelectedAnimalActivity.class);
+        intent.putExtra("selectedAnimalName", animal.getAnimalName());
+        intent.putExtra("selectedAnimalAge", animal.getAge());
+        intent.putExtra("selectedAnimalObs", animal.getObservations());
+        intent.putExtra("selectedAnimalSpecies", animal.getSpecies());
+        startActivity(intent);
 
-
+    }
 }
