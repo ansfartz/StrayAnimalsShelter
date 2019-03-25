@@ -32,20 +32,23 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
 
     private static final String TAG = "MyAnimalsFragment";
 
-    // Firebase components
+    // Firebase
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
 
-    // UI components
-    private ProgressBar myProgressBar;
+    // UI
+    private ProgressBar animalsLoadingProgressBar;
     private FloatingActionButton addAnimalsBtn;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter animalAdapter;
-    private List<Animal> listAnimals = new ArrayList<>();
-
-    private Button addDataBtn;
+    private List<Animal> animalList = new ArrayList<>();
     private ConstraintLayout CL;
+
+    // TODO: delete addDataBtn (the one in the middle of the fragment layout.
+    // it's only there for having an example of Data adding to Firebase
+    private Button addDataBtn;
+
 
     public MyAnimalsFragment() {
         // Required empty public constructor
@@ -60,11 +63,10 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     private void init() {
         addDataBtn = (Button) CL.findViewById(R.id.addDataBtn);
 
-        myProgressBar = (ProgressBar) CL.findViewById(R.id.loadingProgressBar);
-        myProgressBar.setVisibility(View.VISIBLE);
+        animalsLoadingProgressBar = (ProgressBar) CL.findViewById(R.id.loadingAnimalsProgressBar);
+        animalsLoadingProgressBar.setVisibility(View.VISIBLE);
 
         addAnimalsBtn = (FloatingActionButton) CL.findViewById(R.id.addAnimalsFloatingActionBtn);
-
 
         recyclerView = (RecyclerView) CL.findViewById(R.id.myAnimalsRecyclerView);
         recyclerView.setHasFixedSize(false); // no adapter content ( card with data ) has fixed size. They may vary, depending on the length of text inside them; use this for recyclerView internal optimisation! Won't affect anything else
@@ -80,21 +82,22 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
             @Override
             public void onCallback(List<Animal> list) {
                 // TODO: dont clear() and allAll, just add the new ones. for efficiency
-                listAnimals.clear();
-                listAnimals.addAll(list);
-                myProgressBar.setVisibility(View.GONE);
-                Log.d(TAG, "MYLIST: " + listAnimals.toString());
+                animalList.clear();
+                animalList.addAll(list);
+                animalsLoadingProgressBar.setVisibility(View.GONE);
+                Log.d(TAG, "onCallBack: MY ANIMALS LIST: " + animalList.toString());
 
-                animalAdapter = new AnimalAdapter(listAnimals, getActivity(), MyAnimalsFragment.this);
+                animalAdapter = new AnimalAdapter(animalList, getActivity(), MyAnimalsFragment.this);
                 recyclerView.setAdapter(animalAdapter);
 
             }
         });
 
-        // code UNDER readCurrentUserAnimals(..) will happen first, because method is asynchronous
+        // code UNDER readCurrentUserAnimals() will happen first
+        // because method is asynchronous
 
 
-        Log.d(TAG, "AFTER FOR: " + listAnimals.toString());
+        Log.d(TAG, "AFTER: " + animalList.toString());
 
 
     }
@@ -103,7 +106,6 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // use this CL inside init()
         CL = (ConstraintLayout) inflater.inflate(R.layout.fragment_my_animals, container, false);
-
         initFirebase();
         init();
 

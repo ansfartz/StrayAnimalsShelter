@@ -37,7 +37,7 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         Marker marker = listMarkers.get(position);
-        viewHolder.markerLocationTV.setText(marker.getLocationName());
+        viewHolder.markerLocationTV.setText(marker.getLocation());
         viewHolder.markerLatitudeTV.setText(marker.getLatitude().toString());
         viewHolder.markerLongitudeTV.setText(marker.getLongitude().toString());
 

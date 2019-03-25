@@ -19,20 +19,17 @@ public class UserAnimalsDatabase {
     private static final String TAG = "UserAnimalsDatabase";
 
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference firebaseRootRef;
-    private DatabaseReference animalsRef;
-    List<Animal> animalsList;
+    private DatabaseReference userAnimalsRef;
+    private List<Animal> animalList;
 
 
     // onDataChange will only happen on data changed in it's path :  users/userUid/animals
     // any other changes outside this URL will not trigger onDataChange method
     public UserAnimalsDatabase() {
         this.firebaseDatabase = FirebaseDatabase.getInstance();
-        this.firebaseRootRef = firebaseDatabase.getReference();
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        this.animalsRef = firebaseDatabase.getReference("users").child(userUid).child("animals");
-
-        animalsList = new ArrayList<>();
+        this.userAnimalsRef = firebaseDatabase.getReference("users").child(userUid).child("animals");
+        animalList = new ArrayList<>();
     }
 
 
@@ -41,16 +38,16 @@ public class UserAnimalsDatabase {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                animalsList.clear();
-                Log.d(TAG, "onDataChange: HAVE CLEARED ANIMALS LIST");
+                animalList.clear();
+                Log.d(TAG, "onDataChange: HAVE CLEARED USER ANIMALS LIST");
                 //dataSnapshot.getChildren() ---> iterate through entire dataSnapshot Object, to get the items names
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Animal animal;
                     animal = ds.getValue(Animal.class);
-                    animalsList.add(animal);
+                    animalList.add(animal);
                 }
 
-                userAnimalsDatabaseListener.onCallback(animalsList);
+                userAnimalsDatabaseListener.onCallback(animalList);
 
             }
 
@@ -61,7 +58,7 @@ public class UserAnimalsDatabase {
 
         };
 
-        animalsRef.addValueEventListener(valueEventListener);
+        userAnimalsRef.addValueEventListener(valueEventListener);
 
     }
 

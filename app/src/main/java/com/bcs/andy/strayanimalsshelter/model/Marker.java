@@ -2,9 +2,10 @@ package com.bcs.andy.strayanimalsshelter.model;
 
 public class Marker {
 
-    private String locationName;
+    private String location;
     private Double longitude;
     private Double latitude;
+    private Animal animal;
 
     public Marker() {
     }
@@ -14,17 +15,32 @@ public class Marker {
         this.latitude = latitude;
     }
 
-    public Marker(String locationName, double longitude, double latitude) {
-        this.locationName = locationName;
+    public Marker(Double longitude, Double latitude, Animal animal) {
         this.longitude = longitude;
         this.latitude = latitude;
+        this.animal = animal;
+    }
+
+    public Marker(String location, Double longitude, Double latitude, Animal animal) {
+        this.location = location;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.animal = animal;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -32,15 +48,25 @@ public class Marker {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLocationName() {
-        return locationName;
+    public Animal getAnimal() {
+        return animal;
     }
 
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+    }
+
+    @Override
+    public String toString() {
+        return "Marker{" +
+                "location='" + location + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", animal=" + animal +
+                '}';
     }
 }
