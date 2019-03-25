@@ -37,7 +37,7 @@
             android:layout_marginLeft="10dp"
             android:id="@+id/ic_magnify"/>
 
-        <EditText
+        <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/ic_magnify"

@@ -4,7 +4,7 @@ import com.bcs.andy.strayanimalsshelter.model.Animal;
 
 import java.util.List;
 
-public interface DatabaseServiceListener {
+public interface UserAnimalsDatabaseListener {
 
     void onCallback(List<Animal> list);
 

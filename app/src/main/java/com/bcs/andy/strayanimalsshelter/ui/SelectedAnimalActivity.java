@@ -33,6 +33,7 @@ public class SelectedAnimalActivity extends AppCompatActivity {
         selectedAnimalAgeTV.setText(String.valueOf(age));
         selectedAnimalObsTV.setText(obs);
 
+
         switch (species) {
             case "Dog":
                 selectedAnimalIconIV.setImageResource(R.drawable.dog_icon);

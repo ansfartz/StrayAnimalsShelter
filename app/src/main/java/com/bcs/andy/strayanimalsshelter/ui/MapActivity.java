@@ -14,12 +14,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,7 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
 
 
     private static final String TAG = "MapActivity";
@@ -45,7 +48,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private static final float DEFAULT_ZOOM = 15f;
 
     // widgets
-    private EditText mSearchText;
+    private AutoCompleteTextView mSearchText;
     private ImageView mGps;
 
     // vars
@@ -59,13 +62,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-
-        mSearchText = (EditText) findViewById(R.id.input_search_ET);
+        mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search_ET);
         mGps = (ImageView) findViewById(R.id.ic_gps);
 
-
         getLocationPermission();
-
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -78,10 +78,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera.
-     *
+     * <p>
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment.
-     *
+     * <p>
      * This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
@@ -112,23 +112,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private void initListeners() {
         Log.d(TAG, "initListeners: initializing SearchText");
 
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
-
-                if(actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
-
-                    geoLocate();
-
-                }
-
-                return false;
-            }
-        });
-
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,6 +120,22 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+
+                    geoLocate();
+
+                }
+
+                return false;
+            }
+        });
 
     }
 
@@ -155,12 +154,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             Log.d(TAG, "geoLocate: IOException: " + e.getMessage());
         }
 
-        if(list.size() > 0) {
+        if (list.size() > 0) {
             Address address = list.get(0);
             Log.d(TAG, "geoLocate: found at location: " + address.toString());
 
-            LatLng searchedPlace = new LatLng(address.getLatitude(), address.getLongitude());
 
+            LatLng searchedPlace = new LatLng(address.getLatitude(), address.getLongitude());
             moveCamera(searchedPlace, DEFAULT_ZOOM, address.getAddressLine(0));
 
         }
@@ -215,14 +214,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        try{
+        try {
 
-            if(mLocationPermissionGranted) {
+            if (mLocationPermissionGranted) {
                 final Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
 
@@ -246,12 +245,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
 
-
     private void moveCamera(LatLng latLng, float zoom, String title) {
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", long: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
-        if(!title.equals("My Location")) {
+        if (!title.equals("My Location")) {
             MarkerOptions options = new MarkerOptions();
             options.position(latLng).title(title);
             mMap.addMarker(options);
@@ -261,6 +259,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-
+    }
 }

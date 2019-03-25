@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setNavigationUserDetails() {
         if (user.getDisplayName() == null)
             navigationViewUsername.setText(getIntent().getExtras().getString("displayName"));
-        else navigationViewUsername.setText(user.getDisplayName());
+        else
+            navigationViewUsername.setText(user.getDisplayName());
         navigationViewEmail.setText(user.getEmail());
     }
 
@@ -136,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_markers:
                 Toast.makeText(this, "MARKERS", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyMarkersFragment()).commit();
+
                 break;
             case R.id.nav_friends:
                 Toast.makeText(this, "FRIENDS", Toast.LENGTH_SHORT).show();

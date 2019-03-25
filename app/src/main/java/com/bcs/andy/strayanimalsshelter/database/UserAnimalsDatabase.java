@@ -14,17 +14,19 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseService {
+public class UserAnimalsDatabase {
 
-    private static final String TAG = "DatabaseService";
+    private static final String TAG = "UserAnimalsDatabase";
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference firebaseRootRef;
     private DatabaseReference animalsRef;
     List<Animal> animalsList;
 
-    public DatabaseService() {
 
+    // onDataChange will only happen on data changed in it's path :  users/userUid/animals
+    // any other changes outside this URL will not trigger onDataChange method
+    public UserAnimalsDatabase() {
         this.firebaseDatabase = FirebaseDatabase.getInstance();
         this.firebaseRootRef = firebaseDatabase.getReference();
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -34,13 +36,13 @@ public class DatabaseService {
     }
 
 
-    public void readCurrentUserAnimals(final DatabaseServiceListener databaseServiceListener) {
+    public void readCurrentUserAnimals(final UserAnimalsDatabaseListener userAnimalsDatabaseListener) {
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 animalsList.clear();
-
+                Log.d(TAG, "onDataChange: HAVE CLEARED ANIMALS LIST");
                 //dataSnapshot.getChildren() ---> iterate through entire dataSnapshot Object, to get the items names
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Animal animal;
@@ -48,7 +50,7 @@ public class DatabaseService {
                     animalsList.add(animal);
                 }
 
-                databaseServiceListener.onCallback(animalsList);
+                userAnimalsDatabaseListener.onCallback(animalsList);
 
             }
 
@@ -61,10 +63,6 @@ public class DatabaseService {
 
         animalsRef.addValueEventListener(valueEventListener);
 
-    }
-
-    public interface DatabaseListener {
-        void onCallback(List<Animal> list);
     }
 
 

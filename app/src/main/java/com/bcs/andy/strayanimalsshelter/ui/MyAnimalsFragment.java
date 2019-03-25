@@ -13,12 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
-import com.bcs.andy.strayanimalsshelter.database.DatabaseService;
-import com.bcs.andy.strayanimalsshelter.database.DatabaseServiceListener;
+import com.bcs.andy.strayanimalsshelter.database.UserAnimalsDatabase;
+import com.bcs.andy.strayanimalsshelter.database.UserAnimalsDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.adapter.AnimalAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalAdapterListener{
+public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalAdapterListener {
 
     private static final String TAG = "MyAnimalsFragment";
 
@@ -47,10 +45,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     private List<Animal> listAnimals = new ArrayList<>();
 
     private Button addDataBtn;
-    private TextView accountTextView;
     private ConstraintLayout CL;
-
-
 
     public MyAnimalsFragment() {
         // Required empty public constructor
@@ -63,7 +58,6 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     }
 
     private void init() {
-        accountTextView = (TextView) CL.findViewById(R.id.AccountTextView);
         addDataBtn = (Button) CL.findViewById(R.id.addDataBtn);
 
         myProgressBar = (ProgressBar) CL.findViewById(R.id.loadingProgressBar);
@@ -72,7 +66,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         addAnimalsBtn = (FloatingActionButton) CL.findViewById(R.id.addAnimalsFloatingActionBtn);
 
 
-        recyclerView = (RecyclerView) CL.findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) CL.findViewById(R.id.myAnimalsRecyclerView);
         recyclerView.setHasFixedSize(false); // no adapter content ( card with data ) has fixed size. They may vary, depending on the length of text inside them; use this for recyclerView internal optimisation! Won't affect anything else
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -81,8 +75,8 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DatabaseService databaseService = new DatabaseService();
-        databaseService.readCurrentUserAnimals(new DatabaseServiceListener() {
+        UserAnimalsDatabase userAnimalsDatabase = new UserAnimalsDatabase();
+        userAnimalsDatabase.readCurrentUserAnimals(new UserAnimalsDatabaseListener() {
             @Override
             public void onCallback(List<Animal> list) {
                 // TODO: dont clear() and allAll, just add the new ones. for efficiency
@@ -133,24 +127,12 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         });
 
 
-        if (user.getDisplayName() == null)
-        {
-            // this happenes when coming from the Register Page. so ONLY ONCE per account, when they register and instantly enter the app
-            String greeting = "Hello, " + getActivity().getIntent().getExtras().getString("displayName");
-            accountTextView.setText(greeting);
-        } else {
-            // once it's updated(after first time registration), it will always come in "else"
-            String greeting = "Hello, " + user.getDisplayName();
-            accountTextView.setText(greeting);
-        }
-
         return CL;
 
     }
 
     @Override
     public void onAnimalClick(int position, Animal animal) {
-//        Toast.makeText(getActivity(), String.valueOf(position) + " " + animal.getAnimalName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getContext(), SelectedAnimalActivity.class);
         intent.putExtra("selectedAnimalName", animal.getAnimalName());
         intent.putExtra("selectedAnimalAge", animal.getAge());
