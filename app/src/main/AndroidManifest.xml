@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bcs.andy.strayanimalsshelter">
-    <!-- Allows an app to access precise location. -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Allows an app to access approximate location. -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Used by the API to download map tiles from Google Maps servers. -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- Allows the API to check the connection status in order to determine whether data can be downloaded -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />     <!-- Allows an app to access precise location. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Allows an app to access approximate location. -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Used by the API to download map tiles from Google Maps servers. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Allows the API to check the connection status in order to determine whether data can be downloaded -->
 
     <application
         android:name=".MyFirebaseApp"

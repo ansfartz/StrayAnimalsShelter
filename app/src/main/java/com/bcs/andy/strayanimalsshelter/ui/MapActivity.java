@@ -185,7 +185,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
 
     // Callback for the result from requesting permissions.
-    // This method is invoked for every call on requestPermissions(Activity, String[], int). that are called in getLocationPermission()
+    // This method is invoked for every call on ActivityCompat.requestPermissions(). that are called in getLocationPermission()
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: CHECKING PERMISSIONS RESULT");
@@ -205,6 +205,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     mLocationPermissionGranted = true;
                     // initialize map
                 }
+
             }
         }
     }
