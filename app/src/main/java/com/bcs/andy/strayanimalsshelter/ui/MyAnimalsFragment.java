@@ -122,8 +122,10 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
             public void onClick(View view) {
                 Animal a1 = new Animal("Doggo", "dog", 2, "Needs immediate medical intervention.");
                 Animal a2 = new Animal("Catto", "cat", 3, "Should lose weight.");
+                Animal a3 = new Animal("MyAnimalo", "dog", true, false, 3, "nothing");
                 databaseReference.child("animals").child("ID1").setValue(a1);
                 databaseReference.child("animals").child("ID2").setValue(a2);
+                databaseReference.child("animals").child("ID3").setValue(a3);
 
             }
         });

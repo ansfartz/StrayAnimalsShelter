@@ -39,9 +39,10 @@ public class AddAnimalsPopUpActivity extends AppCompatActivity {
         newAnimalObservations = (EditText) findViewById(R.id.newAnimalObsET);
 
         newAnimalSpecies = (Spinner) findViewById(R.id.animalTypesSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_animals, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        newAnimalSpecies.setAdapter(adapter);
+//        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.types_of_animals, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.types_of_animals, R.layout.spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        newAnimalSpecies.setAdapter(spinnerAdapter);
 //        newAnimalType.setOnItemSelectedListener(this);
     }
 

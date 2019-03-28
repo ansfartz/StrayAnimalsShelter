@@ -3,11 +3,12 @@ package com.bcs.andy.strayanimalsshelter.model;
 public class Animal {
 
     private String animalName;
-    private String species;        // Dog / Cat / Rodent / Bird
+    private String species;        // Dog / Cat
+    private String observations;
+    private Integer aproxAge;
     private Boolean mature;
     private Boolean neutered;
-    private Integer aproxAge;
-    private String observations;
+
 
     public Animal() {
     }

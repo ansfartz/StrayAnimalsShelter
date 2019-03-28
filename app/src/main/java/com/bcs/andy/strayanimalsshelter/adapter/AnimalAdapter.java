@@ -55,10 +55,10 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
 
         switch (animal.getSpecies()) {
-            case "Dog":
+            case "dog":
                 holder.imageViewSpecies.setImageResource(R.drawable.dog_icon);
                 break;
-            case "Cat":
+            case "cat":
                 holder.imageViewSpecies.setImageResource(R.drawable.cat_icon);
                 break;
             default:
