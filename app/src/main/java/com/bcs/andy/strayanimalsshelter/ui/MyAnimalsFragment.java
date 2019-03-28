@@ -137,7 +137,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     public void onAnimalClick(int position, Animal animal) {
         Intent intent = new Intent(getContext(), SelectedAnimalActivity.class);
         intent.putExtra("selectedAnimalName", animal.getAnimalName());
-        intent.putExtra("selectedAnimalAge", animal.getAge());
+        intent.putExtra("selectedAnimalAge", animal.getAproxAge());
         intent.putExtra("selectedAnimalObs", animal.getObservations());
         intent.putExtra("selectedAnimalSpecies", animal.getSpecies());
         startActivity(intent);

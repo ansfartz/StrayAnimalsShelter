@@ -4,16 +4,27 @@ public class Animal {
 
     private String animalName;
     private String species;        // Dog / Cat / Rodent / Bird
-    private int age;
+    private Boolean mature;
+    private Boolean neutered;
+    private Integer aproxAge;
     private String observations;
 
     public Animal() {
     }
 
-    public Animal(String animalName, String species, int age, String observations) {
+    public Animal(String animalName, String species, Integer aproxAge, String observations) {
         this.animalName = animalName;
         this.species = species;
-        this.age = age;
+        this.aproxAge = aproxAge;
+        this.observations = observations;
+    }
+
+    public Animal(String animalName, String species, Boolean mature, Boolean neutered, Integer aproxAge, String observations) {
+        this.animalName = animalName;
+        this.species = species;
+        this.mature = mature;
+        this.neutered = neutered;
+        this.aproxAge = aproxAge;
         this.observations = observations;
     }
 
@@ -33,12 +44,12 @@ public class Animal {
         this.species = species;
     }
 
-    public int getAge() {
-        return age;
+    public Integer getAproxAge() {
+        return aproxAge;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAproxAge(int aproxAge) {
+        this.aproxAge = aproxAge;
     }
 
     public String getObservations() {
@@ -49,12 +60,28 @@ public class Animal {
         this.observations = observations;
     }
 
+    public Boolean getMature() {
+        return mature;
+    }
+
+    public void setMature(Boolean mature) {
+        this.mature = mature;
+    }
+
+    public Boolean getNeutered() {
+        return neutered;
+    }
+
+    public void setNeutered(Boolean neutered) {
+        this.neutered = neutered;
+    }
+
     @Override
     public String toString() {
         return "Animal{" +
                 "animalName='" + animalName + '\'' +
                 ", species='" + species + '\'' +
-                ", age=" + age +
+                ", aproxAge=" + aproxAge +
                 ", observations='" + observations + '\'' +
                 '}';
     }

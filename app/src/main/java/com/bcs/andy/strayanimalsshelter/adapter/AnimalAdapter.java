@@ -41,8 +41,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Animal animal = listAnimals.get(position);
-        String age = String.valueOf(animal.getAge()) + " yrs";
-        holder.textViewAge.setText(age);
+        String aproxAge = String.valueOf(animal.getAproxAge()) + " yrs";
+        holder.textViewAge.setText(aproxAge);
         holder.textViewName.setText(animal.getAnimalName());
 
         if(animal.getObservations().length() > 110) {

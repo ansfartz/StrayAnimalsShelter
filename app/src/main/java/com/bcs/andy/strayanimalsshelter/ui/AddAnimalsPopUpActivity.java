@@ -1,6 +1,5 @@
 package com.bcs.andy.strayanimalsshelter.ui;
 
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -24,19 +23,19 @@ import java.util.UUID;
 
 public class AddAnimalsPopUpActivity extends AppCompatActivity {
 
+    // Firebase
     private FirebaseUser firebaseUser;
     private DatabaseReference animalsForUserRef;
 
-    private FloatingActionButton acceptButton;
-    private FloatingActionButton deleteButton;
+    // UI
     private EditText newAnimalName;
-    private EditText newAnimalAge;
+    private EditText newAnimalAproxAge;
     private EditText newAnimalObservations;
     private Spinner newAnimalSpecies;
 
     private void init() {
         newAnimalName = (EditText) findViewById(R.id.newAnimalNameET);
-        newAnimalAge = (EditText) findViewById(R.id.newAnimalAgeET);
+        newAnimalAproxAge = (EditText) findViewById(R.id.newAnimalAproxAgeET);
         newAnimalObservations = (EditText) findViewById(R.id.newAnimalObsET);
 
         newAnimalSpecies = (Spinner) findViewById(R.id.animalTypesSpinner);
@@ -98,7 +97,7 @@ public class AddAnimalsPopUpActivity extends AppCompatActivity {
             String animalName = newAnimalName.getText().toString().trim();
             String animalSpecies = newAnimalSpecies.getSelectedItem().toString();
             String animalObservations = newAnimalObservations.getText().toString().trim();
-            Integer animalAge = Integer.parseInt(newAnimalAge.getText().toString().trim());
+            Integer animalAge = Integer.parseInt(newAnimalAproxAge.getText().toString().trim());
             Animal animal = new Animal(animalName, animalSpecies, animalAge, animalObservations);
             animalsForUserRef.child(userUid).child("animals").child(UUID.randomUUID().toString()).setValue(animal);
 
@@ -108,8 +107,8 @@ public class AddAnimalsPopUpActivity extends AppCompatActivity {
 
     public boolean validate() {
         String animalName = newAnimalName.getText().toString().trim();
-        if (newAnimalAge.getText().toString().isEmpty()) {
-            newAnimalAge.setError("Please enter an age");
+        if (newAnimalAproxAge.getText().toString().isEmpty()) {
+            newAnimalAproxAge.setError("Please enter an age");
         }
         if (animalName.isEmpty() || animalName.length() > 13) {
             newAnimalName.setError("Please write a name");

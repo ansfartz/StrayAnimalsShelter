@@ -1,75 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#7AB32A"
     tools:context=".ui.AddAnimalsPopUpActivity">
 
-    <EditText
-        android:id="@+id/newAnimalNameET"
-        android:layout_width="244dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/input_email_password_background"
-        android:ems="10"
-        android:hint="Animal name"
-        android:inputType="textPersonName"
-        android:padding="8dp"
-        android:textSize="30sp"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="400dp"
+        android:elevation="20dp"
+        android:src="@mipmap/ic_launcher_foreground"
+        app:layout_constraintBottom_toBottomOf="@+id/addAnimalLayout"
+        app:layout_constraintEnd_toEndOf="@+id/addAnimalLayout"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/addAnimalLayout" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/addAnimalLayout"
+        android:layout_width="316dp"
+        android:layout_height="450dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/round_white_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.104" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/newAnimalObsET"
-        android:layout_width="237dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/input_email_password_background"
-        android:ems="10"
-        android:hint="Observations"
-        android:inputType="text"
-        android:padding="8dp"
-        android:textAlignment="textStart"
-        android:textSize="30sp"
-        app:layout_constraintCircleRadius="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/animalTypesSpinner" />
 
-    <EditText
-        android:id="@+id/newAnimalAgeET"
-        android:layout_width="100dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/input_email_password_background"
-        android:ems="10"
-        android:hint="Age"
-        android:inputType="number"
-        android:padding="8dp"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newAnimalNameET" />
+        <EditText
+            android:id="@+id/newAnimalNameET"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="76dp"
+            android:layout_marginEnd="8dp"
 
-    <Spinner
-        android:id="@+id/animalTypesSpinner"
-        android:layout_width="120dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/input_email_password_background"
-        android:spinnerMode="dropdown"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newAnimalAgeET" />
+            android:background="@drawable/newanimalname_background"
+            android:hint=" Animal name "
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textColor="#477210"
+            android:textColorHint="#477210"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/newAnimalObsET"
+            android:layout_width="260dp"
+            android:layout_height="59dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/round_grey_background"
+            android:hint="Additional observations..."
+            android:inputType="text"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:textAlignment="textStart"
+            android:textColor="#477210"
+            android:textColorHint="#477210"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newAnimalNameET" />
+
+        <Spinner
+            android:id="@+id/animalTypesSpinner"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="76dp"
+            android:layout_toEndOf="@+id/newAnimalNameET"
+            android:background="@drawable/newanimalspinner_background"
+            android:spinnerMode="dropdown"
+            android:textColor="#477210"
+            app:layout_constraintStart_toEndOf="@+id/newAnimalNameET"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/newAnimalAproxAgeET"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/round_grey_background"
+            android:hint="Aprox. Age"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="#477210"
+            android:textColorHint="#477210"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newAnimalObsET" />
+
+        <CheckBox
+            android:id="@+id/adultCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text=" Mature"
+            android:textColor="#ff000000"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newAnimalAproxAgeET" />
+
+        <CheckBox
+            android:id="@+id/neuteredCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="24dp"
+            android:text=" Neutered"
+            android:textColor="#ff000000"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/adultCheckBox" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>
