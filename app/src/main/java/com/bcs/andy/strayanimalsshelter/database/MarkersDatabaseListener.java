@@ -6,5 +6,9 @@ import java.util.List;
 
 public interface MarkersDatabaseListener {
 
-    void onCallBack(List<AnimalMarker> list);
+    // readCurrentUserMarkers
+    void onCurrentUserMarkersCallBack(List<AnimalMarker> list);
+
+    // readAllMarkers
+    void onAllMarkersCallBack(List<AnimalMarker> list);
 }

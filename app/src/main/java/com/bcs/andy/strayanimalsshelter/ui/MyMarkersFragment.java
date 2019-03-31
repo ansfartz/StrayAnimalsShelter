@@ -67,14 +67,19 @@ public class MyMarkersFragment extends Fragment {
         MarkersDatabase markersDatabase = new MarkersDatabase();
         markersDatabase.readCurrentUserMarkers(new MarkersDatabaseListener() {
             @Override
-            public void onCallBack(List<AnimalMarker> list) {
+            public void onCurrentUserMarkersCallBack(List<AnimalMarker> list) {
                 animalMarkerList.clear();
                 animalMarkerList.addAll(list);
                 markersLoadingProgressBar.setVisibility(View.GONE);
-                Log.d(TAG, "onCallBack: MY MARKERS LIST: " + animalMarkerList.toString());
+                Log.d(TAG, "onCurrentUserMarkersCallBack: MY MARKERS LIST: " + animalMarkerList.toString());
 
                 markerAdapter = new MarkerAdapter(animalMarkerList, getActivity());
                 recyclerView.setAdapter(markerAdapter);
+
+            }
+
+            @Override
+            public void onAllMarkersCallBack(List<AnimalMarker> list) {
 
             }
         });

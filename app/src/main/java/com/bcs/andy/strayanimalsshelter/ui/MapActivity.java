@@ -71,7 +71,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private Geocoder geocoder;
 
     private List<Marker> myMarkersList;
-    private Boolean myMarkersVisible = false;
+    private List<Marker> allMarkersList;
+    private Boolean myMarkersVisible = true;
 
 
     @Override
@@ -124,7 +125,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
             initListeners();
-            startUserMarkersListener();
+            startMarkersListener();
+
+            // TODO: move drawMarkers inside getDeviceLocation, and implement it so that only markers in a certain range will be displayed( maybe? )
 
         }
     }
@@ -137,6 +140,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         geocoder = new Geocoder(MapActivity.this);
         markersDatabase = new MarkersDatabase();
         myMarkersList = new ArrayList<>();
+        allMarkersList = new ArrayList<>();
 
         gpsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +187,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
                 AnimalMarker marker = new AnimalMarker(latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
                 markersDatabase.addMarker(marker);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(marker.getLatitude(), marker.getLongitude()), DEFAULT_ZOOM));
 
             }
         });
@@ -242,6 +247,172 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
+
+    /**
+     *   Finds device's last location using {@link LocationServices#getFusedLocationProviderClient(Context)} and centers camera on it's coordinates
+     */
+    private void getDeviceLocation() {
+        Log.d(TAG, "getDeviceLocation: getting the devices current location");
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        try {
+
+            if (mLocationPermissionGranted) {
+                final Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: found location!");
+                            Location currentLocation = (Location) task.getResult();
+
+                            LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                            Log.d(TAG, "onComplete: my current location is: " + currentLatLng.latitude + ", long: " + currentLatLng.longitude);
+                            moveCameraAndAddMarker(currentLatLng, DEFAULT_ZOOM, "My Location");
+//                            mMap.addMarker(new MarkerOptions().position(currentLatLng).title("You are here"));
+
+
+                        } else {
+                            Log.d(TAG, "onComplete: current location is null");
+                            Toast.makeText(MapActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+        } catch (SecurityException e) {
+            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
+        }
+    }
+
+
+
+
+    /**
+     * Moves camera and adds a marker on specified coordinates
+     * @param latLng contains coordinates where the map will be centered on
+     * @param zoom the desired zoom level, in the range of 2.0 to 21.0. Values below this range are set to 2.0, and values above it are set to 21.0.
+     * @param title the title to be set on the marker
+     */
+    private void moveCameraAndAddMarker(LatLng latLng, float zoom, String title) {
+        Log.d(TAG, "moveCameraAndAddMarker: moving the camera to: lat: " + latLng.latitude + ", long: " + latLng.longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+        if (!title.equals("My Location")) {
+            MarkerOptions options = new MarkerOptions();
+            options.position(latLng).title(title);
+            mMap.addMarker(options);
+        }
+
+    }
+
+
+
+    private void startMarkersListener() {
+        markersDatabase.readCurrentUserMarkers(new MarkersDatabaseListener() {
+            @Override
+            public void onCurrentUserMarkersCallBack(List<AnimalMarker> list) {
+                Log.d(TAG, "onCurrentUserMarkersCallBack: myMarkersList updated");
+
+                clearAllMyMarkers();
+                for (AnimalMarker animalMarker : list) {
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(animalMarker.getLatitude(), animalMarker.getLongitude()))
+                            .title(animalMarker.getLocation())
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                            .visible(myMarkersVisible));
+
+                    Log.d(TAG, "onCurrentUserMarkersCallBack: created my marker at: " + marker.getTitle());
+                    myMarkersList.add(marker);
+                }
+            }
+
+            @Override
+            public void onAllMarkersCallBack(List<AnimalMarker> list) {
+                Log.d(TAG, "onCurrentUserMarkersCallBack ----> onAllMarkersCallBack: should never reach here");
+
+            }
+        });
+
+
+        markersDatabase.readAllMarkers(new MarkersDatabaseListener() {
+            @Override
+            public void onCurrentUserMarkersCallBack(List<AnimalMarker> list) {
+                Log.d(TAG, "onAllMarkersCallBack ----> onCurrentUserMarkersCallBack: should never reach here");
+            }
+
+            @Override
+            public void onAllMarkersCallBack(List<AnimalMarker> list) {
+
+                clearAllPublicMarkers();
+                for(AnimalMarker animalMarker : list) {
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(animalMarker.getLatitude(), animalMarker.getLongitude()))
+                            .title(animalMarker.getLocation())
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                            .visible(true));
+
+                    Log.d(TAG, "onAllMarkersCallBack: created public marker at: " + marker.getTitle());
+                    allMarkersList.add(marker);
+                }
+                drawPublicMarkers();
+
+            }
+        });
+    }
+
+
+
+
+    public void toggleMyMarkers() {
+        if (!myMarkersVisible) {
+            Log.d(TAG, "toggleMyMarkers: VISIBLE");
+            showAllMyMarkers();
+            myMarkersVisible = true;
+        } else {
+            Log.d(TAG, "toggleMyMarkers: INVISIBLE");
+            hideAllMyMarkers();
+            myMarkersVisible = false;
+        }
+    }
+
+    public void clearAllMyMarkers() {
+        for (Marker marker : myMarkersList) {
+            marker.remove();
+        }
+        myMarkersList.clear();
+    }
+
+    public void clearAllPublicMarkers() {
+        for(Marker marker : allMarkersList) {
+            marker.remove();
+        }
+        allMarkersList.clear();
+    }
+
+    public void hideAllMyMarkers() {
+        for (Marker marker : myMarkersList) {
+            marker.setVisible(false);
+            Log.d(TAG, "showAllMyMarkers: making INVISIBLE:" + marker.getTitle());
+        }
+    }
+
+    public void showAllMyMarkers() {
+        for (Marker marker : myMarkersList) {
+            marker.setVisible(true);
+            Log.d(TAG, "showAllMyMarkers: making VISIBLE:" + marker.getTitle());
+        }
+    }
+
+    private void drawPublicMarkers() {
+        Log.d(TAG, "drawPublicMarkers: am here");
+        for(Marker marker: allMarkersList) {
+            Log.d(TAG, "drawPublicMarkers: drawing marker: lat:" + marker.getPosition().latitude + " long:" + marker.getPosition().longitude);
+            marker.setVisible(true);
+        }
+    }
+
+
     // Callback for the result from requesting permissions.
     // This method is invoked for every call on ActivityCompat.requestPermissions(). that are called in getLocationPermission()
     @Override
@@ -268,63 +439,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
     }
 
-
-    /**
-     *   Finds device's last location using {@link LocationServices#getFusedLocationProviderClient(Context)} and centers camera on it's coordinates
-     */
-    private void getDeviceLocation() {
-        Log.d(TAG, "getDeviceLocation: getting the devices current location");
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        try {
-
-            if (mLocationPermissionGranted) {
-                final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
-
-                            LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                            Log.d(TAG, "onComplete: moving the camera to: lat: " + currentLatLng.latitude + ", long: " + currentLatLng.longitude);
-                            moveCameraAndAddMarker(currentLatLng, DEFAULT_ZOOM, "My Location");
-//                            mMap.addMarker(new MarkerOptions().position(currentLatLng).title("You are here"));
-
-
-                        } else {
-                            Log.d(TAG, "onComplete: current location is null");
-                            Toast.makeText(MapActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-
-        } catch (SecurityException e) {
-            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
-        }
-    }
-
-
-    /**
-     * Moves camera and adds a marker on specified coordinates
-     * @param latLng contains coordinates where the map will be centered on
-     * @param zoom the desired zoom level, in the range of 2.0 to 21.0. Values below this range are set to 2.0, and values above it are set to 21.0.
-     * @param title the title to be set on the marker
-     */
-    private void moveCameraAndAddMarker(LatLng latLng, float zoom, String title) {
-        Log.d(TAG, "moveCameraAndAddMarker: moving the camera to: lat: " + latLng.latitude + ", long: " + latLng.longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-
-        if (!title.equals("My Location")) {
-            MarkerOptions options = new MarkerOptions();
-            options.position(latLng).title(title);
-            mMap.addMarker(options);
-        }
-
-    }
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
@@ -335,68 +449,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         startActivity(new Intent(MapActivity.this, MainActivity.class));
         finish();
     }
-
-
-
-    private void startUserMarkersListener() {
-        markersDatabase.readCurrentUserMarkers(new MarkersDatabaseListener() {
-            @Override
-            public void onCallBack(List<AnimalMarker> list) {
-                Log.d(TAG, "onCallBack: AnimalsMarkers/ myMarkersList updated");
-
-                clearAllMyMarkers();
-                for (AnimalMarker animalMarker : list) {
-                    Marker marker = mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(animalMarker.getLatitude(), animalMarker.getLongitude()))
-                            .title(animalMarker.getLocation())
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                            .visible(true));
-                    Log.d(TAG, "onCallBack: made visible: " + marker.getTitle());
-                    myMarkersList.add(marker);
-                    Log.d(TAG, "onCallBack: myMarkersList is: " + myMarkersList);
-                }
-            }
-        });
-    }
-
-
-
-
-    public void toggleMyMarkers() {
-        Log.d(TAG, "toggleMyMarkers: toggling markers");
-        if (!myMarkersVisible) {
-            Log.d(TAG, "toggleMyMarkers: starting markers drawing");
-            showAllMyMarkers();
-            myMarkersVisible = true;
-
-        } else {
-            Log.d(TAG, "toggleMyMarkers: starting markers removal");
-            hideAllMyMarkers();
-            myMarkersVisible = false;
-        }
-    }
-
-    public void clearAllMyMarkers() {
-        for (Marker marker : myMarkersList) {
-            marker.remove();
-        }
-        myMarkersList.clear();
-    }
-
-    public void hideAllMyMarkers() {
-        for (Marker marker : myMarkersList) {
-            marker.setVisible(false);
-            Log.d(TAG, "showAllMyMarkers: making INVISIBLE:" + marker.getTitle());
-        }
-    }
-
-    public void showAllMyMarkers() {
-        for (Marker marker : myMarkersList) {
-            marker.setVisible(true);
-            Log.d(TAG, "showAllMyMarkers: making VISIBLE:" + marker.getTitle());
-        }
-    }
-
 
 
 }

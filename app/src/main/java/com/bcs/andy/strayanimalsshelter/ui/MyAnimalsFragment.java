@@ -84,7 +84,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
                 animalList.clear();
                 animalList.addAll(list);
                 animalsLoadingProgressBar.setVisibility(View.GONE);
-                Log.d(TAG, "onCallBack: MY ANIMALS LIST: " + animalList.toString());
+                Log.d(TAG, "onCurrentUserMarkersCallBack: MY ANIMALS LIST: " + animalList.toString());
 
                 animalAdapter = new AnimalAdapter(animalList, getActivity(), MyAnimalsFragment.this);
                 recyclerView.setAdapter(animalAdapter);
