@@ -8,7 +8,6 @@ public class User {
     private String email;
     private String name;
     private List<User> friends;
-    private List <Marker> markers;
     private List<Animal> animals;
 
     public User() {
@@ -65,13 +64,6 @@ public class User {
         this.friends = friends;
     }
 
-    public List<Marker> getMarkers() {
-        return markers;
-    }
-
-    public void setMarkers(List<Marker> markers) {
-        this.markers = markers;
-    }
 
     @Override
     public String toString() {

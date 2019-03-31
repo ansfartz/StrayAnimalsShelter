@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.AddAnimalsPopUpActivity">
+    tools:context=".ui.AddAnimalToMyselfPopUpActivity">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -79,7 +79,7 @@
             app:layout_constraintTop_toBottomOf="@+id/newAnimalNameET" />
 
         <Spinner
-            android:id="@+id/animalTypesSpinner"
+            android:id="@+id/newAnimalTypeSpinner"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
@@ -110,11 +110,11 @@
             app:layout_constraintTop_toBottomOf="@+id/newAnimalObsET" />
 
         <CheckBox
-            android:id="@+id/adultCheckBox"
+            android:id="@+id/newAnimalAdultCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text=" Mature"
+            android:text=" Adult"
             android:textColor="#ff000000"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +123,7 @@
             app:layout_constraintTop_toBottomOf="@+id/newAnimalAproxAgeET" />
 
         <CheckBox
-            android:id="@+id/neuteredCheckBox"
+            android:id="@+id/newAnimalNeuteredCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
@@ -132,7 +132,7 @@
             android:textColor="#ff000000"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/adultCheckBox" />
+            app:layout_constraintTop_toBottomOf="@+id/newAnimalAdultCheckBox" />
 
 
     </android.support.constraint.ConstraintLayout>

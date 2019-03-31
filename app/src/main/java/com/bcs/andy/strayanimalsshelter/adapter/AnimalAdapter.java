@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Animal animal = listAnimals.get(position);
         String aproxAge = String.valueOf(animal.getAproxAge()) + " yrs";
-        holder.textViewAge.setText(aproxAge);
+        holder.textViewAproxAge.setText(aproxAge);
         holder.textViewName.setText(animal.getAnimalName());
 
         if(animal.getObservations().length() > 110) {
@@ -65,8 +66,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                 holder.imageViewSpecies.setImageResource(R.drawable.dog_icon);
         }
 
-
-
+        holder.neutredCheckBox.setChecked(animal.isNeutered());
+        holder.adultCheckBox.setChecked(animal.isAdult());
 
     }
 
@@ -78,7 +79,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         CardView cardView;
-        TextView textViewName, textViewObs, textViewAge;
+        TextView textViewName, textViewObs, textViewAproxAge;
+        CheckBox neutredCheckBox, adultCheckBox;
         ImageView imageViewSpecies;
 
         AnimalAdapterListener animalAdapterListener;
@@ -87,8 +89,10 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             super(itemView);
             textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
             textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
-            textViewAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
+            textViewAproxAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
             imageViewSpecies = (ImageView) itemView.findViewById(R.id.imageViewMarker);
+            neutredCheckBox = (CheckBox) itemView.findViewById(R.id.neuteredCheckBox);
+            adultCheckBox = (CheckBox) itemView.findViewById(R.id.adultCheckBox);
             cardView = (CardView) itemView.findViewById(R.id.list_item_animals_CardView);
 
             this.animalAdapterListener = animalAdapterListener;

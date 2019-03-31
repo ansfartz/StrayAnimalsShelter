@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Widgets
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private ActionBarDrawerToggle toggle;
+    private ActionBarDrawerToggle toggle;   // the 3Lines button at the left side of the toolbar
     private NavigationView navigationView;
 
     private View headerView;
@@ -87,8 +87,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         if (savedInstanceState == null) {
-            // this will open our MessageFragment upon creation of the activity, before clicking anything
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyAnimalsFragment()).commit();
+            // default fragment
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new MyAnimalsFragment())
+                    .commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
@@ -102,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle toolbar item clicks here.
 
         switch (item.getItemId()) {
             case R.id.supportField:
@@ -122,23 +125,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        finish();
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyAnimalsFragment()).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new MyAnimalsFragment())
+                        .commit();
                 break;
             case R.id.nav_map:
                 Intent intent = new Intent(MainActivity.this, MapActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.nav_markers:
                 Toast.makeText(this, "MARKERS", Toast.LENGTH_SHORT).show();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyMarkersFragment()).commit();
-
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new MyMarkersFragment())
+                        .commit();
                 break;
             case R.id.nav_friends:
                 Toast.makeText(this, "FRIENDS", Toast.LENGTH_SHORT).show();
@@ -152,11 +164,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    /**
+     * Check if user's device has the required Google Play Services version installed
+     * @return true if required version is available and installed, otherwise false and  prompts the user to update the current version of Google Play Services if possible on device
+     */
     public boolean isServicesOK() {
         Log.d(TAG, "isServicesOK: checking Google Services version");
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
 
         if (available == ConnectionResult.SUCCESS) {
+
             //everything is fine, and the user can make map requests
             Log.d(TAG, "isServicesOK: Google Play services is working");
             return true;

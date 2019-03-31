@@ -6,7 +6,7 @@ public class Animal {
     private String species;        // Dog / Cat
     private String observations;
     private Integer aproxAge;
-    private Boolean mature;
+    private Boolean adult;
     private Boolean neutered;
 
 
@@ -20,10 +20,10 @@ public class Animal {
         this.observations = observations;
     }
 
-    public Animal(String animalName, String species, Boolean mature, Boolean neutered, Integer aproxAge, String observations) {
+    public Animal(String animalName, String species, Boolean adult, Boolean neutered, Integer aproxAge, String observations) {
         this.animalName = animalName;
         this.species = species;
-        this.mature = mature;
+        this.adult = adult;
         this.neutered = neutered;
         this.aproxAge = aproxAge;
         this.observations = observations;
@@ -45,14 +45,6 @@ public class Animal {
         this.species = species;
     }
 
-    public Integer getAproxAge() {
-        return aproxAge;
-    }
-
-    public void setAproxAge(int aproxAge) {
-        this.aproxAge = aproxAge;
-    }
-
     public String getObservations() {
         return observations;
     }
@@ -61,15 +53,23 @@ public class Animal {
         this.observations = observations;
     }
 
-    public Boolean getMature() {
-        return mature;
+    public Integer getAproxAge() {
+        return aproxAge;
     }
 
-    public void setMature(Boolean mature) {
-        this.mature = mature;
+    public void setAproxAge(Integer aproxAge) {
+        this.aproxAge = aproxAge;
     }
 
-    public Boolean getNeutered() {
+    public Boolean isAdult() {
+        return adult;
+    }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
+    }
+
+    public Boolean isNeutered() {
         return neutered;
     }
 
@@ -77,13 +77,17 @@ public class Animal {
         this.neutered = neutered;
     }
 
+
+
     @Override
     public String toString() {
         return "Animal{" +
                 "animalName='" + animalName + '\'' +
                 ", species='" + species + '\'' +
-                ", aproxAge=" + aproxAge +
                 ", observations='" + observations + '\'' +
+                ", aproxAge=" + aproxAge +
+                ", adult=" + adult +
+                ", neutered=" + neutered +
                 '}';
     }
 }

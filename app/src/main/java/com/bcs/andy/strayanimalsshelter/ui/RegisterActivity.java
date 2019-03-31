@@ -42,8 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
         nameEditText = (EditText) findViewById(R.id.registerNameEditText);
         emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
         passwordEditText = (EditText) findViewById(R.id.registerPasswordEditText);
-        passwordEditText2 = (EditText) findViewById(R.id.registerPasswordEditText2);
-        registerButton = (Button) findViewById(R.id.registerBtn);
+        passwordEditText2 = (EditText) findViewById(R.id.registerConfirmPasswordEditText);
+        registerButton = (Button) findViewById(R.id.registerButton);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(name).build();
                                 user.updateProfile(profileUpdates);
-                                Toast.makeText(RegisterActivity.this, "Update complete", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Account creation complete complete", Toast.LENGTH_SHORT).show();
 
                                 startActivity(new Intent(RegisterActivity.this, MainActivity.class).putExtra("displayName", name));
                                 finish();

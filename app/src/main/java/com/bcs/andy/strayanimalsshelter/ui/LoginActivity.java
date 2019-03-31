@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
@@ -24,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginBtn;
-    private Button registerBtn;
+    private TextView registerTextView;
 
     public FirebaseAuth firebaseAuth;
 
@@ -36,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
         passwordEditText = (EditText) findViewById(R.id.registerPasswordEditText);
         loginBtn = (Button) findViewById(R.id.loginBtn);
-        registerBtn = (Button) findViewById(R.id.registerBtn);
+        registerTextView = (TextView) findViewById(R.id.registerTextView);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        registerTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));

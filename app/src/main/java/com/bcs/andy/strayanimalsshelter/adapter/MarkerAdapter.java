@@ -11,17 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bcs.andy.strayanimalsshelter.R;
-import com.bcs.andy.strayanimalsshelter.model.Marker;
+import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
 
 import java.util.List;
 
 public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder> {
 
-    List<Marker> listMarkers;
+    List<AnimalMarker> listAnimalMarkers;
     private Context context;
 
-    public MarkerAdapter(List<Marker> listMarkers, Context context) {
-        this.listMarkers = listMarkers;
+    public MarkerAdapter(List<AnimalMarker> listAnimalMarkers, Context context) {
+        this.listAnimalMarkers = listAnimalMarkers;
         this.context = context;
     }
 
@@ -36,10 +36,10 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        Marker marker = listMarkers.get(position);
-        viewHolder.markerLocationTV.setText(marker.getLocation());
-        viewHolder.markerLatitudeTV.setText(marker.getLatitude().toString());
-        viewHolder.markerLongitudeTV.setText(marker.getLongitude().toString());
+        AnimalMarker animalMarker = listAnimalMarkers.get(position);
+        viewHolder.markerLocationTV.setText(animalMarker.getLocation());
+        viewHolder.markerLatitudeTV.setText(animalMarker.getLatitude().toString());
+        viewHolder.markerLongitudeTV.setText(animalMarker.getLongitude().toString());
 
         viewHolder.markerDeleteIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +52,7 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return listMarkers.size();
+        return listAnimalMarkers.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

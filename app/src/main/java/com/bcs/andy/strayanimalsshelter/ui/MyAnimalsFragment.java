@@ -81,7 +81,6 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         userAnimalsDatabase.readCurrentUserAnimals(new UserAnimalsDatabaseListener() {
             @Override
             public void onCallback(List<Animal> list) {
-                // TODO: dont clear() and allAll, just add the new ones. for efficiency
                 animalList.clear();
                 animalList.addAll(list);
                 animalsLoadingProgressBar.setVisibility(View.GONE);
@@ -112,7 +111,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         addAnimalsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddAnimalsPopUpActivity.class));
+                startActivity(new Intent(getActivity(), AddAnimalToMyselfPopUpActivity.class));
             }
         });
 
@@ -120,8 +119,8 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         addDataBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animal a1 = new Animal("Doggo", "dog", 2, "Needs immediate medical intervention.");
-                Animal a2 = new Animal("Catto", "cat", 3, "Should lose weight.");
+                Animal a1 = new Animal("Doggo", "dog", false, false, 2, "Needs immediate medical intervention.");
+                Animal a2 = new Animal("Catto", "cat", true, true, 3, "Should lose weight.");
                 Animal a3 = new Animal("MyAnimalo", "dog", true, false, 3, "nothing");
                 databaseReference.child("animals").child("ID1").setValue(a1);
                 databaseReference.child("animals").child("ID2").setValue(a2);
@@ -142,7 +141,8 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         intent.putExtra("selectedAnimalAge", animal.getAproxAge());
         intent.putExtra("selectedAnimalObs", animal.getObservations());
         intent.putExtra("selectedAnimalSpecies", animal.getSpecies());
+        intent.putExtra("selectedAnimalIsAdult", animal.isAdult());
+        intent.putExtra("selectedAnimalIsNeutered", animal.isNeutered());
         startActivity(intent);
-
     }
 }

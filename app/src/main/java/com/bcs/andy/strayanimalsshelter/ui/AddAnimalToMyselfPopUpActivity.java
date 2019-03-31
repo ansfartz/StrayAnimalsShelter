@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -21,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.UUID;
 
-public class AddAnimalsPopUpActivity extends AppCompatActivity {
+public class AddAnimalToMyselfPopUpActivity extends AppCompatActivity {
 
     // Firebase
     private FirebaseUser firebaseUser;
@@ -32,18 +33,23 @@ public class AddAnimalsPopUpActivity extends AppCompatActivity {
     private EditText newAnimalAproxAge;
     private EditText newAnimalObservations;
     private Spinner newAnimalSpecies;
+    private CheckBox newAnimalAdultCheckBox;
+    private CheckBox newAnimalNeuteredCheckBox;
 
     private void init() {
         newAnimalName = (EditText) findViewById(R.id.newAnimalNameET);
         newAnimalAproxAge = (EditText) findViewById(R.id.newAnimalAproxAgeET);
         newAnimalObservations = (EditText) findViewById(R.id.newAnimalObsET);
+        newAnimalAdultCheckBox = (CheckBox) findViewById(R.id.newAnimalAdultCheckBox);
+        newAnimalNeuteredCheckBox = (CheckBox) findViewById(R.id.newAnimalNeuteredCheckBox);
 
-        newAnimalSpecies = (Spinner) findViewById(R.id.animalTypesSpinner);
+        newAnimalSpecies = (Spinner) findViewById(R.id.newAnimalTypeSpinner);
+
 //        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.types_of_animals, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.types_of_animals, R.layout.spinner_item);
+
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         newAnimalSpecies.setAdapter(spinnerAdapter);
-//        newAnimalType.setOnItemSelectedListener(this);
     }
 
     private void initFirebase() {
@@ -54,12 +60,14 @@ public class AddAnimalsPopUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_animals_pop_up);
-        setTitle("Add animal");
+        setContentView(R.layout.activity_add_animal_to_myself_pop_up);
+        setTitle("Add Sheltered Animal");
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-
+//        int width = dm.widthPixels;
+//        int height = dm.heightPixels;
+//        getWindow().setLayout((int)(width * .8), (int)(height * .3));
 
         initFirebase();
         init();
@@ -92,14 +100,16 @@ public class AddAnimalsPopUpActivity extends AppCompatActivity {
 
     public void saveTlbLogic() {
         if (!validate()) {
-            Toast.makeText(AddAnimalsPopUpActivity.this, "Please check field errors and try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddAnimalToMyselfPopUpActivity.this, "Please check field errors and try again", Toast.LENGTH_SHORT).show();
         } else {
             String userUid = firebaseUser.getUid();
             String animalName = newAnimalName.getText().toString().trim();
             String animalSpecies = newAnimalSpecies.getSelectedItem().toString();
             String animalObservations = newAnimalObservations.getText().toString().trim();
-            Integer animalAge = Integer.parseInt(newAnimalAproxAge.getText().toString().trim());
-            Animal animal = new Animal(animalName, animalSpecies, animalAge, animalObservations);
+            Integer animalAproxAge = Integer.parseInt(newAnimalAproxAge.getText().toString().trim());
+            Boolean isAdult = newAnimalAdultCheckBox.isChecked();
+            Boolean isNeutered = newAnimalNeuteredCheckBox.isChecked();
+            Animal animal = new Animal(animalName, animalSpecies, isAdult, isNeutered, animalAproxAge, animalObservations);
             animalsForUserRef.child(userUid).child("animals").child(UUID.randomUUID().toString()).setValue(animal);
 
             finish();

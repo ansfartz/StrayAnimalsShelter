@@ -14,9 +14,9 @@ import android.widget.ProgressBar;
 
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.adapter.MarkerAdapter;
-import com.bcs.andy.strayanimalsshelter.database.UserMarkersDatabase;
-import com.bcs.andy.strayanimalsshelter.database.UserMarkersDatabaseListener;
-import com.bcs.andy.strayanimalsshelter.model.Marker;
+import com.bcs.andy.strayanimalsshelter.database.MarkersDatabase;
+import com.bcs.andy.strayanimalsshelter.database.MarkersDatabaseListener;
+import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -36,7 +36,7 @@ public class MyMarkersFragment extends Fragment {
     private FloatingActionButton addMarkersBtn;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter markerAdapter;
-    private List<Marker> markerList = new ArrayList<>();
+    private List<AnimalMarker> animalMarkerList = new ArrayList<>();
 
     private ConstraintLayout CL;
 
@@ -64,16 +64,16 @@ public class MyMarkersFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UserMarkersDatabase userMarkersDatabase = new UserMarkersDatabase();
-        userMarkersDatabase.readCurrentUserMarkers(new UserMarkersDatabaseListener() {
+        MarkersDatabase markersDatabase = new MarkersDatabase();
+        markersDatabase.readCurrentUserMarkers(new MarkersDatabaseListener() {
             @Override
-            public void onCallBack(List<Marker> list) {
-                markerList.clear();
-                markerList.addAll(list);
+            public void onCallBack(List<AnimalMarker> list) {
+                animalMarkerList.clear();
+                animalMarkerList.addAll(list);
                 markersLoadingProgressBar.setVisibility(View.GONE);
-                Log.d(TAG, "onCallBack: MY MARKERS LIST: " + markerList.toString());
+                Log.d(TAG, "onCallBack: MY MARKERS LIST: " + animalMarkerList.toString());
 
-                markerAdapter = new MarkerAdapter(markerList, getActivity());
+                markerAdapter = new MarkerAdapter(animalMarkerList, getActivity());
                 recyclerView.setAdapter(markerAdapter);
 
             }
@@ -82,7 +82,7 @@ public class MyMarkersFragment extends Fragment {
         // code under readCurrentUserMarkers() will happen first
         // because method is asynchronous
 
-        Log.d(TAG, "AFTER: " + markerList.toString());
+        Log.d(TAG, "AFTER: " + animalMarkerList.toString());
 
     }
 

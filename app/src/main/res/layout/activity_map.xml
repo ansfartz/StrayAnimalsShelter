@@ -20,7 +20,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/redLayout1"
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -60,15 +60,25 @@
     <ImageView
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_below="@id/redLayout1"
+        android:layout_below="@id/relativeLayout"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
         android:id="@+id/ic_gps"
         android:src="@drawable/ic_gps"
-        android:background="#59ffffff"
         />
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/ic_eye"
+        android:src="@drawable/ic_eye"
+        android:layout_below="@id/ic_gps"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"/>
 
 
 </RelativeLayout>

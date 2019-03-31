@@ -1,27 +1,44 @@
 package com.bcs.andy.strayanimalsshelter.model;
 
-public class Marker {
+public class AnimalMarker {
 
-    private String location;
     private Double longitude;
     private Double latitude;
     private Animal animal;
+    private String location;
+    private String userUid;
 
-    public Marker() {
+
+    public AnimalMarker() {
     }
 
-    public Marker(double longitude, double latitude) {
+    public AnimalMarker(Double latitude, Double longitude, Animal animal, String location, String userUid) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.animal = animal;
+        this.location = location;
+        this.userUid = userUid;
+    }
+
+    public AnimalMarker(Double latitude, Double longitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
-    public Marker(Double longitude, Double latitude, Animal animal) {
+    public AnimalMarker(Double latitude, Double longitude, Animal animal) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.animal = animal;
     }
 
-    public Marker(String location, Double longitude, Double latitude, Animal animal) {
+    public AnimalMarker(Double latitude, Double longitude, String location, String userUid) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.location = location;
+        this.userUid = userUid;
+    }
+
+    public AnimalMarker(String location, Double latitude, Double longitude, Animal animal) {
         this.location = location;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -60,13 +77,22 @@ public class Marker {
         this.animal = animal;
     }
 
+    public String getUserUid() {
+        return userUid;
+    }
+
+    public void setUserUid(String userUid) {
+        this.userUid = userUid;
+    }
+
     @Override
     public String toString() {
-        return "Marker{" +
-                "location='" + location + '\'' +
-                ", longitude=" + longitude +
+        return "AnimalMarker{" +
+                "longitude=" + longitude +
                 ", latitude=" + latitude +
                 ", animal=" + animal +
+                ", location='" + location + '\'' +
+                ", userUid='" + userUid + '\'' +
                 '}';
     }
 }

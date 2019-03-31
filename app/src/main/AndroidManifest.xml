@@ -17,7 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.SelectedAnimalActivity"></activity>
+
+        <activity android:name=".ui.SelectedAnimalActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity"/>
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -27,7 +32,7 @@
             android:name=".ui.MapActivity"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".ui.AddAnimalsPopUpActivity"
+            android:name=".ui.AddAnimalToMyselfPopUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.RegisterActivity" />
         <activity

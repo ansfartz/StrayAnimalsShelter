@@ -1,6 +1,9 @@
 package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -20,6 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
+import com.bcs.andy.strayanimalsshelter.database.MarkersDatabase;
+import com.bcs.andy.strayanimalsshelter.database.MarkersDatabaseListener;
+import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -28,11 +34,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,14 +55,23 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 15f;
 
+    // Firebase
+    private MarkersDatabase markersDatabase;
+    private FirebaseAuth firebaseAuth;
+
     // widgets
     private AutoCompleteTextView mSearchText;
-    private ImageView mGps;
+    private ImageView gpsImageView;
+    private ImageView toogleMyMarkersImageView;
 
     // vars
     private Boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap mMap;
+    private Geocoder geocoder;
+
+    private List<Marker> myMarkersList;
+    private Boolean myMarkersVisible = false;
 
 
     @Override
@@ -63,7 +80,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         setContentView(R.layout.activity_map);
 
         mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search_ET);
-        mGps = (ImageView) findViewById(R.id.ic_gps);
+        gpsImageView = (ImageView) findViewById(R.id.ic_gps);
+        toogleMyMarkersImageView = (ImageView) findViewById(R.id.ic_eye);
+
+
 
         getLocationPermission();
 
@@ -104,6 +124,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
             initListeners();
+            startUserMarkersListener();
 
         }
     }
@@ -112,7 +133,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private void initListeners() {
         Log.d(TAG, "initListeners: initializing SearchText");
 
-        mGps.setOnClickListener(new View.OnClickListener() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        geocoder = new Geocoder(MapActivity.this);
+        markersDatabase = new MarkersDatabase();
+        myMarkersList = new ArrayList<>();
+
+        gpsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked GPS icon");
@@ -120,26 +146,53 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
+
+        toogleMyMarkersImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: clicked myMarkers icon");
+                toggleMyMarkers();
+            }
+        });
+
+
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
-
+                // if ENTER key is pressed
                 if (actionId == EditorInfo.IME_ACTION_SEARCH
                         || actionId == EditorInfo.IME_ACTION_DONE
                         || keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-
                     geoLocate();
-
                 }
-
                 return false;
             }
         });
 
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                List<Address> addresses = new ArrayList<>();
+                try {
+                    addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String locationTitle = addresses.get(0).getAddressLine(0);
+
+                AnimalMarker marker = new AnimalMarker(latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
+                markersDatabase.addMarker(marker);
+
+            }
+        });
+
+
     }
 
-
+    /**
+     *   Find LatLng from locationName, and move camera on it
+     */
     private void geoLocate() {
         Log.d(TAG, "geoLocate: geoLocating");
 
@@ -160,13 +213,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
 
             LatLng searchedPlace = new LatLng(address.getLatitude(), address.getLongitude());
-            moveCamera(searchedPlace, DEFAULT_ZOOM, address.getAddressLine(0));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchedPlace, DEFAULT_ZOOM));
 
         }
 
     }
 
-
+    /**
+     *   Checks if App Permissions are allowed.
+     *   <p>
+     *   If not, Prompts the user for them using {@link ActivityCompat#requestPermissions(Activity, String[], int)}
+     *   </p>
+     */
     private void getLocationPermission() {
         Log.d(TAG, "getLocationPermission: GETTING LOCATION PERMISSIONS");
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -211,6 +269,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
+    /**
+     *   Finds device's last location using {@link LocationServices#getFusedLocationProviderClient(Context)} and centers camera on it's coordinates
+     */
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -228,7 +289,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
                             LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                             Log.d(TAG, "onComplete: moving the camera to: lat: " + currentLatLng.latitude + ", long: " + currentLatLng.longitude);
-                            moveCamera(currentLatLng, DEFAULT_ZOOM, "My Location");
+                            moveCameraAndAddMarker(currentLatLng, DEFAULT_ZOOM, "My Location");
 //                            mMap.addMarker(new MarkerOptions().position(currentLatLng).title("You are here"));
 
 
@@ -246,8 +307,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
-    private void moveCamera(LatLng latLng, float zoom, String title) {
-        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", long: " + latLng.longitude);
+    /**
+     * Moves camera and adds a marker on specified coordinates
+     * @param latLng contains coordinates where the map will be centered on
+     * @param zoom the desired zoom level, in the range of 2.0 to 21.0. Values below this range are set to 2.0, and values above it are set to 21.0.
+     * @param title the title to be set on the marker
+     */
+    private void moveCameraAndAddMarker(LatLng latLng, float zoom, String title) {
+        Log.d(TAG, "moveCameraAndAddMarker: moving the camera to: lat: " + latLng.latitude + ", long: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
         if (!title.equals("My Location")) {
@@ -256,12 +323,80 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             mMap.addMarker(options);
         }
 
-
     }
-
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MapActivity.this, MainActivity.class));
+        finish();
+    }
+
+
+
+    private void startUserMarkersListener() {
+        markersDatabase.readCurrentUserMarkers(new MarkersDatabaseListener() {
+            @Override
+            public void onCallBack(List<AnimalMarker> list) {
+                Log.d(TAG, "onCallBack: AnimalsMarkers/ myMarkersList updated");
+
+                clearAllMyMarkers();
+                for (AnimalMarker animalMarker : list) {
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(animalMarker.getLatitude(), animalMarker.getLongitude()))
+                            .title(animalMarker.getLocation())
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                            .visible(true));
+                    Log.d(TAG, "onCallBack: made visible: " + marker.getTitle());
+                    myMarkersList.add(marker);
+                    Log.d(TAG, "onCallBack: myMarkersList is: " + myMarkersList);
+                }
+            }
+        });
+    }
+
+
+
+
+    public void toggleMyMarkers() {
+        Log.d(TAG, "toggleMyMarkers: toggling markers");
+        if (!myMarkersVisible) {
+            Log.d(TAG, "toggleMyMarkers: starting markers drawing");
+            showAllMyMarkers();
+            myMarkersVisible = true;
+
+        } else {
+            Log.d(TAG, "toggleMyMarkers: starting markers removal");
+            hideAllMyMarkers();
+            myMarkersVisible = false;
+        }
+    }
+
+    public void clearAllMyMarkers() {
+        for (Marker marker : myMarkersList) {
+            marker.remove();
+        }
+        myMarkersList.clear();
+    }
+
+    public void hideAllMyMarkers() {
+        for (Marker marker : myMarkersList) {
+            marker.setVisible(false);
+            Log.d(TAG, "showAllMyMarkers: making INVISIBLE:" + marker.getTitle());
+        }
+    }
+
+    public void showAllMyMarkers() {
+        for (Marker marker : myMarkersList) {
+            marker.setVisible(true);
+            Log.d(TAG, "showAllMyMarkers: making VISIBLE:" + marker.getTitle());
+        }
+    }
+
+
+
 }
