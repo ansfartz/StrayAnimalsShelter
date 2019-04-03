@@ -2,6 +2,7 @@ package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Base64;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -66,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationViewEmail = (TextView) headerView.findViewById(R.id.nav_email);
     }
 
+    /**
+     * Uploading and updating a user's name that has just registered is an Async task,
+     * therefore the name will not be updated yet upon calling setText() in {@link #navigationViewEmail} inside this method
+     * If {@link MainActivity} has been started from {@link RegisterActivity}, this will correctly set the navigation username using the Bundle.
+     */
     private void setNavigationUserDetails() {
         if (user.getDisplayName() == null)
             navigationViewUsername.setText(getIntent().getExtras().getString("displayName"));
@@ -125,10 +133,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -142,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .commit();
                 break;
             case R.id.nav_map:
-                Intent intent = new Intent(MainActivity.this, MapActivity.class);
-                startActivity(intent);
+                Intent mapIntent = new Intent(MainActivity.this, MapActivity.class);
+                startActivity(mapIntent);
                 finish();
                 break;
             case R.id.nav_markers:
@@ -158,6 +165,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_shelter:
                 Toast.makeText(this, "SHELTERS", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.nav_feedback:
+
+                String sendTo[] = new String[]{"carolsfartz@gmail.com"};
+
+                String deviceInformation = "\n\n\n\n\n\nOS Version: " + System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")" +
+                        "\n OS API Level: " + android.os.Build.VERSION.SDK_INT +
+                        "\n Device: " + android.os.Build.DEVICE +
+                        "\n Model: " + android.os.Build.MODEL;
+
+                Intent emailIntent = new Intent(Intent.ACTION_SEND)
+                        .setType("plain/text")
+                        .putExtra(Intent.EXTRA_EMAIL, sendTo)
+                        .putExtra(Intent.EXTRA_SUBJECT, "Stray Animals Shelter Feedback")
+                        .putExtra(Intent.EXTRA_TEXT, deviceInformation);
+                startActivity(Intent.createChooser(emailIntent, ""));
+
+                break;
+
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -166,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * Check if user's device has the required Google Play Services version installed
+     *
      * @return true if required version is available and installed, otherwise false and  prompts the user to update the current version of Google Play Services if possible on device
      */
     public boolean isServicesOK() {

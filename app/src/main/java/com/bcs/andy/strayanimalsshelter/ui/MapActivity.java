@@ -85,7 +85,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         toogleMyMarkersImageView = (ImageView) findViewById(R.id.ic_eye);
 
 
-
         getLocationPermission();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -184,6 +183,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     e.printStackTrace();
                 }
                 String locationTitle = addresses.get(0).getAddressLine(0);
+                Log.d(TAG, "onMapLongClick: addresses = " + addresses.get(0));
 
                 AnimalMarker marker = new AnimalMarker(latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
                 markersDatabase.addMarker(marker);
@@ -196,7 +196,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     /**
-     *   Find LatLng from locationName, and move camera on it
+     * Find LatLng from locationName, and move camera on it
      */
     private void geoLocate() {
         Log.d(TAG, "geoLocate: geoLocating");
@@ -225,10 +225,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     /**
-     *   Checks if App Permissions are allowed.
-     *   <p>
-     *   If not, Prompts the user for them using {@link ActivityCompat#requestPermissions(Activity, String[], int)}
-     *   </p>
+     * Checks if App Permissions are allowed.
+     * <p>
+     * If not, Prompts the user for them using {@link ActivityCompat#requestPermissions(Activity, String[], int)}
+     * </p>
      */
     private void getLocationPermission() {
         Log.d(TAG, "getLocationPermission: GETTING LOCATION PERMISSIONS");
@@ -247,9 +247,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
-
     /**
-     *   Finds device's last location using {@link LocationServices#getFusedLocationProviderClient(Context)} and centers camera on it's coordinates
+     * Finds device's last location using {@link LocationServices#getFusedLocationProviderClient(Context)} and centers camera on it's coordinates
      */
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
@@ -286,13 +285,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
-
-
     /**
      * Moves camera and adds a marker on specified coordinates
+     *
      * @param latLng contains coordinates where the map will be centered on
-     * @param zoom the desired zoom level, in the range of 2.0 to 21.0. Values below this range are set to 2.0, and values above it are set to 21.0.
-     * @param title the title to be set on the marker
+     * @param zoom   the desired zoom level, in the range of 2.0 to 21.0. Values below this range are set to 2.0, and values above it are set to 21.0.
+     * @param title  the title to be set on the marker
      */
     private void moveCameraAndAddMarker(LatLng latLng, float zoom, String title) {
         Log.d(TAG, "moveCameraAndAddMarker: moving the camera to: lat: " + latLng.latitude + ", long: " + latLng.longitude);
@@ -305,7 +303,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
 
     }
-
 
 
     private void startMarkersListener() {
@@ -345,7 +342,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             public void onAllMarkersCallBack(List<AnimalMarker> list) {
 
                 clearAllPublicMarkers();
-                for(AnimalMarker animalMarker : list) {
+                for (AnimalMarker animalMarker : list) {
                     Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(animalMarker.getLatitude(), animalMarker.getLongitude()))
                             .title(animalMarker.getLocation())
@@ -360,8 +357,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         });
     }
-
-
 
 
     public void toggleMyMarkers() {
@@ -384,7 +379,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     public void clearAllPublicMarkers() {
-        for(Marker marker : allMarkersList) {
+        for (Marker marker : allMarkersList) {
             marker.remove();
         }
         allMarkersList.clear();
@@ -406,7 +401,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     private void drawPublicMarkers() {
         Log.d(TAG, "drawPublicMarkers: am here");
-        for(Marker marker: allMarkersList) {
+        for (Marker marker : allMarkersList) {
             Log.d(TAG, "drawPublicMarkers: drawing marker: lat:" + marker.getPosition().latitude + " long:" + marker.getPosition().longitude);
             marker.setVisible(true);
         }

@@ -33,11 +33,12 @@
                 android:id="@+id/nav_shelter"
                 android:icon="@drawable/ic_shelter"
                 android:title="Shelters"/>
-
-
         </menu>
-
-
     </item>
+
+    <item
+        android:id="@+id/nav_feedback"
+        android:icon="@drawable/ic_feedback"
+        android:title="Feedback"></item>
 
 </menu>
