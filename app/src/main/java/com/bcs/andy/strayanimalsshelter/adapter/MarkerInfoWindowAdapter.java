@@ -20,17 +20,14 @@ public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
     }
 
     private void renderWindowText(Marker marker, View view) {
-        String title = marker.getTitle();
-        String snippet = marker.getSnippet();
-        TextView titleTextView = (TextView) view.findViewById(R.id.miwLocation);
-        TextView snippetTextView = (TextView) view.findViewById(R.id.miwAnimalName);
 
+        // example code to come here
+        String title = marker.getTitle();
+        TextView titleTextView = (TextView) view.findViewById(R.id.miwLocation);
         if(!title.equals("")) {
             titleTextView.setText(title);
         }
-        if(!snippet.equals("")) {
-            snippetTextView.setText(snippet);
-        }
+
     }
 
 

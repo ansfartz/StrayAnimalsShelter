@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,8 +43,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
@@ -70,8 +74,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private GoogleMap mMap;
     private Geocoder geocoder;
 
-    private List<Marker> myMarkersList;
-    private List<Marker> allMarkersList;
+    private HashMap<Marker, AnimalMarker> myMarkersHashMap;
+    private HashMap<Marker, AnimalMarker> allMarkersHashMap;
     private Boolean myMarkersVisible = true;
 
 
@@ -122,9 +126,54 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+//            mMap.getUiSettings().setMapToolbarEnabled(false);     // the 2 buttons in the lower right, after clicking a marker
 
             initListeners();
             startMarkersListener();
+
+            mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                @Override
+                public View getInfoWindow(Marker marker) {
+                    View view = getLayoutInflater().inflate(R.layout.marker_info_window, null);
+                    AnimalMarker animalMarker = allMarkersHashMap.get(marker);
+                    if (animalMarker == null) {
+                        animalMarker = myMarkersHashMap.get(marker);
+                    }
+                    Log.d(TAG, "getInfoWindow: animalMarker --> " + animalMarker);
+
+                    TextView miwLocation = (TextView) view.findViewById(R.id.miwLocation);
+                    TextView miwAnimalName = (TextView) view.findViewById(R.id.miwAnimalName);
+                    CheckBox miwAdultCB = (CheckBox) view.findViewById(R.id.miwAdultCB);
+                    CheckBox miwNeuteredCB = (CheckBox) view.findViewById(R.id.miwNeuteredCB);
+                    TextView miwAnimalAge = (TextView) view.findViewById(R.id.miwAnimalAge);
+                    ImageView miwImage = (ImageView) view.findViewById(R.id.miwImage);
+
+                    miwLocation.setText(marker.getTitle());
+                    miwAnimalName.setText(animalMarker.getAnimal().getAnimalName());
+                    miwAnimalAge.setText(animalMarker.getAnimal().getAproxAge().toString() + " yrs");
+                    miwAdultCB.setChecked(animalMarker.getAnimal().isAdult());
+                    Log.d(TAG, "getInfoWindow: made AdultCB = " + animalMarker.getAnimal().isAdult());
+                    miwNeuteredCB.setChecked(animalMarker.getAnimal().isNeutered());
+                    switch (animalMarker.getAnimal().getSpecies()) {
+                        case "dog":
+                            miwImage.setImageResource(R.drawable.dog_icon);
+                            break;
+                        case "cat":
+                            miwImage.setImageResource(R.drawable.cat_icon);
+                            break;
+                        default:
+                            miwImage.setImageResource(R.drawable.cat_icon);
+                    }
+
+                    return view;
+                }
+
+                @Override
+                public View getInfoContents(Marker marker) {
+                    return null;
+                }
+            });
+
 
             // TODO: move drawMarkers inside getDeviceLocation, and implement it so that only markers in a certain range will be displayed( maybe? )
 
@@ -138,8 +187,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         firebaseAuth = FirebaseAuth.getInstance();
         geocoder = new Geocoder(MapActivity.this);
         markersDatabase = new MarkersDatabase();
-        myMarkersList = new ArrayList<>();
-        allMarkersList = new ArrayList<>();
+        myMarkersHashMap = new HashMap<>();
+        allMarkersHashMap = new HashMap<>();
 
         gpsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,10 +212,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
                 // if ENTER key is pressed
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
                     geoLocate();
                 }
                 return false;
@@ -196,7 +243,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     /**
-     * Find LatLng from locationName, and move camera on it
+     * Find Address from String in Search Bar, and move camera there
      */
     private void geoLocate() {
         Log.d(TAG, "geoLocate: geoLocating");
@@ -215,7 +262,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         if (list.size() > 0) {
             Address address = list.get(0);
             Log.d(TAG, "geoLocate: found at location: " + address.toString());
-
 
             LatLng searchedPlace = new LatLng(address.getLatitude(), address.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchedPlace, DEFAULT_ZOOM));
@@ -309,7 +355,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         markersDatabase.readCurrentUserMarkers(new MarkersDatabaseListener() {
             @Override
             public void onCurrentUserMarkersCallBack(List<AnimalMarker> list) {
-                Log.d(TAG, "onCurrentUserMarkersCallBack: myMarkersList updated");
+                Log.d(TAG, "onCurrentUserMarkersCallBack: myMarkersHashMap updated");
 
                 clearAllMyMarkers();
                 for (AnimalMarker animalMarker : list) {
@@ -319,8 +365,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                             .visible(myMarkersVisible));
 
-                    Log.d(TAG, "onCurrentUserMarkersCallBack: created my marker at: " + marker.getTitle());
-                    myMarkersList.add(marker);
+                    Log.d(TAG, "onCurrentUserMarkersCallBack: created a marker at: " + marker.getTitle());
+                    myMarkersHashMap.put(marker, animalMarker);
                 }
             }
 
@@ -350,7 +396,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                             .visible(true));
 
                     Log.d(TAG, "onAllMarkersCallBack: created public marker at: " + marker.getTitle());
-                    allMarkersList.add(marker);
+                    allMarkersHashMap.put(marker, animalMarker);
                 }
                 drawPublicMarkers();
 
@@ -372,28 +418,28 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     public void clearAllMyMarkers() {
-        for (Marker marker : myMarkersList) {
+        for (Marker marker : myMarkersHashMap.keySet()) {
             marker.remove();
         }
-        myMarkersList.clear();
+        myMarkersHashMap.clear();
     }
 
     public void clearAllPublicMarkers() {
-        for (Marker marker : allMarkersList) {
+        for (Marker marker : allMarkersHashMap.keySet()) {
             marker.remove();
         }
-        allMarkersList.clear();
+        allMarkersHashMap.clear();
     }
 
     public void hideAllMyMarkers() {
-        for (Marker marker : myMarkersList) {
+        for (Marker marker : myMarkersHashMap.keySet()) {
             marker.setVisible(false);
             Log.d(TAG, "showAllMyMarkers: making INVISIBLE:" + marker.getTitle());
         }
     }
 
     public void showAllMyMarkers() {
-        for (Marker marker : myMarkersList) {
+        for (Marker marker : myMarkersHashMap.keySet()) {
             marker.setVisible(true);
             Log.d(TAG, "showAllMyMarkers: making VISIBLE:" + marker.getTitle());
         }
@@ -401,7 +447,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     private void drawPublicMarkers() {
         Log.d(TAG, "drawPublicMarkers: am here");
-        for (Marker marker : allMarkersList) {
+        for (Marker marker : allMarkersHashMap.keySet()) {
             Log.d(TAG, "drawPublicMarkers: drawing marker: lat:" + marker.getPosition().latitude + " long:" + marker.getPosition().longitude);
             marker.setVisible(true);
         }
@@ -421,7 +467,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     for (int i = 0; i < grantResults.length; i++) {
                         if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                             mLocationPermissionGranted = false;
-                            Log.d(TAG, "onRequestPermissionsResult: PERMISSION FAILED");
+                            Log.d(TAG, "onRequestPermissionsResult: PERMISSION DENIED");
                             return;
                         }
                     }

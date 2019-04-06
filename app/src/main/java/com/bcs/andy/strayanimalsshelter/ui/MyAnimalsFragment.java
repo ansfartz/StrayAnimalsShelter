@@ -111,7 +111,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         addAnimalsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddAnimalToMyselfPopUpActivity.class));
+                startActivity(new Intent(getActivity(), AddAnimalToMyselfActivity.class));
             }
         });
 

@@ -5,32 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.AddAnimalToMyselfPopUpActivity">
+    tools:context=".ui.AddAnimalToMyselfActivity">
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="400dp"
+        android:layout_marginBottom="444dp"
         android:elevation="20dp"
         android:src="@mipmap/ic_launcher_foreground"
         app:layout_constraintBottom_toBottomOf="@+id/addAnimalLayout"
         app:layout_constraintEnd_toEndOf="@+id/addAnimalLayout"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/addAnimalLayout" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/addAnimalLayout"
-        android:layout_width="316dp"
-        android:layout_height="450dp"
+        android:layout_width="315dp"
+        android:layout_height="503dp"
         android:layout_centerInParent="true"
         android:background="@drawable/round_white_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/newAnimalPictureImageView"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/grey_border_background"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_upload_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <EditText
@@ -39,7 +51,7 @@
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="26dp"
-            android:layout_marginTop="76dp"
+            android:layout_marginTop="232dp"
             android:layout_marginEnd="8dp"
 
             android:background="@drawable/newanimalname_background"
@@ -51,7 +63,7 @@
             android:textColorHint="#477210"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.024"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +74,7 @@
             android:layout_height="59dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/round_grey_background"
             android:hint="Additional observations..."
@@ -83,20 +95,21 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="76dp"
+            android:layout_marginTop="0dp
+"
             android:layout_toEndOf="@+id/newAnimalNameET"
             android:background="@drawable/newanimalspinner_background"
             android:spinnerMode="dropdown"
             android:textColor="#477210"
             app:layout_constraintStart_toEndOf="@+id/newAnimalNameET"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/newAnimalNameET" />
 
         <EditText
             android:id="@+id/newAnimalAproxAgeET"
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/round_grey_background"
             android:hint="Aprox. Age"
             android:inputType="number"
@@ -113,11 +126,11 @@
             android:id="@+id/newAnimalAdultCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:text=" Adult"
             android:textColor="#ff000000"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/newAnimalNeuteredCheckBox"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newAnimalAproxAgeET" />
@@ -126,13 +139,13 @@
             android:id="@+id/newAnimalNeuteredCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="24dp"
             android:text=" Neutered"
             android:textColor="#ff000000"
             android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newAnimalAdultCheckBox" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/newAnimalAdultCheckBox"
+            app:layout_constraintTop_toTopOf="@+id/newAnimalAdultCheckBox" />
 
 
     </android.support.constraint.ConstraintLayout>

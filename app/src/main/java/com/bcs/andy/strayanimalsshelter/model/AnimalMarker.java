@@ -1,5 +1,7 @@
 package com.bcs.andy.strayanimalsshelter.model;
 
+import java.util.Objects;
+
 public class AnimalMarker {
 
     private Double longitude;
@@ -94,5 +96,22 @@ public class AnimalMarker {
                 ", location='" + location + '\'' +
                 ", userUid='" + userUid + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnimalMarker that = (AnimalMarker) o;
+        return Objects.equals(longitude, that.longitude) &&
+                Objects.equals(latitude, that.latitude) &&
+                Objects.equals(animal, that.animal) &&
+                Objects.equals(location, that.location) &&
+                Objects.equals(userUid, that.userUid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(longitude, latitude, animal, location, userUid);
     }
 }

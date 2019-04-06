@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Allows an app to access approximate location. -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Used by the API to download map tiles from Google Maps servers. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Allows the API to check the connection status in order to determine whether data can be downloaded -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyFirebaseApp"
@@ -32,7 +34,7 @@
             android:name=".ui.MapActivity"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".ui.AddAnimalToMyselfPopUpActivity"
+            android:name=".ui.AddAnimalToMyselfActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.RegisterActivity" />
         <activity
@@ -45,6 +47,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <provider
+            android:authorities="com.bcs.andy.strayanimalsshelter.ui.AddAnimalToMyselfActivity.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+
+        </provider>
+
+
+
     </application>
 
 </manifest>
