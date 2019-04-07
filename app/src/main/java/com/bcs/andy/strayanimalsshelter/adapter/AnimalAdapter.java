@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_my_animals, parent, false);
+                .inflate(R.layout.list_item_my_animals_2, parent, false);
         return new ViewHolder(view, animalAdapterListener);
     }
 
@@ -45,29 +46,26 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         String aproxAge = String.valueOf(animal.getAproxAge()) + " yrs";
         holder.textViewAproxAge.setText(aproxAge);
         holder.textViewName.setText(animal.getAnimalName());
-
-        if(animal.getObservations().length() > 110) {
-            String obs = animal.getObservations().substring(0, 107).concat("...");
-            holder.textViewObs.setText(obs);
-        }
-        else {
-            holder.textViewObs.setText(animal.getObservations());
-        }
+        holder.textViewObs.setText(animal.getObservations());
 
 
         switch (animal.getSpecies()) {
             case "dog":
-                holder.imageViewSpecies.setImageResource(R.drawable.dog_icon);
+                holder.speciesImageView.setImageResource(R.drawable.dog_icon);
                 break;
             case "cat":
-                holder.imageViewSpecies.setImageResource(R.drawable.cat_icon);
+                holder.speciesImageView.setImageResource(R.drawable.cat_icon);
                 break;
             default:
-                holder.imageViewSpecies.setImageResource(R.drawable.dog_icon);
+                holder.speciesImageView.setImageResource(R.drawable.dog_icon);
         }
 
         holder.neutredCheckBox.setChecked(animal.isNeutered());
         holder.adultCheckBox.setChecked(animal.isAdult());
+
+        if( animal.getPhotoLink() != null) {
+            Picasso.get().load(animal.getPhotoLink()).fit().into(holder.photoImageView);
+        }
 
     }
 
@@ -81,7 +79,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         CardView cardView;
         TextView textViewName, textViewObs, textViewAproxAge;
         CheckBox neutredCheckBox, adultCheckBox;
-        ImageView imageViewSpecies;
+        ImageView speciesImageView;
+        ImageView photoImageView;
 
         AnimalAdapterListener animalAdapterListener;
 
@@ -90,10 +89,12 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
             textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
             textViewAproxAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
-            imageViewSpecies = (ImageView) itemView.findViewById(R.id.imageViewMarker);
+            speciesImageView = (ImageView) itemView.findViewById(R.id.imageViewMarker);
             neutredCheckBox = (CheckBox) itemView.findViewById(R.id.neuteredCheckBox);
             adultCheckBox = (CheckBox) itemView.findViewById(R.id.adultCheckBox);
             cardView = (CardView) itemView.findViewById(R.id.list_item_animals_CardView);
+
+            photoImageView = (ImageView) itemView.findViewById(R.id.animalPhotoImageView);
 
             this.animalAdapterListener = animalAdapterListener;
 

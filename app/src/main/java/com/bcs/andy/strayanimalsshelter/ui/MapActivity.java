@@ -27,6 +27,8 @@ import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabase;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
+import com.github.clans.fab.FloatingActionMenu;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -42,8 +44,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,7 +66,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     // widgets
     private AutoCompleteTextView mSearchText;
     private ImageView gpsImageView;
-    private ImageView toogleMyMarkersImageView;
+    private FloatingActionMenu floatingActionMenu;
+    private FloatingActionButton floatingActionButton1 , floatingActionButton2;
+
 
     // vars
     private Boolean mLocationPermissionGranted = false;
@@ -77,6 +79,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private HashMap<Marker, AnimalMarker> myMarkersHashMap;
     private HashMap<Marker, AnimalMarker> allMarkersHashMap;
     private Boolean myMarkersVisible = true;
+    private Boolean allMarkersVisible = true;
 
 
     @Override
@@ -85,8 +88,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         setContentView(R.layout.activity_map);
 
         mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search_ET);
-        gpsImageView = (ImageView) findViewById(R.id.ic_gps);
-        toogleMyMarkersImageView = (ImageView) findViewById(R.id.ic_eye);
+        gpsImageView = (ImageView) findViewById(R.id.findMyLocationImageView);
 
 
         getLocationPermission();
@@ -128,7 +130,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 //            mMap.getUiSettings().setMapToolbarEnabled(false);     // the 2 buttons in the lower right, after clicking a marker
 
-            initListeners();
+            init();
             startMarkersListener();
 
             mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
@@ -150,6 +152,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
                     miwLocation.setText(marker.getTitle());
                     miwAnimalName.setText(animalMarker.getAnimal().getAnimalName());
+                    Log.d(TAG, "getInfoWindow: animal name: " + animalMarker.getAnimal().getAnimalName());
+                    Log.d(TAG, "getInfoWindow: age: "+ animalMarker.getAnimal().getAproxAge());
                     miwAnimalAge.setText(animalMarker.getAnimal().getAproxAge().toString() + " yrs");
                     miwAdultCB.setChecked(animalMarker.getAnimal().isAdult());
                     Log.d(TAG, "getInfoWindow: made AdultCB = " + animalMarker.getAnimal().isAdult());
@@ -181,8 +185,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
-    private void initListeners() {
-        Log.d(TAG, "initListeners: initializing SearchText");
+    private void init() {
+        Log.d(TAG, "init: initializing SearchText");
 
         firebaseAuth = FirebaseAuth.getInstance();
         geocoder = new Geocoder(MapActivity.this);
@@ -195,15 +199,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked GPS icon");
                 getDeviceLocation();
-            }
-        });
-
-
-        toogleMyMarkersImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: clicked myMarkers icon");
-                toggleMyMarkers();
             }
         });
 
@@ -240,7 +235,27 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         });
 
 
+        floatingActionButton1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_item1_toggleMyMarkers);
+        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: clicked toggleMyMarkers icon");
+                toggleMyMarkers();
+            }
+        });
+        floatingActionButton2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_item2_toggleAllMarkers);
+        floatingActionButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: clicked toggleMyMarkers icon");
+                toggleAllMarkers();
+            }
+        });
+
+
     }
+
+
 
     /**
      * Find Address from String in Search Bar, and move camera there
@@ -357,7 +372,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             public void onCurrentUserMarkersCallBack(List<AnimalMarker> list) {
                 Log.d(TAG, "onCurrentUserMarkersCallBack: myMarkersHashMap updated");
 
-                clearAllMyMarkers();
+                clearMyMarkers();
                 for (AnimalMarker animalMarker : list) {
                     Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(animalMarker.getLatitude(), animalMarker.getLongitude()))
@@ -387,18 +402,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onAllMarkersCallBack(List<AnimalMarker> list) {
 
-                clearAllPublicMarkers();
+                clearAllMarkers();
                 for (AnimalMarker animalMarker : list) {
                     Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(animalMarker.getLatitude(), animalMarker.getLongitude()))
                             .title(animalMarker.getLocation())
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                            .visible(true));
+                            .visible(allMarkersVisible));
 
                     Log.d(TAG, "onAllMarkersCallBack: created public marker at: " + marker.getTitle());
                     allMarkersHashMap.put(marker, animalMarker);
                 }
-                drawPublicMarkers();
+                showAllMarkers();
 
             }
         });
@@ -407,51 +422,70 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     public void toggleMyMarkers() {
         if (!myMarkersVisible) {
-            Log.d(TAG, "toggleMyMarkers: VISIBLE");
-            showAllMyMarkers();
+            Log.d(TAG, "toggleMyMarkers: make VISIBLE");
+            showMyMarkers();
             myMarkersVisible = true;
         } else {
-            Log.d(TAG, "toggleMyMarkers: INVISIBLE");
-            hideAllMyMarkers();
+            Log.d(TAG, "toggleMyMarkers: make INVISIBLE");
+            hideMyMarkers();
             myMarkersVisible = false;
         }
     }
 
-    public void clearAllMyMarkers() {
+    public void toggleAllMarkers() {
+        if(!allMarkersVisible) {
+            Log.d(TAG, "toggleAllMarkers: make VISIBLE");
+            showAllMarkers();
+            allMarkersVisible = true;
+        } else {
+            Log.d(TAG, "toggleAllMarkers: make INVISIBLE");
+            hideAllMarkers();
+            allMarkersVisible = false;
+        }
+    }
+
+    public void clearMyMarkers() {
         for (Marker marker : myMarkersHashMap.keySet()) {
             marker.remove();
         }
         myMarkersHashMap.clear();
     }
 
-    public void clearAllPublicMarkers() {
+    public void clearAllMarkers() {
         for (Marker marker : allMarkersHashMap.keySet()) {
             marker.remove();
         }
         allMarkersHashMap.clear();
     }
 
-    public void hideAllMyMarkers() {
+    public void hideMyMarkers() {
         for (Marker marker : myMarkersHashMap.keySet()) {
             marker.setVisible(false);
-            Log.d(TAG, "showAllMyMarkers: making INVISIBLE:" + marker.getTitle());
+            Log.d(TAG, "showMyMarkers: making INVISIBLE:" + marker.getTitle());
         }
     }
 
-    public void showAllMyMarkers() {
+    public void hideAllMarkers() {
+        for (Marker marker : allMarkersHashMap.keySet()) {
+            marker.setVisible(false);
+            Log.d(TAG, "hideAllMarkers: making INVISIBLE:" + marker.getTitle());
+        }
+    }
+
+    public void showMyMarkers() {
         for (Marker marker : myMarkersHashMap.keySet()) {
             marker.setVisible(true);
-            Log.d(TAG, "showAllMyMarkers: making VISIBLE:" + marker.getTitle());
+            Log.d(TAG, "showMyMarkers: making VISIBLE:" + marker.getTitle());
         }
     }
 
-    private void drawPublicMarkers() {
-        Log.d(TAG, "drawPublicMarkers: am here");
+    public void showAllMarkers() {
         for (Marker marker : allMarkersHashMap.keySet()) {
-            Log.d(TAG, "drawPublicMarkers: drawing marker: lat:" + marker.getPosition().latitude + " long:" + marker.getPosition().longitude);
             marker.setVisible(true);
+            Log.d(TAG, "showAllMarkers: making VISIBLE:" + marker.getTitle());
         }
     }
+
 
 
     // Callback for the result from requesting permissions.

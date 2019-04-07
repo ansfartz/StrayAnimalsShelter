@@ -2,12 +2,14 @@ package com.bcs.andy.strayanimalsshelter.model;
 
 public class Animal {
 
+    private String animalID;
     private String animalName;
     private String species;        // Dog / Cat
     private String observations;
     private Integer aproxAge;
     private Boolean adult;
     private Boolean neutered;
+    private String photoLink;
 
 
     public Animal() {
@@ -27,6 +29,24 @@ public class Animal {
         this.neutered = neutered;
         this.aproxAge = aproxAge;
         this.observations = observations;
+    }
+
+    public Animal(String animalID, String animalName, String species, Boolean adult, Boolean neutered, Integer aproxAge, String observations) {
+        this.animalID = animalID;
+        this.animalName = animalName;
+        this.species = species;
+        this.adult = adult;
+        this.neutered = neutered;
+        this.aproxAge = aproxAge;
+        this.observations = observations;
+    }
+
+    public String getAnimalID() {
+        return animalID;
+    }
+
+    public void setAnimalID(String animalID) {
+        this.animalID = animalID;
     }
 
     public String getAnimalName() {
@@ -77,7 +97,13 @@ public class Animal {
         this.neutered = neutered;
     }
 
+    public String getPhotoLink() {
+        return photoLink;
+    }
 
+    public void setPhotoLink(String photoLink) {
+        this.photoLink = photoLink;
+    }
 
     @Override
     public String toString() {

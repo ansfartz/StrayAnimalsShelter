@@ -3,7 +3,6 @@ package com.bcs.andy.strayanimalsshelter.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +18,7 @@ import com.bcs.andy.strayanimalsshelter.database.UserAnimalsDatabase;
 import com.bcs.andy.strayanimalsshelter.database.UserAnimalsDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.adapter.AnimalAdapter;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -119,9 +119,9 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         addDataBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animal a1 = new Animal("Doggo", "dog", false, false, 2, "Needs immediate medical intervention.");
-                Animal a2 = new Animal("Catto", "cat", true, true, 3, "Should lose weight.");
-                Animal a3 = new Animal("MyAnimalo", "dog", true, false, 3, "nothing");
+                Animal a1 = new Animal("ID1", "Doggo", "dog", false, false, 2, "Needs immediate medical intervention.");
+                Animal a2 = new Animal("ID2", "Catto", "cat", true, true, 3, "Should lose weight.");
+                Animal a3 = new Animal("ID3", "MyAnimalo", "dog", true, false, 3, "nothing");
                 databaseReference.child("animals").child("ID1").setValue(a1);
                 databaseReference.child("animals").child("ID2").setValue(a2);
                 databaseReference.child("animals").child("ID3").setValue(a3);

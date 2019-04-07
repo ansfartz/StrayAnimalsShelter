@@ -39,6 +39,16 @@
                 app:layout_constraintStart_toEndOf="@+id/imageViewMarker"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/animalPhotoImageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintStart_toEndOf="@+id/adultCheckBox"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_no_image_available"/>
+
 
             <TextView
                 android:id="@+id/animalObsTV"

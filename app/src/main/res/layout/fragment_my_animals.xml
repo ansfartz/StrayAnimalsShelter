@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MyAnimalsFragment">
@@ -23,7 +23,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/myAnimalsRecyclerView"
-        android:layout_width="320dp"
+        android:layout_width="342dp"
         android:layout_height="461dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="76dp"
@@ -34,18 +34,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/addAnimalsFloatingActionBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
-        android:layout_marginBottom="24dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="@color/colorAccent"
+        android:layout_marginBottom="18dp"
+        android:src="@drawable/ic_add"
+        app:fab_showShadow="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="#444"
+        fab:fab_colorRipple="#66efecec"
+        fab:fab_elevationCompat="4dp"
+        fab:fab_label=""
+        fab:fab_size="normal" />
 
 
     <ProgressBar
@@ -63,8 +67,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.422" />
-
-
 
 
 </android.support.constraint.ConstraintLayout>

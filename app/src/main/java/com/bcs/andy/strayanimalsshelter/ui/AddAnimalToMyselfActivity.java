@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -33,13 +31,18 @@ import android.widget.Toast;
 
 
 import com.bcs.andy.strayanimalsshelter.R;
+import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabase;
+import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
+import com.bcs.andy.strayanimalsshelter.utils.ImageUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -47,8 +50,8 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
 
     private static final String TAG = "AddAnimalToMyselfActivity";
     private static final String CAMERA = Manifest.permission.CAMERA;
-    private static final String EXTSTORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-    private static final int CAMERA_EXTSTORAGE_PERMISSION_REQUEST_CODE = 200;
+    private static final String WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    private static final int CAMERA_EXT_STORAGE_PERMISSION_REQUEST_CODE = 200;
     private static final int REQUEST_IMAGE_CAPTURED_CODE = 201;
 
     private File imageFile;
@@ -56,8 +59,10 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
 
     // vars
     private Boolean mCameraPermissionGranted = false;
+    private Boolean hasPhotoAssigned = false;
 
     // Firebase
+    private AnimalPhotosDatabase animalPhotosDatabase;
     private FirebaseUser firebaseUser;
     private DatabaseReference animalsForUserRef;
 
@@ -89,11 +94,13 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.types_of_animals, R.layout.spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         newAnimalSpecies.setAdapter(spinnerAdapter);
+
     }
 
 
 
     private void initFirebase() {
+        animalPhotosDatabase = new AnimalPhotosDatabase();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         animalsForUserRef = FirebaseDatabase.getInstance().getReference("users");
     }
@@ -151,8 +158,31 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
             Integer animalAproxAge = Integer.parseInt(newAnimalAproxAge.getText().toString().trim());
             Boolean isAdult = newAnimalAdultCheckBox.isChecked();
             Boolean isNeutered = newAnimalNeuteredCheckBox.isChecked();
-            Animal animal = new Animal(animalName, animalSpecies, isAdult, isNeutered, animalAproxAge, animalObservations);
-            animalsForUserRef.child(userUid).child("animals").child(UUID.randomUUID().toString()).setValue(animal);
+            String animalID = UUID.randomUUID().toString();
+
+            Animal animal = new Animal(animalID, animalName, animalSpecies, isAdult, isNeutered, animalAproxAge, animalObservations);
+
+
+            if(hasPhotoAssigned) {
+
+                animalPhotosDatabase.addPhotoToAnimalGetURL(animal, pathToImageFile, new AnimalPhotosDatabaseListener() {
+                    @Override
+                    public void onPhotoUploadComplete(String uriString) {
+                        Log.d(TAG, "xxxxxx: have received URL! --> " + uriString);
+                        animal.setPhotoLink(uriString);
+                        animalsForUserRef.child(userUid).child("animals").child(animalID).setValue(animal);
+                    }
+                });
+
+            } else {
+
+                animalsForUserRef.child(userUid).child("animals").child(animalID).setValue(animal);
+
+            }
+
+
+
+
 
             finish();
         }
@@ -181,10 +211,10 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
         String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this.getApplicationContext(), EXTSTORAGE) == PackageManager.PERMISSION_GRANTED)
+                && ContextCompat.checkSelfPermission(this.getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
             mCameraPermissionGranted = true;
         else
-            ActivityCompat.requestPermissions(this, permissions, CAMERA_EXTSTORAGE_PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, permissions, CAMERA_EXT_STORAGE_PERMISSION_REQUEST_CODE);
     }
 
     @Override
@@ -193,7 +223,7 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
         mCameraPermissionGranted = false;
 
         switch (requestCode) {
-            case CAMERA_EXTSTORAGE_PERMISSION_REQUEST_CODE: {
+            case CAMERA_EXT_STORAGE_PERMISSION_REQUEST_CODE: {
                 if (grantResults.length > 0) {
                     for (int i = 0; i < grantResults.length; i++) {
                         if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
@@ -217,7 +247,7 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
                 imageFile = null;
 
                 try {
-                    imageFile = createPhotoFile();
+                    imageFile = ImageUtils.createPhotoFile();
                     if (imageFile != null) {
                         pathToImageFile = imageFile.getAbsolutePath();
                         Uri imageURI = FileProvider.getUriForFile(AddAnimalToMyselfActivity.this, "com.bcs.andy.strayanimalsshelter.ui.AddAnimalToMyselfActivity.fileprovider", imageFile);
@@ -237,47 +267,21 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
     }
 
 
-
-    private File createPhotoFile() {
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File tempFile = null;
-        try {
-            tempFile = File.createTempFile("StrayAnimalsShelter-", ".jpg", storageDir);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return tempFile;
-    }
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURED_CODE) {
+            hasPhotoAssigned = true;
             Bitmap bitmap = BitmapFactory.decodeFile(pathToImageFile);
-            bitmap = rotateBitmapIfNecessary(bitmap, pathToImageFile);
+            bitmap = ImageUtils.rotateBitmapIfNecessary(bitmap, pathToImageFile);
+            FileOutputStream fileOutputStream = null;
+            try {
+                fileOutputStream = new FileOutputStream(pathToImageFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
             newAnimalPictureImageView.setImageBitmap(bitmap);
         }
-    }
-
-    private Bitmap rotateBitmapIfNecessary(Bitmap myBitmap, String path) {
-        try {
-            ExifInterface exif = new ExifInterface(path);
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-            Log.d("EXIF", "Exif: " + orientation);
-            Matrix matrix = new Matrix();
-            if (orientation == 6) {
-                matrix.postRotate(90);
-            } else if (orientation == 3) {
-                matrix.postRotate(180);
-            } else if (orientation == 8) {
-                matrix.postRotate(270);
-            }
-            myBitmap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true); // rotating bitmap
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return myBitmap;
     }
 
 

@@ -23,8 +23,6 @@ public class UserAnimalsDatabase {
     private List<Animal> animalList;
 
 
-    // onDataChange will only happen on data changed in it's path :  users/userUid/animals
-    // any other changes outside this URL will not trigger onDataChange method
     public UserAnimalsDatabase() {
         this.firebaseDatabase = FirebaseDatabase.getInstance();
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();

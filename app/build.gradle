@@ -35,6 +35,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    // Floating Action Button
+    implementation 'com.github.clans:fab:1.6.2'
+
+    // Picasso - image downloading and caching library
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     // RecyclerView
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     // CardView for RecyclerView
@@ -47,8 +53,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     // Firebase Database
     implementation 'com.google.firebase:firebase-database:16.0.6'
+    // Firebase Storage
+    implementation 'com.google.firebase:firebase-storage:16.1.0'
+
+
     // Firebase Messaging (not used yet)
     implementation 'com.google.firebase:firebase-messaging:17.4.0'
+
 
     // Google Location and Activity Recognition
     implementation 'com.google.android.gms:play-services-location:16.0.0'
