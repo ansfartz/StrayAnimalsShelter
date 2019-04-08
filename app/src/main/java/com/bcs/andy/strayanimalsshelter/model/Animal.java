@@ -2,6 +2,8 @@ package com.bcs.andy.strayanimalsshelter.model;
 
 public class Animal {
 
+
+
     private String animalID;
     private String animalName;
     private String species;        // Dog / Cat

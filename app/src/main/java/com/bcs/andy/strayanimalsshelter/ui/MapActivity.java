@@ -17,8 +17,12 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -69,11 +73,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     // widgets
     private AutoCompleteTextView mSearchText;
     private ImageView gpsImageView;
+    private ImageView warningImageView;
     private FloatingActionMenu floatingActionMenu;
     private FloatingActionButton toggleMyMarkersBtn, toggleAllMarkersBtn, addAnimalAndMarkerBtn;
 
-
     // vars
+    private Boolean showWarningAnimation = false;
     private Boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap mMap;
@@ -92,6 +97,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
         mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search_ET);
         gpsImageView = (ImageView) findViewById(R.id.findMyLocationImageView);
+
+        warningImageView = (ImageView) findViewById(R.id.warningImageView);
+        createWarningAnimation();
+        warningImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MapActivity.this, "You clicked me", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 
         getLocationPermission();
@@ -545,11 +561,24 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             Toast.makeText(this, data.getStringExtra("some_key"), Toast.LENGTH_SHORT).show();
         }
         else if (resultCode == Activity.RESULT_OK && requestCode == ANIMAL_FOR_MARKER_REQUEST_CODE_FAIL) {
+            // pressed CANCEL button
             Toast.makeText(this, data.getStringExtra("some_key"), Toast.LENGTH_SHORT).show();
         }
         else {
             // pressed BACK button ---> resultCode = 0
-            Toast.makeText(this, "requestCode=" + requestCode + " resultCode=" + resultCode, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,  " resultCode=" + resultCode + "requestCode=" + requestCode, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void createWarningAnimation() {
+        Animation animation = new AlphaAnimation(1, 0);
+        animation.setDuration(1000);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        animation.setRepeatMode(Animation.REVERSE);
+        warningImageView.setAnimation(animation);
+
+
+
     }
 }
