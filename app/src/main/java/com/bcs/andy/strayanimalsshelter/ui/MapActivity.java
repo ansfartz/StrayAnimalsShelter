@@ -9,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -57,6 +58,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final int ANIMAL_FOR_MARKER_REQUEST_CODE_SUCCESS = 222;
+    private static final int ANIMAL_FOR_MARKER_REQUEST_CODE_FAIL = 422;
     private static final float DEFAULT_ZOOM = 15f;
 
     // Firebase
@@ -258,7 +261,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: preparing creation of Animal and Marker");
-                startActivity(new Intent(MapActivity.this, AddAnimalForMarkerActivity.class));
+                Intent animalForMarkerIntent = new Intent(MapActivity.this, AddAnimalForMarkerActivity.class);
+                startActivityForResult(animalForMarkerIntent, ANIMAL_FOR_MARKER_REQUEST_CODE_SUCCESS);
             }
         });
 
@@ -535,4 +539,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == ANIMAL_FOR_MARKER_REQUEST_CODE_SUCCESS) {
+            Toast.makeText(this, data.getStringExtra("some_key"), Toast.LENGTH_SHORT).show();
+        }
+        else if (resultCode == Activity.RESULT_OK && requestCode == ANIMAL_FOR_MARKER_REQUEST_CODE_FAIL) {
+            Toast.makeText(this, data.getStringExtra("some_key"), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            // pressed BACK button ---> resultCode = 0
+            Toast.makeText(this, "requestCode=" + requestCode + " resultCode=" + resultCode, Toast.LENGTH_SHORT).show();
+        }
+    }
 }

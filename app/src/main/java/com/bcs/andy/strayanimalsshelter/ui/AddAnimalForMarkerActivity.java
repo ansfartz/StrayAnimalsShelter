@@ -43,6 +43,8 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
     private static final String CAMERA = Manifest.permission.CAMERA;
     private static final String WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final int CAMERA_EXT_STORAGE_PERMISSION_REQUEST_CODE = 200;
+    private static final int ANIMAL_FOR_MARKER_REQUEST_CODE_SUCCESS = 222;
+    private static final int ANIMAL_FOR_MARKER_REQUEST_CODE_FAIL = 422;
     private static final int REQUEST_IMAGE_CAPTURED_CODE = 201;
 
 
@@ -94,13 +96,19 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("some_key", "WORKED - accept");
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
             }
         });
         cancelBtn = (FloatingActionButton) findViewById(R.id.fab_cancelNewAnimalForMarker);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("some_key", "WORKED - canceled");
+                setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             }
         });
