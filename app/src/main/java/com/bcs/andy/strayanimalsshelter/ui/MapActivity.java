@@ -67,7 +67,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private AutoCompleteTextView mSearchText;
     private ImageView gpsImageView;
     private FloatingActionMenu floatingActionMenu;
-    private FloatingActionButton floatingActionButton1 , floatingActionButton2;
+    private FloatingActionButton toggleMyMarkersBtn, toggleAllMarkersBtn, addAnimalAndMarkerBtn;
 
 
     // vars
@@ -235,20 +235,30 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         });
 
 
-        floatingActionButton1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_item1_toggleMyMarkers);
-        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
+        toggleMyMarkersBtn = (FloatingActionButton) findViewById(R.id.fab_item1_toggleMyMarkers);
+        toggleMyMarkersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked toggleMyMarkers icon");
                 toggleMyMarkers();
             }
         });
-        floatingActionButton2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_item2_toggleAllMarkers);
-        floatingActionButton2.setOnClickListener(new View.OnClickListener() {
+
+        toggleAllMarkersBtn = (FloatingActionButton) findViewById(R.id.fab_item2_toggleAllMarkers);
+        toggleAllMarkersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked toggleMyMarkers icon");
                 toggleAllMarkers();
+            }
+        });
+
+        addAnimalAndMarkerBtn = (FloatingActionButton) findViewById(R.id.fab_addAnimalAndMarker);
+        addAnimalAndMarkerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: preparing creation of Animal and Marker");
+                startActivity(new Intent(MapActivity.this, AddAnimalForMarkerActivity.class));
             }
         });
 
@@ -485,7 +495,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             Log.d(TAG, "showAllMarkers: making VISIBLE:" + marker.getTitle());
         }
     }
-
 
 
     // Callback for the result from requesting permissions.

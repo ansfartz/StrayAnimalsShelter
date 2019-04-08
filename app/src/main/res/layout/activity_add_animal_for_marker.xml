@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.AddAnimalToMyselfActivity">
+    tools:context=".ui.AddAnimalForMarkerActivity">
 
     <ImageView
-        android:id="@+id/addAnimalToMyselfLogo"
+        android:id="@+id/addAnimalForMarkerLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_marginBottom="444dp"
         android:elevation="20dp"
         android:src="@mipmap/ic_launcher_foreground"
-        app:layout_constraintBottom_toBottomOf="@+id/addAnimalLayout"
-        app:layout_constraintEnd_toEndOf="@+id/addAnimalLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/addAnimalForMarkerLayout"
+        app:layout_constraintEnd_toEndOf="@+id/addAnimalForMarkerLayout"
         app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="@+id/addAnimalLayout" />
+        app:layout_constraintStart_toStartOf="@+id/addAnimalForMarkerLayout" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/addAnimalLayout"
+        android:id="@+id/addAnimalForMarkerLayout"
         android:layout_width="315dp"
         android:layout_height="503dp"
         android:layout_centerInParent="true"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/newAnimalPictureImageView"
+            android:id="@+id/newAnimalForMarkerPictureImageView"
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:layout_marginTop="44dp"
@@ -46,12 +46,12 @@
 
 
         <EditText
-            android:id="@+id/newAnimalNameET"
+            android:id="@+id/newAnimalForMarkerNameET"
             android:layout_width="160dp"
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="26dp"
-            android:layout_marginTop="232dp"
+            android:layout_marginTop="228dp"
             android:layout_marginEnd="8dp"
 
             android:background="@drawable/newanimalname_background"
@@ -69,12 +69,12 @@
 
 
         <EditText
-            android:id="@+id/newAnimalObsET"
+            android:id="@+id/newAnimalForMarkerObsET"
             android:layout_width="260dp"
             android:layout_height="59dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/round_grey_background"
             android:hint="Additional observations..."
@@ -88,27 +88,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newAnimalNameET" />
+            app:layout_constraintTop_toBottomOf="@+id/newAnimalForMarkerNameET" />
 
         <Spinner
-            android:id="@+id/newAnimalTypeSpinner"
+            android:id="@+id/newAnimalForMarkerTypeSpinner"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="0dp"
-            android:layout_toEndOf="@+id/newAnimalNameET"
+            android:layout_toEndOf="@+id/newAnimalForMarkerNameET"
             android:background="@drawable/newanimalspinner_background"
             android:spinnerMode="dropdown"
             android:textColor="#477210"
-            app:layout_constraintStart_toEndOf="@+id/newAnimalNameET"
-            app:layout_constraintTop_toTopOf="@+id/newAnimalNameET" />
+            app:layout_constraintStart_toEndOf="@+id/newAnimalForMarkerNameET"
+            app:layout_constraintTop_toTopOf="@+id/newAnimalForMarkerNameET" />
 
         <EditText
-            android:id="@+id/newAnimalAproxAgeET"
+            android:id="@+id/newAnimalForMarkerAproxAgeET"
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/round_grey_background"
             android:hint="Aprox. Age"
             android:inputType="number"
@@ -119,23 +119,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newAnimalObsET" />
+            app:layout_constraintTop_toBottomOf="@+id/newAnimalForMarkerObsET" />
 
         <CheckBox
-            android:id="@+id/newAnimalAdultCheckBox"
+            android:id="@+id/newAnimalForMarkerAdultCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:text=" Adult"
             android:textColor="#ff000000"
             android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/newAnimalNeuteredCheckBox"
+            app:layout_constraintEnd_toStartOf="@+id/newAnimalForMarkerNeuteredCheckBox"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newAnimalAproxAgeET" />
+            app:layout_constraintTop_toBottomOf="@+id/newAnimalForMarkerAproxAgeET" />
 
         <CheckBox
-            android:id="@+id/newAnimalNeuteredCheckBox"
+            android:id="@+id/newAnimalForMarkerNeuteredCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" Neutered"
@@ -143,11 +143,34 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/newAnimalAdultCheckBox"
-            app:layout_constraintTop_toTopOf="@+id/newAnimalAdultCheckBox" />
+            app:layout_constraintStart_toEndOf="@+id/newAnimalForMarkerAdultCheckBox"
+            app:layout_constraintTop_toTopOf="@+id/newAnimalForMarkerAdultCheckBox" />
 
 
     </android.support.constraint.ConstraintLayout>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_acceptNewAnimalForMarker"
+        android:layout_width="82dp"
+        android:layout_height="79dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="468dp"
+        android:src="@drawable/ic_accept"
+        app:layout_constraintStart_toStartOf="@+id/addAnimalForMarkerLayout"
+        app:layout_constraintTop_toTopOf="@+id/addAnimalForMarkerLayout"
+        fab:fab_colorNormal="@color/colorPrimaryDark"
+        fab:fab_colorPressed="#444" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_cancelNewAnimalForMarker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:src="@drawable/ic_cancel"
+        app:layout_constraintEnd_toEndOf="@+id/addAnimalForMarkerLayout"
+        app:layout_constraintTop_toTopOf="@+id/fab_acceptNewAnimalForMarker"
+        fab:fab_colorNormal="@color/colorPrimaryDark"
+        fab:fab_colorPressed="#444" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -15,11 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -28,13 +24,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabase;
-import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabaseListener;
-import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.utils.ImageUtils;
-import com.google.firebase.auth.FirebaseAuth;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -42,11 +35,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.UUID;
 
-public class AddAnimalToMyselfActivity extends AppCompatActivity {
+public class AddAnimalForMarkerActivity extends AppCompatActivity {
 
-    private static final String TAG = "AddAnimalToMyselfActivity";
+
+    private static final String TAG = "AddAnimalForMarkerActiv";
     private static final String CAMERA = Manifest.permission.CAMERA;
     private static final String WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final int CAMERA_EXT_STORAGE_PERMISSION_REQUEST_CODE = 200;
@@ -56,7 +49,8 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
     // Firebase
     private AnimalPhotosDatabase animalPhotosDatabase;
     private FirebaseUser firebaseUser;
-    private DatabaseReference animalsForUserRef;
+    private DatabaseReference markersRef;
+
 
     // vars
     private File imageFile;
@@ -65,31 +59,49 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
     private Boolean hasPhotoAssigned = false;
 
     // UI
-    private EditText newAnimalName;
-    private EditText newAnimalAproxAge;
-    private EditText newAnimalObservations;
-    private Spinner newAnimalSpecies;
-    private CheckBox newAnimalAdultCheckBox;
-    private CheckBox newAnimalNeuteredCheckBox;
-    private ImageView newAnimalPictureImageView;
+    private EditText animalName;
+    private EditText animalAproxAge;
+    private EditText animalObservations;
+    private Spinner animalSpecies;
+    private CheckBox animalAdultCheckBox;
+    private CheckBox animalNeuteredCheckBox;
+    private ImageView animalPictureImageView;
+    private FloatingActionButton acceptBtn;
+    private FloatingActionButton cancelBtn;
+
 
     private void init() {
-        newAnimalName = (EditText) findViewById(R.id.newAnimalNameET);
-        newAnimalAproxAge = (EditText) findViewById(R.id.newAnimalAproxAgeET);
-        newAnimalObservations = (EditText) findViewById(R.id.newAnimalObsET);
-        newAnimalAdultCheckBox = (CheckBox) findViewById(R.id.newAnimalAdultCheckBox);
-        newAnimalNeuteredCheckBox = (CheckBox) findViewById(R.id.newAnimalNeuteredCheckBox);
+        animalName = (EditText) findViewById(R.id.newAnimalForMarkerNameET);
+        animalAproxAge = (EditText) findViewById(R.id.newAnimalForMarkerAproxAgeET);
+        animalObservations = (EditText) findViewById(R.id.newAnimalForMarkerObsET);
+        animalAdultCheckBox = (CheckBox) findViewById(R.id.newAnimalForMarkerAdultCheckBox);
+        animalNeuteredCheckBox = (CheckBox) findViewById(R.id.newAnimalForMarkerNeuteredCheckBox);
 
-        newAnimalSpecies = (Spinner) findViewById(R.id.newAnimalTypeSpinner);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.types_of_animals, R.layout.spinner_item);
+        animalSpecies = (Spinner) findViewById(R.id.newAnimalForMarkerTypeSpinner);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,R.array.types_of_animals, R.layout.spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        newAnimalSpecies.setAdapter(spinnerAdapter);
+        animalSpecies.setAdapter(spinnerAdapter);
 
-        newAnimalPictureImageView = (ImageView) findViewById(R.id.newAnimalPictureImageView);
-        newAnimalPictureImageView.setOnClickListener(new View.OnClickListener() {
+        animalPictureImageView = (ImageView) findViewById(R.id.newAnimalForMarkerPictureImageView);
+        animalPictureImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
+            }
+        });
+
+        acceptBtn = (FloatingActionButton) findViewById(R.id.fab_acceptNewAnimalForMarker);
+        acceptBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        cancelBtn = (FloatingActionButton) findViewById(R.id.fab_cancelNewAnimalForMarker);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -97,109 +109,17 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
 
     private void initFirebase() {
         animalPhotosDatabase = new AnimalPhotosDatabase();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        animalsForUserRef = FirebaseDatabase.getInstance().getReference("users");
+        markersRef = FirebaseDatabase.getInstance().getReference("markers");
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_animal_to_myself);
-        setTitle("Add Sheltered Animal");
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        int width = dm.widthPixels;
-//        int height = dm.heightPixels;
-//        getWindow().setLayout((int)(width * .8), (int)(height * .3));
+        setContentView(R.layout.activity_add_animal_for_marker);
 
         getCameraPermission();
         initFirebase();
         init();
-
-    }
-
-
-    // for the Toolbar  that I created, to be used
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-
-        inflater.inflate(R.menu.add_animal_to_myself_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    // for the onClickListeners on toolbar
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.tlb1save:
-                saveTlbLogic();
-                return true;
-            case R.id.tlb1cancel:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void saveTlbLogic() {
-        if (!validate()) {
-            Toast.makeText(AddAnimalToMyselfActivity.this, "Please check field errors and try again", Toast.LENGTH_SHORT).show();
-        } else {
-            String userUid = firebaseUser.getUid();
-            String animalName = newAnimalName.getText().toString().trim();
-            String animalSpecies = newAnimalSpecies.getSelectedItem().toString();
-            String animalObservations = newAnimalObservations.getText().toString().trim();
-            Integer animalAproxAge = Integer.parseInt(newAnimalAproxAge.getText().toString().trim());
-            Boolean isAdult = newAnimalAdultCheckBox.isChecked();
-            Boolean isNeutered = newAnimalNeuteredCheckBox.isChecked();
-            String animalID = UUID.randomUUID().toString();
-
-            Animal animal = new Animal(animalID, animalName, animalSpecies, isAdult, isNeutered, animalAproxAge, animalObservations);
-
-
-            if(hasPhotoAssigned) {
-
-                animalPhotosDatabase.addPhotoToAnimalGetURL(animal, pathToImageFile, new AnimalPhotosDatabaseListener() {
-                    @Override
-                    public void onPhotoUploadComplete(String uriString) {
-                        Log.d(TAG, "xxxxxx: have received URL! --> " + uriString);
-                        animal.setPhotoLink(uriString);
-                        animalsForUserRef.child(userUid).child("animals").child(animalID).setValue(animal);
-                    }
-                });
-
-            } else {
-
-                animalsForUserRef.child(userUid).child("animals").child(animalID).setValue(animal);
-
-            }
-
-
-
-
-
-            finish();
-        }
-    }
-
-    public boolean validate() {
-        String animalName = newAnimalName.getText().toString().trim();
-        if (newAnimalAproxAge.getText().toString().isEmpty()) {
-            newAnimalAproxAge.setError("Please enter an age");
-        }
-        if (animalName.isEmpty() || animalName.length() > 13) {
-            newAnimalName.setError("Please write a name");
-            return false;
-        }
-        if (newAnimalAproxAge.getText().toString().startsWith("0")) {
-            newAnimalAproxAge.setError("Age should not start with 0");
-        }
-        if (Integer.parseInt(newAnimalAproxAge.getText().toString()) > 2) {
-            newAnimalAdultCheckBox.setChecked(true);
-        }
-        return true;
     }
 
     private void getCameraPermission() {
@@ -246,7 +166,7 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
                     imageFile = ImageUtils.createPhotoFile();
                     if (imageFile != null) {
                         pathToImageFile = imageFile.getAbsolutePath();
-                        Uri imageURI = FileProvider.getUriForFile(AddAnimalToMyselfActivity.this, "com.bcs.andy.strayanimalsshelter.ui.AddAnimalToMyselfActivity.fileprovider", imageFile);
+                        Uri imageURI = FileProvider.getUriForFile(AddAnimalForMarkerActivity.this, "com.bcs.andy.strayanimalsshelter.ui.AddAnimalToMyselfActivity.fileprovider", imageFile);
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageURI);
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURED_CODE);
 
@@ -262,9 +182,7 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "You must allow Camera permission in order to take animal pictures", Toast.LENGTH_SHORT).show();
         }
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -279,8 +197,26 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
-            newAnimalPictureImageView.setImageBitmap(bitmap);
+            animalPictureImageView.setImageBitmap(bitmap);
         }
+    }
+
+    public boolean validate() {
+        String animalNameString = animalName.getText().toString().trim();
+        if (animalAproxAge.getText().toString().isEmpty()) {
+            animalAproxAge.setError("Please enter an age");
+        }
+        if (animalNameString.isEmpty() || animalNameString.length() > 13) {
+            animalName.setError("Please write a name");
+            return false;
+        }
+        if (animalAproxAge.getText().toString().startsWith("0")) {
+            animalAproxAge.setError("Age should not start with 0");
+        }
+        if (Integer.parseInt(animalAproxAge.getText().toString()) > 2) {
+            animalAdultCheckBox.setChecked(true);
+        }
+        return true;
     }
 
 

@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bcs.andy.strayanimalsshelter">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />     <!-- Allows an app to access precise location. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Allows an app to access precise location. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Allows an app to access approximate location. -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Used by the API to download map tiles from Google Maps servers. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Allows the API to check the connection status in order to determine whether data can be downloaded -->
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -19,11 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".ui.AddAnimalForMarkerActivity"></activity>
         <activity android:name=".ui.SelectedAnimalActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity"/>
+                android:value=".ui.MainActivity" />
         </activity>
 
         <meta-data
@@ -48,19 +48,15 @@
             </intent-filter>
         </activity>
 
-
         <provider
-            android:authorities="com.bcs.andy.strayanimalsshelter.ui.AddAnimalToMyselfActivity.fileprovider"
             android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.bcs.andy.strayanimalsshelter.ui.AddAnimalToMyselfActivity.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-
         </provider>
-
-
 
     </application>
 

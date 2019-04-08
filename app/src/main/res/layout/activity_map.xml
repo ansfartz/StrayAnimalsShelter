@@ -62,9 +62,9 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_below="@id/relativeLayout"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_gps"
         />
@@ -75,9 +75,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/map"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_above="@+id/fab_addAnimalAndMarker"
+        android:layout_marginBottom="70dp"
         fab:menu_animationDelayPerItem="55"
         fab:menu_backgroundColor="@android:color/transparent"
         fab:menu_buttonSpacing="0dp"
@@ -131,6 +131,18 @@
 
 
     </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_addAnimalAndMarker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        android:layout_alignBottom="@+id/map"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="7.5dp"
+        android:layout_marginBottom="11dp"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="#444"/>
 
 
 </RelativeLayout>

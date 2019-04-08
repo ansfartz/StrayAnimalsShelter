@@ -56,10 +56,8 @@ dependencies {
     // Firebase Storage
     implementation 'com.google.firebase:firebase-storage:16.1.0'
 
-
     // Firebase Messaging (not used yet)
     implementation 'com.google.firebase:firebase-messaging:17.4.0'
-
 
     // Google Location and Activity Recognition
     implementation 'com.google.android.gms:play-services-location:16.0.0'
