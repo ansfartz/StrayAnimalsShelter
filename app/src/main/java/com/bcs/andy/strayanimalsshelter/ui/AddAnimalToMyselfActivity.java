@@ -148,15 +148,15 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
             Toast.makeText(AddAnimalToMyselfActivity.this, "Please check field errors and try again", Toast.LENGTH_SHORT).show();
         } else {
             String userUid = firebaseUser.getUid();
-            String animalName = newAnimalName.getText().toString().trim();
-            String animalSpecies = newAnimalSpecies.getSelectedItem().toString();
-            String animalObservations = newAnimalObservations.getText().toString().trim();
-            Integer animalAproxAge = Integer.parseInt(newAnimalAproxAge.getText().toString().trim());
+            String animalID = UUID.randomUUID().toString();
+            String name = newAnimalName.getText().toString().trim();
+            String species = newAnimalSpecies.getSelectedItem().toString();
+            String observations = newAnimalObservations.getText().toString().trim();
+            Integer aproxAge = Integer.parseInt(newAnimalAproxAge.getText().toString().trim());
             Boolean isAdult = newAnimalAdultCheckBox.isChecked();
             Boolean isNeutered = newAnimalNeuteredCheckBox.isChecked();
-            String animalID = UUID.randomUUID().toString();
 
-            Animal animal = new Animal(animalID, animalName, animalSpecies, isAdult, isNeutered, animalAproxAge, animalObservations);
+            Animal animal = new Animal(animalID, name, species, isAdult, isNeutered, aproxAge, observations);
 
 
             if(hasPhotoAssigned) {
@@ -188,13 +188,19 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
         String animalName = newAnimalName.getText().toString().trim();
         if (newAnimalAproxAge.getText().toString().isEmpty()) {
             newAnimalAproxAge.setError("Please enter an age");
+            return false;
         }
-        if (animalName.isEmpty() || animalName.length() > 13) {
+        if (animalName.isEmpty()) {
             newAnimalName.setError("Please write a name");
+            return false;
+        }
+        if(animalName.length() > 13) {
+            newAnimalName.setError("Name shouldn't exceed 13 letters");
             return false;
         }
         if (newAnimalAproxAge.getText().toString().startsWith("0")) {
             newAnimalAproxAge.setError("Age should not start with 0");
+            return false;
         }
         if (Integer.parseInt(newAnimalAproxAge.getText().toString()) > 2) {
             newAnimalAdultCheckBox.setChecked(true);

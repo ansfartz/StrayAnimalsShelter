@@ -154,7 +154,7 @@
         android:layout_width="82dp"
         android:layout_height="79dp"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="468dp"
+        android:layout_marginTop="460dp"
         android:src="@drawable/ic_accept"
         app:layout_constraintStart_toStartOf="@+id/addAnimalForMarkerLayout"
         app:layout_constraintTop_toTopOf="@+id/addAnimalForMarkerLayout"

@@ -20,7 +20,6 @@
         <include
             android:id="@+id/default_toolbar"
             layout="@layout/default_toolbar">
-
         </include>
 
         <FrameLayout

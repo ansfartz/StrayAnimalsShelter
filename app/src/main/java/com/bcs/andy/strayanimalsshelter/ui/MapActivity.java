@@ -22,15 +22,17 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
+import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabase;
+import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabase;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabaseListener;
+import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.FloatingActionButton;
@@ -69,6 +71,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     // Firebase
     private MarkersDatabase markersDatabase;
     private FirebaseAuth firebaseAuth;
+    private AnimalPhotosDatabase animalPhotosDatabase;
 
     // widgets
     private AutoCompleteTextView mSearchText;
@@ -78,16 +81,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private FloatingActionButton toggleMyMarkersBtn, toggleAllMarkersBtn, addAnimalAndMarkerBtn;
 
     // vars
-    private Boolean showWarningAnimation = false;
     private Boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap mMap;
     private Geocoder geocoder;
+    private Boolean isMarkerForAnimalRequired = false;
 
     private HashMap<Marker, AnimalMarker> myMarkersHashMap;
     private HashMap<Marker, AnimalMarker> allMarkersHashMap;
     private Boolean myMarkersVisible = true;
     private Boolean allMarkersVisible = true;
+
+    private Animal animal;
+    private String photoFilePath;
 
 
     @Override
@@ -95,19 +101,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        animal = null;
+        photoFilePath = null;
+        animalPhotosDatabase = new AnimalPhotosDatabase();
         mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search_ET);
         gpsImageView = (ImageView) findViewById(R.id.findMyLocationImageView);
 
         warningImageView = (ImageView) findViewById(R.id.warningImageView);
-        createWarningAnimation();
         warningImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MapActivity.this, "You clicked me", Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
 
         getLocationPermission();
@@ -172,7 +178,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     miwLocation.setText(marker.getTitle());
                     miwAnimalName.setText(animalMarker.getAnimal().getAnimalName());
                     Log.d(TAG, "getInfoWindow: animal name: " + animalMarker.getAnimal().getAnimalName());
-                    Log.d(TAG, "getInfoWindow: age: "+ animalMarker.getAnimal().getAproxAge());
+                    Log.d(TAG, "getInfoWindow: age: " + animalMarker.getAnimal().getAproxAge());
                     miwAnimalAge.setText(animalMarker.getAnimal().getAproxAge().toString() + " yrs");
                     miwAdultCB.setChecked(animalMarker.getAnimal().isAdult());
                     Log.d(TAG, "getInfoWindow: made AdultCB = " + animalMarker.getAnimal().isAdult());
@@ -237,18 +243,64 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                List<Address> addresses = new ArrayList<>();
-                try {
-                    addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String locationTitle = addresses.get(0).getAddressLine(0);
-                Log.d(TAG, "onMapLongClick: addresses = " + addresses.get(0));
 
-                AnimalMarker marker = new AnimalMarker(latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
-                markersDatabase.addMarker(marker);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(marker.getLatitude(), marker.getLongitude()), DEFAULT_ZOOM));
+                if (!isMarkerForAnimalRequired) {
+                    Log.d(TAG, "onMapLongClick: isMarkerForAnimalRequired = " + isMarkerForAnimalRequired);
+                    Toast.makeText(MapActivity.this, "Please create an animal first", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d(TAG, "onMapLongClick: I AM HERE");
+
+                    List<Address> addresses = new ArrayList<>();
+                    try {
+                        addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String locationTitle = addresses.get(0).getAddressLine(0);
+                    Log.d(TAG, "onMapLongClick: addresses = " + addresses.get(0));
+
+                    if (photoFilePath != null) {
+                        Log.d(TAG, "onMapLongClick: PHOTO FILE != NULL");
+
+                        animalPhotosDatabase.addPhotoToAnimalGetURL(animal, photoFilePath, new AnimalPhotosDatabaseListener() {
+                            @Override
+                            public void onPhotoUploadComplete(String uriString) {
+                                Log.d(TAG, "onPhotoUploadComplete: xxxx: have received URL! --> " + uriString);
+
+                                animal.setPhotoLink(uriString);
+                                AnimalMarker animalMarker = new AnimalMarker(latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
+                                animalMarker.setAnimal(animal);
+
+                                markersDatabase.addMarker(animalMarker);
+
+                                animal = null;
+                                photoFilePath = null;
+                                isMarkerForAnimalRequired = false;
+
+                            }
+                        });
+
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), DEFAULT_ZOOM));
+                        // stopAnimationWarning();
+
+
+                    } else {
+                        Log.d(TAG, "onMapLongClick: PHOTO FILE == NULL");
+
+                        AnimalMarker animalMarker = new AnimalMarker(latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
+                        animalMarker.setAnimal(animal);
+                        markersDatabase.addMarker(animalMarker);
+
+                        animal = null;
+                        photoFilePath = null;
+
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), DEFAULT_ZOOM));
+                        // stopAnimationWarning();
+                        isMarkerForAnimalRequired = false;
+                    }
+
+
+                }
 
             }
         });
@@ -284,7 +336,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
 
     }
-
 
 
     /**
@@ -463,7 +514,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     public void toggleAllMarkers() {
-        if(!allMarkersVisible) {
+        if (!allMarkersVisible) {
             Log.d(TAG, "toggleAllMarkers: make VISIBLE");
             showAllMarkers();
             allMarkersVisible = true;
@@ -545,7 +596,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     @Override
@@ -558,27 +608,29 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == ANIMAL_FOR_MARKER_REQUEST_CODE_SUCCESS) {
-            Toast.makeText(this, data.getStringExtra("some_key"), Toast.LENGTH_SHORT).show();
-        }
-        else if (resultCode == Activity.RESULT_OK && requestCode == ANIMAL_FOR_MARKER_REQUEST_CODE_FAIL) {
-            // pressed CANCEL button
-            Toast.makeText(this, data.getStringExtra("some_key"), Toast.LENGTH_SHORT).show();
-        }
-        else {
-            // pressed BACK button ---> resultCode = 0
-            Toast.makeText(this,  " resultCode=" + resultCode + "requestCode=" + requestCode, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onActivityResult: RESULT_OK, received an animal");
+            startWarningAnimation();
+
+            animal = data.getParcelableExtra("animal");
+            photoFilePath = data.getStringExtra("photoPath");
+            Log.d(TAG, "onActivityResult: animal = " + animal);
+            Log.d(TAG, "onActivityResult: filepath = " + photoFilePath);
+            Toast.makeText(this, "Please click and hold where want to add the animal marker", Toast.LENGTH_SHORT).show();
+            isMarkerForAnimalRequired = true;
+
+        } else {
+            // pressed BACK or CANCEL button ---> resultCode = RESULT_CANCELED = 0
+            Log.d(TAG, "onActivityResult: RESULT_CANCELED, nothing happens");
         }
     }
 
-    private void createWarningAnimation() {
+    private void startWarningAnimation() {
         Animation animation = new AlphaAnimation(1, 0);
         animation.setDuration(1000);
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(Animation.INFINITE);
         animation.setRepeatMode(Animation.REVERSE);
         warningImageView.setAnimation(animation);
-
-
 
     }
 }

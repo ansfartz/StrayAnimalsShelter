@@ -14,30 +14,19 @@ public class AnimalMarker {
     public AnimalMarker() {
     }
 
-    public AnimalMarker(Double latitude, Double longitude, Animal animal, String location, String userUid) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.animal = animal;
-        this.location = location;
-        this.userUid = userUid;
-    }
-
-    public AnimalMarker(Double latitude, Double longitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }
-
-    public AnimalMarker(Double latitude, Double longitude, Animal animal) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.animal = animal;
-    }
-
     public AnimalMarker(Double latitude, Double longitude, String location, String userUid) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.location = location;
         this.userUid = userUid;
+    }
+
+    public AnimalMarker(Double latitude, Double longitude, String location, String userUid, Animal animal) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.location = location;
+        this.userUid = userUid;
+        this.animal = animal;
     }
 
     public AnimalMarker(String location, Double latitude, Double longitude, Animal animal) {

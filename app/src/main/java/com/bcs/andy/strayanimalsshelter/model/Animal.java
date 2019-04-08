@@ -1,6 +1,9 @@
 package com.bcs.andy.strayanimalsshelter.model;
 
-public class Animal {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Animal implements Parcelable {
 
 
 
@@ -110,12 +113,54 @@ public class Animal {
     @Override
     public String toString() {
         return "Animal{" +
-                "animalName='" + animalName + '\'' +
+                "animalID='" + animalID + '\'' +
+                ", animalName='" + animalName + '\'' +
                 ", species='" + species + '\'' +
                 ", observations='" + observations + '\'' +
                 ", aproxAge=" + aproxAge +
                 ", adult=" + adult +
                 ", neutered=" + neutered +
+                ", photoLink='" + photoLink + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.animalID);
+        dest.writeString(this.animalName);
+        dest.writeString(this.species);
+        dest.writeString(this.observations);
+        dest.writeValue(this.aproxAge);
+        dest.writeValue(this.adult);
+        dest.writeValue(this.neutered);
+        dest.writeString(this.photoLink);
+    }
+
+    protected Animal(Parcel in) {
+        this.animalID = in.readString();
+        this.animalName = in.readString();
+        this.species = in.readString();
+        this.observations = in.readString();
+        this.aproxAge = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.adult = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.neutered = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.photoLink = in.readString();
+    }
+
+    public static final Parcelable.Creator<Animal> CREATOR = new Parcelable.Creator<Animal>() {
+        @Override
+        public Animal createFromParcel(Parcel source) {
+            return new Animal(source);
+        }
+
+        @Override
+        public Animal[] newArray(int size) {
+            return new Animal[size];
+        }
+    };
 }

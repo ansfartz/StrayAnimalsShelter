@@ -19,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.AddAnimalForMarkerActivity"></activity>
+
+        <activity android:name=".ui.AddAnimalForMarkerActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.SelectedAnimalActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -36,10 +38,13 @@
         <activity
             android:name=".ui.AddAnimalToMyselfActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".ui.RegisterActivity" />
+
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/AppTheme.customToolBar" />
+
         <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

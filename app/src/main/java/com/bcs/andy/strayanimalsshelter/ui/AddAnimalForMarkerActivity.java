@@ -15,7 +15,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabase;
+import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.utils.ImageUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.UUID;
 
 public class AddAnimalForMarkerActivity extends AppCompatActivity {
 
@@ -61,6 +66,7 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
     private Boolean hasPhotoAssigned = false;
 
     // UI
+    private Toolbar toolbar;
     private EditText animalName;
     private EditText animalAproxAge;
     private EditText animalObservations;
@@ -73,6 +79,7 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
 
 
     private void init() {
+
         animalName = (EditText) findViewById(R.id.newAnimalForMarkerNameET);
         animalAproxAge = (EditText) findViewById(R.id.newAnimalForMarkerAproxAgeET);
         animalObservations = (EditText) findViewById(R.id.newAnimalForMarkerObsET);
@@ -92,26 +99,48 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
             }
         });
 
-        acceptBtn = (FloatingActionButton) findViewById(R.id.fab_acceptNewAnimalForMarker);
-        acceptBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("some_key", "WORKED - accept");
-                setResult(Activity.RESULT_OK, resultIntent);
-                finish();
-            }
-        });
         cancelBtn = (FloatingActionButton) findViewById(R.id.fab_cancelNewAnimalForMarker);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("some_key", "WORKED - canceled");
-                setResult(Activity.RESULT_OK, resultIntent);
+                setResult(Activity.RESULT_CANCELED, resultIntent);
                 finish();
             }
         });
+
+        acceptBtn = (FloatingActionButton) findViewById(R.id.fab_acceptNewAnimalForMarker);
+        acceptBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!validate()) {
+                    Toast.makeText(AddAnimalForMarkerActivity.this, "Please check field errors and try again", Toast.LENGTH_SHORT).show();
+                } else {
+                    String animalID = UUID.randomUUID().toString();
+                    String name = animalName.getText().toString().trim();
+                    String species = animalSpecies.getSelectedItem().toString();
+                    String obs = animalObservations.getText().toString();
+                    Integer aproxAge = Integer.parseInt(animalAproxAge.getText().toString().trim());
+                    boolean isAdult = animalAdultCheckBox.isChecked();
+                    boolean isNeutered = animalNeuteredCheckBox.isChecked();
+
+                    Animal animal = new Animal(animalID, name, species, isAdult, isNeutered, aproxAge, obs);
+
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("animal", animal);
+
+                    if(hasPhotoAssigned){
+                        resultIntent.putExtra("photoPath", pathToImageFile);
+                    }
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+
+                }
+
+            }
+        });
+
 
     }
 
@@ -124,6 +153,7 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_animal_for_marker);
+        setTitle("Add Animal for Marker");
 
         getCameraPermission();
         initFirebase();
@@ -204,6 +234,8 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+
+            // save the rotated bitmap to the same/old path
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
             animalPictureImageView.setImageBitmap(bitmap);
         }
@@ -213,19 +245,25 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
         String animalNameString = animalName.getText().toString().trim();
         if (animalAproxAge.getText().toString().isEmpty()) {
             animalAproxAge.setError("Please enter an age");
+            return false;
         }
-        if (animalNameString.isEmpty() || animalNameString.length() > 13) {
+        if (animalNameString.isEmpty()) {
             animalName.setError("Please write a name");
             return false;
         }
+        if(animalNameString.length() > 13) {
+            animalName.setError("Name shouldn't exceed 13 letters");
+            return false;
+        }
+
         if (animalAproxAge.getText().toString().startsWith("0")) {
-            animalAproxAge.setError("Age should not start with 0");
+            animalAproxAge.setError("Age can't be 0");
+            return false;
         }
         if (Integer.parseInt(animalAproxAge.getText().toString()) > 2) {
             animalAdultCheckBox.setChecked(true);
         }
         return true;
     }
-
 
 }
