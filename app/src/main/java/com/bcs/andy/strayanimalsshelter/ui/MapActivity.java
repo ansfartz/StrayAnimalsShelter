@@ -32,6 +32,8 @@ import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabase;
 import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabase;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabaseListener;
+import com.bcs.andy.strayanimalsshelter.dialog.SendRemovalRequestDialog;
+import com.bcs.andy.strayanimalsshelter.dialog.SendRemovalRequestDialogListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
 import com.github.clans.fab.FloatingActionMenu;
@@ -58,7 +60,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleApiClient.OnConnectionFailedListener,
+        SendRemovalRequestDialogListener {
 
 
     private static final String TAG = "MapActivity";
@@ -305,7 +309,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-
+                SendRemovalRequestDialog dialog = new SendRemovalRequestDialog();
+                dialog.show(getSupportFragmentManager(), "send removal request");
             }
         });
 
@@ -649,4 +654,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
+    @Override
+    public void applyMessage(String username, String message) {
+        Toast.makeText(this, username + " - " + message, Toast.LENGTH_SHORT).show();
+    }
 }
