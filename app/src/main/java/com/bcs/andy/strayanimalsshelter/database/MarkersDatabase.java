@@ -121,8 +121,7 @@ public class MarkersDatabase {
      * @param animalMarker the marker that will be added to the database
      */
     public void addMarker(AnimalMarker animalMarker) {
-        String markerUuid = UUID.randomUUID().toString().replace("-", "");
-        markersRef.child(markerUuid).setValue(animalMarker);
+        markersRef.child(animalMarker.getMarkerID()).setValue(animalMarker);
     }
 
 

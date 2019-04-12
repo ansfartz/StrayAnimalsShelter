@@ -45,10 +45,6 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     private List<Animal> animalList = new ArrayList<>();
     private ConstraintLayout CL;
 
-    // TODO: delete addDataBtn (the one in the middle of the fragment layout.
-    // it's only there for having an example of Data adding to Firebase
-    private Button addDataBtn;
-
 
     public MyAnimalsFragment() {
         // Required empty public constructor
@@ -61,7 +57,6 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     }
 
     private void init() {
-        addDataBtn = (Button) CL.findViewById(R.id.addDataBtn);
 
         animalsLoadingProgressBar = (ProgressBar) CL.findViewById(R.id.loadingAnimalsProgressBar);
         animalsLoadingProgressBar.setVisibility(View.VISIBLE);
@@ -114,21 +109,6 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
                 startActivity(new Intent(getActivity(), AddAnimalToMyselfActivity.class));
             }
         });
-
-
-        addDataBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Animal a1 = new Animal("ID1", "Doggo", "dog", false, false, 2, "Needs immediate medical intervention.");
-                Animal a2 = new Animal("ID2", "Catto", "cat", true, true, 3, "Should lose weight.");
-                Animal a3 = new Animal("ID3", "MyAnimalo", "dog", true, false, 3, "nothing");
-                databaseReference.child("animals").child("ID1").setValue(a1);
-                databaseReference.child("animals").child("ID2").setValue(a2);
-                databaseReference.child("animals").child("ID3").setValue(a3);
-
-            }
-        });
-
 
         return CL;
 

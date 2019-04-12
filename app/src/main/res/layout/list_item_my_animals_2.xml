@@ -29,62 +29,64 @@
 
             <TextView
                 android:id="@+id/animalNameTV"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="24sp"
-                app:layout_constraintStart_toEndOf="@+id/imageViewMarker"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/animalPhotoImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="0dp"
-                app:layout_constraintStart_toEndOf="@+id/adultCheckBox"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_no_image_available"/>
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/green_border_background"
+                android:src="@drawable/ic_no_image_available"
+                app:layout_constraintStart_toEndOf="@+id/imageViewMarker"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
                 android:id="@+id/animalObsTV"
-                android:layout_width="290dp"
+                android:layout_width="312dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:padding="5dp"
                 android:text="Observations"
-                android:textSize="18sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/animalNameTV" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/neuteredCheckBox"
+                app:layout_constraintTop_toBottomOf="@+id/animalPhotoImageView" />
 
             <TextView
                 android:id="@+id/animalAgeTV"
-                android:layout_width="109dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="4dp"
-                android:text="Age"
-                android:textSize="24sp"
-                app:layout_constraintStart_toEndOf="@+id/animalNameTV"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:text="30 yrs"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/animalNameTV"
+                app:layout_constraintTop_toBottomOf="@+id/animalNameTV" />
 
             <ImageView
                 android:id="@+id/imageViewMarker"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/animalNameTV"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/cat_icon" />
 
@@ -92,22 +94,22 @@
                 android:id="@+id/neuteredCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="12dp"
                 android:clickable="false"
                 android:text="Neutred"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/animalNameTV" />
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/animalAgeTV"
+                app:layout_constraintTop_toBottomOf="@+id/animalAgeTV" />
 
             <CheckBox
                 android:id="@+id/adultCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="12dp"
                 android:clickable="false"
                 android:text="Adult"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/neuteredCheckBox"
                 app:layout_constraintStart_toEndOf="@+id/neuteredCheckBox" />
 

@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class AnimalMarker {
 
+    private String markerID;
     private Double longitude;
     private Double latitude;
     private Animal animal;
@@ -21,6 +22,14 @@ public class AnimalMarker {
         this.userUid = userUid;
     }
 
+    public AnimalMarker(String animalID, Double latitude, Double longitude, String location, String userUid) {
+        this.userUid = userUid;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.location = location;
+        this.markerID = animalID;
+    }
+
     public AnimalMarker(Double latitude, Double longitude, String location, String userUid, Animal animal) {
         this.longitude = longitude;
         this.latitude = latitude;
@@ -34,6 +43,14 @@ public class AnimalMarker {
         this.longitude = longitude;
         this.latitude = latitude;
         this.animal = animal;
+    }
+
+    public String getMarkerID() {
+        return markerID;
+    }
+
+    public void setMarkerID(String markerID) {
+        this.markerID = markerID;
     }
 
     public String getLocation() {
@@ -75,6 +92,8 @@ public class AnimalMarker {
     public void setUserUid(String userUid) {
         this.userUid = userUid;
     }
+
+
 
     @Override
     public String toString() {

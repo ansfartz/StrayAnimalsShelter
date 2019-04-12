@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
 
@@ -108,12 +109,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         gpsImageView = (ImageView) findViewById(R.id.findMyLocationImageView);
 
         warningImageView = (ImageView) findViewById(R.id.warningImageView);
-        warningImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MapActivity.this, "You clicked me", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        stopWarningAnimation();
 
 
         getLocationPermission();
@@ -153,62 +150,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//            mMap.getUiSettings().setMapToolbarEnabled(false);     // the 2 buttons in the lower right, after clicking a marker
+
+            // the 2 buttons in the lower right, after clicking a marker
+            // mMap.getUiSettings().setMapToolbarEnabled(false);
 
             init();
-            startMarkersListener();
-
-            mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-                @Override
-                public View getInfoWindow(Marker marker) {
-                    View view = getLayoutInflater().inflate(R.layout.marker_info_window, null);
-                    AnimalMarker animalMarker = allMarkersHashMap.get(marker);
-                    if (animalMarker == null) {
-                        animalMarker = myMarkersHashMap.get(marker);
-                    }
-                    Log.d(TAG, "getInfoWindow: animalMarker --> " + animalMarker);
-
-                    TextView miwLocation = (TextView) view.findViewById(R.id.miwLocation);
-                    TextView miwAnimalName = (TextView) view.findViewById(R.id.miwAnimalName);
-                    CheckBox miwAdultCB = (CheckBox) view.findViewById(R.id.miwAdultCB);
-                    CheckBox miwNeuteredCB = (CheckBox) view.findViewById(R.id.miwNeuteredCB);
-                    TextView miwAnimalAge = (TextView) view.findViewById(R.id.miwAnimalAge);
-                    ImageView miwImage = (ImageView) view.findViewById(R.id.miwImage);
-
-                    miwLocation.setText(marker.getTitle());
-                    miwAnimalName.setText(animalMarker.getAnimal().getAnimalName());
-                    Log.d(TAG, "getInfoWindow: animal name: " + animalMarker.getAnimal().getAnimalName());
-                    Log.d(TAG, "getInfoWindow: age: " + animalMarker.getAnimal().getAproxAge());
-                    miwAnimalAge.setText(animalMarker.getAnimal().getAproxAge().toString() + " yrs");
-                    miwAdultCB.setChecked(animalMarker.getAnimal().isAdult());
-                    Log.d(TAG, "getInfoWindow: made AdultCB = " + animalMarker.getAnimal().isAdult());
-                    miwNeuteredCB.setChecked(animalMarker.getAnimal().isNeutered());
-                    switch (animalMarker.getAnimal().getSpecies()) {
-                        case "dog":
-                            miwImage.setImageResource(R.drawable.dog_icon);
-                            break;
-                        case "cat":
-                            miwImage.setImageResource(R.drawable.cat_icon);
-                            break;
-                        default:
-                            miwImage.setImageResource(R.drawable.cat_icon);
-                    }
-
-                    return view;
-                }
-
-                @Override
-                public View getInfoContents(Marker marker) {
-                    return null;
-                }
-            });
-
-
-            // TODO: move drawMarkers inside getDeviceLocation, and implement it so that only markers in a certain range will be displayed( maybe? )
+            startDatabaseListener();
 
         }
-    }
 
+    }
 
     private void init() {
         Log.d(TAG, "init: initializing SearchText");
@@ -227,7 +178,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
-
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
@@ -240,35 +190,81 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                View view = getLayoutInflater().inflate(R.layout.marker_info_window, null);
+                AnimalMarker animalMarker = allMarkersHashMap.get(marker);
+                if (animalMarker == null) {
+                    animalMarker = myMarkersHashMap.get(marker);
+                }
+                Log.d(TAG, "getInfoWindow: animalMarker --> " + animalMarker);
+
+                TextView miwLocation = (TextView) view.findViewById(R.id.miwLocation);
+                TextView miwAnimalName = (TextView) view.findViewById(R.id.miwAnimalName);
+                CheckBox miwAdultCB = (CheckBox) view.findViewById(R.id.miwAdultCB);
+                CheckBox miwNeuteredCB = (CheckBox) view.findViewById(R.id.miwNeuteredCB);
+                TextView miwAnimalAge = (TextView) view.findViewById(R.id.miwAnimalAge);
+                ImageView miwImage = (ImageView) view.findViewById(R.id.miwImage);
+
+                miwLocation.setText(marker.getTitle());
+                miwAnimalName.setText(animalMarker.getAnimal().getAnimalName());
+                Log.d(TAG, "getInfoWindow: animal name: " + animalMarker.getAnimal().getAnimalName());
+                Log.d(TAG, "getInfoWindow: age: " + animalMarker.getAnimal().getAproxAge());
+                miwAnimalAge.setText(animalMarker.getAnimal().getAproxAge().toString() + " yrs");
+                miwAdultCB.setChecked(animalMarker.getAnimal().isAdult());
+                Log.d(TAG, "getInfoWindow: made AdultCB = " + animalMarker.getAnimal().isAdult());
+                miwNeuteredCB.setChecked(animalMarker.getAnimal().isNeutered());
+                switch (animalMarker.getAnimal().getSpecies()) {
+                    case "dog":
+                        miwImage.setImageResource(R.drawable.dog_icon);
+                        break;
+                    case "cat":
+                        miwImage.setImageResource(R.drawable.cat_icon);
+                        break;
+                    default:
+                        miwImage.setImageResource(R.drawable.cat_icon);
+                }
+
+                return view;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                return null;
+            }
+        });
+
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-
                 if (!isMarkerForAnimalRequired) {
                     Log.d(TAG, "onMapLongClick: isMarkerForAnimalRequired = " + isMarkerForAnimalRequired);
-                    Toast.makeText(MapActivity.this, "Please create an animal first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapActivity.this, "Create an animal first", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.d(TAG, "onMapLongClick: I AM HERE");
-
+                    Log.d(TAG, "onMapLongClick: adding a new Marker");
                     List<Address> addresses = new ArrayList<>();
                     try {
                         addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                     String locationTitle = addresses.get(0).getAddressLine(0);
                     Log.d(TAG, "onMapLongClick: addresses = " + addresses.get(0));
 
                     if (photoFilePath != null) {
-                        Log.d(TAG, "onMapLongClick: PHOTO FILE != NULL");
+                        Log.d(TAG, "onMapLongClick: Marker has photo attached");
 
                         animalPhotosDatabase.addPhotoToAnimalGetURL(animal, photoFilePath, new AnimalPhotosDatabaseListener() {
                             @Override
                             public void onPhotoUploadComplete(String uriString) {
                                 Log.d(TAG, "onPhotoUploadComplete: xxxx: have received URL! --> " + uriString);
 
+
+                                String animalMarkerUuid = UUID.randomUUID().toString().replace("-", "");
+                                AnimalMarker animalMarker = new AnimalMarker(animalMarkerUuid, latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
                                 animal.setPhotoLink(uriString);
-                                AnimalMarker animalMarker = new AnimalMarker(latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
                                 animalMarker.setAnimal(animal);
 
                                 markersDatabase.addMarker(animalMarker);
@@ -285,9 +281,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
 
                     } else {
-                        Log.d(TAG, "onMapLongClick: PHOTO FILE == NULL");
+                        Log.d(TAG, "onMapLongClick: Marker doesn't have photo attached");
 
-                        AnimalMarker animalMarker = new AnimalMarker(latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
+                        String animalMarkerUuid = UUID.randomUUID().toString().replace("-", "");
+                        AnimalMarker animalMarker = new AnimalMarker(animalMarkerUuid, latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
                         animalMarker.setAnimal(animal);
                         markersDatabase.addMarker(animalMarker);
 
@@ -295,12 +292,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                         photoFilePath = null;
 
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), DEFAULT_ZOOM));
-                        // stopAnimationWarning();
                         isMarkerForAnimalRequired = false;
                     }
 
+                    stopWarningAnimation();
 
                 }
+
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
 
             }
         });
@@ -447,7 +451,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
-    private void startMarkersListener() {
+    private void startDatabaseListener() {
         markersDatabase.readCurrentUserMarkers(new MarkersDatabaseListener() {
             @Override
             public void onCurrentUserMarkersCallBack(List<AnimalMarker> list) {
@@ -567,9 +571,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
     }
 
-
-    // Callback for the result from requesting permissions.
-    // This method is invoked for every call on ActivityCompat.requestPermissions(). that are called in getLocationPermission()
+    /**
+     * Callback for the result from requesting permissions.
+     * This method is invoked for every call on ActivityCompat.requestPermissions(). that are called in getLocationPermission()
+     *
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: CHECKING PERMISSIONS RESULT");
@@ -631,6 +637,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         animation.setRepeatCount(Animation.INFINITE);
         animation.setRepeatMode(Animation.REVERSE);
         warningImageView.setAnimation(animation);
-
     }
+
+    private void stopWarningAnimation() {
+        Animation animation = new AlphaAnimation(0, 0);
+        animation.setDuration(1000);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        animation.setRepeatMode(Animation.REVERSE);
+        warningImageView.setAnimation(animation);
+    }
+
+
 }

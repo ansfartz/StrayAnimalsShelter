@@ -4,9 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Animal implements Parcelable {
-
-
-
+    
     private String animalID;
     private String animalName;
     private String species;        // Dog / Cat

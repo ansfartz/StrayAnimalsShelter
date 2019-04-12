@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (email.isEmpty() || password.isEmpty()) {
 
-            Toast.makeText(LoginActivity.this, "Both Fields must be completed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Both fields must be completed.", Toast.LENGTH_SHORT).show();
 
         } else {
 
