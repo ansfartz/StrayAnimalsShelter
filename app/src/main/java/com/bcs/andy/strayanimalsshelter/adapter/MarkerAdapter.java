@@ -30,7 +30,7 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_tem_my_markers, parent, false);
+                .inflate(R.layout.list_item_my_markers, parent, false);
         return new ViewHolder(view);
     }
 

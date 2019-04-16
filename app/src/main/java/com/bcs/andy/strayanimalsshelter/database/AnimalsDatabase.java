@@ -14,38 +14,38 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserAnimalsDatabase {
+public class AnimalsDatabase {
 
-    private static final String TAG = "UserAnimalsDatabase";
+    private static final String TAG = "AnimalsDatabase";
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference userAnimalsRef;
     private List<Animal> animalList;
 
 
-    public UserAnimalsDatabase() {
+    public AnimalsDatabase() {
         this.firebaseDatabase = FirebaseDatabase.getInstance();
+
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         this.userAnimalsRef = firebaseDatabase.getReference("users").child(userUid).child("animals");
         animalList = new ArrayList<>();
     }
 
 
-    public void readCurrentUserAnimals(final UserAnimalsDatabaseListener userAnimalsDatabaseListener) {
+    public void readCurrentUserAnimals(final AnimalsDatabaseListener animalsDatabaseListener) {
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 animalList.clear();
                 Log.d(TAG, "onDataChange: HAVE CLEARED USER ANIMALS LIST");
-                //dataSnapshot.getChildren() ---> iterate through entire dataSnapshot Object, to get the items names
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Animal animal;
                     animal = ds.getValue(Animal.class);
                     animalList.add(animal);
                 }
 
-                userAnimalsDatabaseListener.onCallback(animalList);
+                animalsDatabaseListener.onCallback(animalList);
 
             }
 

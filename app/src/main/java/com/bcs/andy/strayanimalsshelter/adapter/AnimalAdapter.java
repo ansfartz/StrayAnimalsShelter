@@ -34,7 +34,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_my_animals_2, parent, false);
+                .inflate(R.layout.list_item_my_animals, parent, false);
         return new ViewHolder(view, animalAdapterListener);
     }
 

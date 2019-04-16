@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SelectedAnimalFromMapActivity">
+
+    <ImageView
+        android:id="@+id/map_selectedAnimalImageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/green_border_background"
+        android:padding="3dp"
+        android:src="@drawable/ic_no_image_available"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/map_createdBy"
+        android:layout_width="370sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="Created by: ncalulNuSareDeparteDarNiciCioaraaaaaaammmmmmmmmmmmmmmmmmaa@hotmail.com"
+        app:layout_constraintStart_toStartOf="@+id/map_selectedAnimalImageView"
+        app:layout_constraintTop_toBottomOf="@+id/map_selectedAnimalImageView" />
+
+
+    <TextView
+        android:id="@+id/map_selectedAnimalNameTV"
+        android:layout_width="157dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Animal Name"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@+id/map_selectedAnimalImageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/map_staticSelectedAnimalAgeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:text="Age: "
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/map_selectedAnimalNameTV"
+        app:layout_constraintTop_toBottomOf="@+id/map_selectedAnimalNameTV" />
+
+    <TextView
+        android:id="@+id/map_selectedAnimalAgeTV"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:text="8 yrs"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@+id/map_staticSelectedAnimalAgeTV"
+        app:layout_constraintTop_toTopOf="@+id/map_staticSelectedAnimalAgeTV" />
+
+    <ImageView
+        android:id="@+id/map_selectedAnimalIconIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/dog_icon"
+        app:layout_constraintStart_toStartOf="@+id/map_selectedAnimalImageView"
+        app:layout_constraintTop_toTopOf="@+id/map_selectedAnimalImageView" />
+
+    <TextView
+        android:id="@+id/map_selectedAnimalObsTV"
+        android:layout_width="370sp"
+        android:layout_height="260dp"
+        android:layout_marginTop="10dp"
+        android:scrollbars="vertical"
+        android:text="Sample text # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/map_createdBy"
+        app:layout_constraintTop_toBottomOf="@+id/map_createdBy" />
+
+    <CheckBox
+        android:id="@+id/map_selectedAnimalNeuteredCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:text="Neutered"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/map_staticSelectedAnimalAgeTV"
+        app:layout_constraintTop_toBottomOf="@+id/map_staticSelectedAnimalAgeTV" />
+
+    <CheckBox
+        android:id="@+id/map_selectedAnimalAdultCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:text="Adult"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/map_selectedAnimalNeuteredCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/map_selectedAnimalNeuteredCheckBox" />
+
+    <Button
+        android:id="@+id/map_selectedAnimalRemoveRequestButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Ask to remove"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_selectedAnimalObsTV" />
+
+
+</android.support.constraint.ConstraintLayout>

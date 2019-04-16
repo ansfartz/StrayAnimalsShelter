@@ -61,8 +61,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
-        GoogleApiClient.OnConnectionFailedListener,
-        SendRemovalRequestDialogListener {
+        GoogleApiClient.OnConnectionFailedListener {
 
 
     private static final String TAG = "MapActivity";
@@ -309,9 +308,27 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                SendRemovalRequestDialog dialog = new SendRemovalRequestDialog();
-                dialog.show(getSupportFragmentManager(), "send removal request");
+                AnimalMarker animalMarker = null;
+                animalMarker = myMarkersHashMap.get(marker);
+                if(animalMarker == null) {
+                    animalMarker = allMarkersHashMap.get(marker);
+                }
+
+                if (animalMarker == null) {
+                    // this should never happen
+                    Log.d(TAG, "onInfoWindowClick: selected animal marker is not in myMarkersHashmap nor in allMarkersHashmap.");
+                    return;
+                }
+                Intent selectedAnimal = new Intent(MapActivity.this, SelectedAnimalFromMapActivity.class);
+                selectedAnimal.putExtra("animalMarker", animalMarker);
+                startActivity(selectedAnimal);
             }
+
+//            @Override
+//            public void onInfoWindowClick(Marker marker) {
+//                SendRemovalRequestDialog dialog = new SendRemovalRequestDialog();
+//                dialog.show(getSupportFragmentManager(), "send removal request");
+//            }
         });
 
 
@@ -579,7 +596,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     /**
      * Callback for the result from requesting permissions.
      * This method is invoked for every call on ActivityCompat.requestPermissions(). that are called in getLocationPermission()
-     *
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -653,9 +669,4 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         warningImageView.setAnimation(animation);
     }
 
-
-    @Override
-    public void applyMessage(String username, String message) {
-        Toast.makeText(this, username + " - " + message, Toast.LENGTH_SHORT).show();
-    }
 }

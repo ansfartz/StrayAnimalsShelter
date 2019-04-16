@@ -19,10 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".ui.AddAnimalForMarkerActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.SelectedAnimalActivity">
+        <activity android:name=".ui.SelectedAnimalFromMapActivity"></activity>
+        <activity
+            android:name=".ui.AddAnimalForMarkerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.SelectedAnimalFromListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
@@ -38,13 +39,10 @@
         <activity
             android:name=".ui.AddAnimalToMyselfActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".ui.RegisterActivity" />
-
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/AppTheme.customToolBar" />
-
         <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,7 +60,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

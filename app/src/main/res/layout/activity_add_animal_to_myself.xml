@@ -56,7 +56,7 @@
 
             android:background="@drawable/newanimalname_background"
             android:hint=" Animal name "
-            android:inputType="textPersonName"
+            android:inputType="textPersonName|textCapSentences"
             android:padding="10dp"
             android:textAlignment="center"
             android:textColor="#477210"
@@ -78,7 +78,7 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/round_grey_background"
             android:hint="Additional observations..."
-            android:inputType="text"
+            android:inputType="text|textCapSentences"
             android:padding="10dp"
             android:scrollbars="vertical"
             android:textAlignment="textStart"

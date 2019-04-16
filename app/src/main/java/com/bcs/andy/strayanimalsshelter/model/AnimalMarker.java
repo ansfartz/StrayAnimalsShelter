@@ -1,8 +1,11 @@
 package com.bcs.andy.strayanimalsshelter.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Objects;
 
-public class AnimalMarker {
+public class AnimalMarker implements Parcelable {
 
     private String markerID;
     private Double longitude;
@@ -10,6 +13,7 @@ public class AnimalMarker {
     private Animal animal;
     private String location;
     private String userUid;
+
 
 
     public AnimalMarker() {
@@ -94,11 +98,11 @@ public class AnimalMarker {
     }
 
 
-
     @Override
     public String toString() {
         return "AnimalMarker{" +
-                "longitude=" + longitude +
+                "markerID='" + markerID + '\'' +
+                ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 ", animal=" + animal +
                 ", location='" + location + '\'' +
@@ -111,7 +115,8 @@ public class AnimalMarker {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnimalMarker that = (AnimalMarker) o;
-        return Objects.equals(longitude, that.longitude) &&
+        return Objects.equals(markerID, that.markerID) &&
+                Objects.equals(longitude, that.longitude) &&
                 Objects.equals(latitude, that.latitude) &&
                 Objects.equals(animal, that.animal) &&
                 Objects.equals(location, that.location) &&
@@ -120,6 +125,42 @@ public class AnimalMarker {
 
     @Override
     public int hashCode() {
-        return Objects.hash(longitude, latitude, animal, location, userUid);
+        return Objects.hash(markerID, longitude, latitude, animal, location, userUid);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.markerID);
+        dest.writeValue(this.longitude);
+        dest.writeValue(this.latitude);
+        dest.writeParcelable(this.animal, flags);
+        dest.writeString(this.location);
+        dest.writeString(this.userUid);
+    }
+
+    protected AnimalMarker(Parcel in) {
+        this.markerID = in.readString();
+        this.longitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.latitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.animal = in.readParcelable(Animal.class.getClassLoader());
+        this.location = in.readString();
+        this.userUid = in.readString();
+    }
+
+    public static final Parcelable.Creator<AnimalMarker> CREATOR = new Parcelable.Creator<AnimalMarker>() {
+        @Override
+        public AnimalMarker createFromParcel(Parcel source) {
+            return new AnimalMarker(source);
+        }
+
+        @Override
+        public AnimalMarker[] newArray(int size) {
+            return new AnimalMarker[size];
+        }
+    };
 }

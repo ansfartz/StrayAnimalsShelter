@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SelectedAnimalActivity">
+    tools:context=".ui.SelectedAnimalFromListActivity">
 
     <include
         android:id="@+id/default_toolbar"
@@ -12,31 +13,43 @@
 
     </include>
 
+    <ImageView
+        android:id="@+id/selectedAnimalImageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/green_border_background"
+        android:padding="3dp"
+        android:src="@drawable/ic_no_image_available"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/default_toolbar" />
+
+
     <TextView
         android:id="@+id/selectedAnimalNameTV"
-        android:layout_width="235dp"
+        android:layout_width="171dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Animal Name"
         android:textAlignment="viewStart"
         android:textAllCaps="false"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textSize="38dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="22dp"
+        app:layout_constraintStart_toEndOf="@+id/selectedAnimalImageView"
         app:layout_constraintTop_toBottomOf="@+id/default_toolbar" />
 
     <TextView
         android:id="@+id/staticSelectedAnimalAgeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
         android:text="Age: "
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textSize="28dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="22dp"
+        app:layout_constraintStart_toStartOf="@+id/selectedAnimalNameTV"
         app:layout_constraintTop_toBottomOf="@+id/selectedAnimalNameTV" />
 
     <TextView
@@ -44,56 +57,58 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="4dp"
         android:text="8 yrs"
         android:textAlignment="viewStart"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textSize="28dp"
+        android:textSize="22dp"
         app:layout_constraintStart_toEndOf="@+id/staticSelectedAnimalAgeTV"
-        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalNameTV" />
+        app:layout_constraintTop_toTopOf="@+id/staticSelectedAnimalAgeTV" />
 
     <ImageView
         android:id="@+id/selectedAnimalIconIV"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
         android:src="@drawable/dog_icon"
-        app:layout_constraintStart_toEndOf="@+id/selectedAnimalNameTV"
-        app:layout_constraintTop_toBottomOf="@+id/default_toolbar" />
+        app:layout_constraintStart_toStartOf="@+id/selectedAnimalImageView"
+        app:layout_constraintTop_toTopOf="@+id/selectedAnimalImageView" />
 
     <TextView
         android:id="@+id/selectedAnimalObsTV"
-        android:layout_width="320dp"
-        android:layout_height="366dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="379dp"
+        android:layout_height="352dp"
+        android:layout_marginTop="12dp"
         android:scrollbars="vertical"
         android:text="sample text # # # # # # # # # # # # # # # # # # # # # # # # # # # "
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/selectedAnimalNeuteredCheckBox"
-        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalNeuteredCheckBox" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalImageView" />
 
     <CheckBox
         android:id="@+id/selectedAnimalNeuteredCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
         android:clickable="false"
         android:text="Neutered"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/staticSelectedAnimalAgeTV"
         app:layout_constraintTop_toBottomOf="@+id/staticSelectedAnimalAgeTV" />
 
     <CheckBox
         android:id="@+id/selectedAnimalAdultCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
         android:clickable="false"
         android:text="Adult"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/selectedAnimalNeuteredCheckBox"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/selectedAnimalNeuteredCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalNeuteredCheckBox" />
 
 </android.support.constraint.ConstraintLayout>

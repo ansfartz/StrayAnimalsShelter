@@ -4,38 +4,94 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
-    <TextView
-        android:background="#2E2E2E"
-        android:layout_marginTop="5dp"
-        android:id="@+id/dialogSR_usernameTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        android:textSize="18sp"
-        android:textColor="#fff"/>
 
     <TextView
-        android:background="#2E2E2E"
-        android:layout_marginTop="5dp"
-        android:id="@+id/dialogSR_phonenumberTextView"
+        android:id="@+id/dialogSR_FromTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialogSR_usernameTextView"
-        android:textColor="#fff"
-        android:text="Phone number"
+        android:layout_marginTop="5dp"
+        android:background="#272727"
+        android:padding="2dp"
+        android:text="From:"
+        android:textColor="#32B4E3"
         android:textSize="18sp" />
 
-    <EditText
+    <TextView
+        android:id="@+id/dialogSR_FromUsernameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogSR_FromTextView"
         android:background="#2E2E2E"
         android:padding="2dp"
-        android:layout_marginTop="15dp"
+
+        android:text="Username"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/dialogSR_FromEmailTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogSR_FromUsernameTextView"
+        android:background="#2E2E2E"
+        android:layout_marginTop="1dp"
+
+        android:padding="2dp"
+        android:text="Email address"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/dialogSR_ToTextView"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogSR_FromEmailTextView"
+        android:layout_marginTop="5dp"
+        android:background="#272727"
+        android:padding="2dp"
+        android:text="To:"
+        android:textColor="#32B4E3"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/dialogSR_ToUsernameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/dialogSR_ToTextView"
+        android:background="#2E2E2E"
+        android:padding="2dp"
+        android:text="Username"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/dialogSR_ToEmailTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogSR_ToUsernameTextView"
+
+        android:layout_marginTop="1dp"
+        android:background="#2E2E2E"
+        android:padding="2dp"
+        android:text="Email address"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+
+    <EditText
         android:id="@+id/dialogSR_messageEditText"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:layout_below="@id/dialogSR_phonenumberTextView"
-        android:textColor="#fff"
+        android:layout_below="@id/dialogSR_ToEmailTextView"
+        android:layout_marginTop="10dp"
+        android:background="#2E2E2E"
         android:gravity="top"
         android:hint="Additional message..."
+        android:padding="3dp"
+        android:textColor="#fff"
         android:textColorHint="#fff"
         android:textSize="20sp" />
 

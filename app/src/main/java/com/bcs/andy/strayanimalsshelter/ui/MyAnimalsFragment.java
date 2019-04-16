@@ -10,12 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.bcs.andy.strayanimalsshelter.R;
-import com.bcs.andy.strayanimalsshelter.database.UserAnimalsDatabase;
-import com.bcs.andy.strayanimalsshelter.database.UserAnimalsDatabaseListener;
+import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabase;
+import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.adapter.AnimalAdapter;
 import com.github.clans.fab.FloatingActionButton;
@@ -72,8 +71,8 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UserAnimalsDatabase userAnimalsDatabase = new UserAnimalsDatabase();
-        userAnimalsDatabase.readCurrentUserAnimals(new UserAnimalsDatabaseListener() {
+        AnimalsDatabase animalsDatabase = new AnimalsDatabase();
+        animalsDatabase.readCurrentUserAnimals(new AnimalsDatabaseListener() {
             @Override
             public void onCallback(List<Animal> list) {
                 animalList.clear();
@@ -116,13 +115,8 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
 
     @Override
     public void onAnimalClick(int position, Animal animal) {
-        Intent intent = new Intent(getContext(), SelectedAnimalActivity.class);
-        intent.putExtra("selectedAnimalName", animal.getAnimalName());
-        intent.putExtra("selectedAnimalAge", animal.getAproxAge());
-        intent.putExtra("selectedAnimalObs", animal.getObservations());
-        intent.putExtra("selectedAnimalSpecies", animal.getSpecies());
-        intent.putExtra("selectedAnimalIsAdult", animal.isAdult());
-        intent.putExtra("selectedAnimalIsNeutered", animal.isNeutered());
-        startActivity(intent);
+        Intent selectedAnimalIntent = new Intent(getContext(), SelectedAnimalFromListActivity.class);
+        selectedAnimalIntent.putExtra("selectedAnimal", animal);
+        startActivity(selectedAnimalIntent);
     }
 }
