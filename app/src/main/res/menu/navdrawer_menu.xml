@@ -17,7 +17,7 @@
 
         <item
             android:id="@+id/nav_markers"
-            android:icon="@drawable/ic_marker"
+            android:icon="@drawable/ic_marker_black"
             android:title="Markers"/>
     </group>
 

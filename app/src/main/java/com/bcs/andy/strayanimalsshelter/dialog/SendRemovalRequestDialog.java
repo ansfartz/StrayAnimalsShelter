@@ -60,11 +60,8 @@ public class SendRemovalRequestDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Send", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String username = fromEmailTextView.getText().toString();
                         String message = mesageEditText.getText().toString();
-
-                        listener.applyMessage(username, message);
-
+                        listener.sendRemovalRequest(message);
                     }
                 });
 

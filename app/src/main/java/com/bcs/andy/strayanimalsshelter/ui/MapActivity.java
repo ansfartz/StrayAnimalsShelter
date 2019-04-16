@@ -487,6 +487,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                             .visible(myMarkersVisible));
 
+                    if(animalMarker.getRemovalRequest() != null) {
+                        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                    }
+
                     Log.d(TAG, "onCurrentUserMarkersCallBack: created a marker at: " + marker.getTitle());
                     myMarkersHashMap.put(marker, animalMarker);
                 }
@@ -516,6 +520,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                             .title(animalMarker.getLocation())
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                             .visible(allMarkersVisible));
+
+                    if(animalMarker.getRemovalRequest() != null) {
+                        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                    }
 
                     Log.d(TAG, "onAllMarkersCallBack: created public marker at: " + marker.getTitle());
                     allMarkersHashMap.put(marker, animalMarker);

@@ -4,11 +4,13 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
+import com.bcs.andy.strayanimalsshelter.model.RemovalRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -115,13 +117,48 @@ public class MarkersDatabase {
     }
 
     /**
-     * Add a AnimalMarker object to Firebase Database.
-     * Will also trigger the valueEventListener inside {@link #readCurrentUserMarkers(MarkersDatabaseListener)}
+     * Add an AnimalMarker object to the Firebase Realtime Database.
+     * Will trigger the valueEventListeners that are listening to the "markers" reference
      *
      * @param animalMarker the marker that will be added to the database
      */
     public void addMarker(AnimalMarker animalMarker) {
         markersRef.child(animalMarker.getMarkerID()).setValue(animalMarker);
+    }
+
+    /**
+     * Remove an AnimalMarker object from the Firebase Realtime Database
+     * Will trigger the valueEventListeners that are listening to the "markers" reference
+     *
+     * @param animalMarker the marker that will be deleted from the database
+     */
+    public void removeMarker(AnimalMarker animalMarker) {
+        markersRef.child(animalMarker.getMarkerID()).removeValue();
+
+//        Query markerQuery = markersRef.child(animalMarker.getMarkerID());
+//        markerQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                dataSnapshot.getRef().removeValue();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.d(TAG, "onCancelled: " + databaseError.toException());
+//            }
+//        });
+
+    }
+
+
+    // TODO: remove image from the animal object inside the animalMarker, if it exists.
+    /**
+     * Add a {@link RemovalRequest} object to an {@link AnimalMarker} in the Database.
+     * @param animalMarker the marker in which the removalRequest is being added
+     * @param removalRequest the request that is added in the animalMarker
+     */
+    public void addRemovalRequestToMarker(AnimalMarker animalMarker, RemovalRequest removalRequest) {
+        markersRef.child(animalMarker.getMarkerID()).child("removalRequest").setValue(removalRequest);
     }
 
 

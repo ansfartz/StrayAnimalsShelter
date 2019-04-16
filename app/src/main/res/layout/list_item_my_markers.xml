@@ -7,7 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
     <android.support.v7.widget.CardView
         android:id="@+id/list_item_markers_CardView"
         android:layout_width="wrap_content"
@@ -18,8 +17,10 @@
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
 
         <!-- modify padding to fix top Card going out of window -->
@@ -31,34 +32,43 @@
             android:paddingEnd="30dp">
 
             <ImageView
-                android:id="@+id/imageViewMarker"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
+                android:id="@+id/markerIconImageView"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_marker" />
+                app:srcCompat="@drawable/ic_marker_green" />
 
             <ImageView
-                android:id="@+id/markerDeleteIV"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
-                android:layout_marginStart="300dp"
-                android:layout_marginEnd="30dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/markerItemDeleteIV"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="18dp"
+                app:layout_constraintStart_toStartOf="@+id/markerItemWarningIV"
+                app:layout_constraintTop_toBottomOf="@+id/markerItemWarningIV"
                 app:srcCompat="@drawable/ic_delete" />
+
+            <ImageView
+                android:id="@+id/markerItemWarningIV"
+                android:layout_width="41dp"
+                android:layout_height="39dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_warning_circle"
+                app:layout_constraintStart_toEndOf="@+id/markerLocationTV"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/markerLocationTV"
-                android:layout_width="151dp"
-                android:layout_height="41dp"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="2dp"
                 android:text="Location"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="24sp"
-                app:layout_constraintStart_toEndOf="@+id/imageViewMarker"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/markerIconImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -66,49 +76,48 @@
                 android:id="@+id/markerLatitudeTV"
                 android:layout_width="80dp"
                 android:layout_height="22dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="0dp"
                 android:text="100.0"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/staticLatTV"
-                app:layout_constraintTop_toBottomOf="@+id/markerLocationTV" />
+                app:layout_constraintTop_toTopOf="@+id/staticLatTV" />
 
             <TextView
                 android:id="@+id/markerLongitudeTV"
                 android:layout_width="80dp"
                 android:layout_height="22dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="0dp"
                 android:text="100.5"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/markerLocationTV" />
+                app:layout_constraintTop_toTopOf="@+id/textView2" />
 
             <TextView
                 android:id="@+id/staticLatTV"
                 android:layout_width="36dp"
                 android:layout_height="22dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Lat:"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewMarker" />
+                app:layout_constraintStart_toStartOf="@+id/markerIconImageView"
+                app:layout_constraintTop_toBottomOf="@+id/markerLocationTV" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="48dp"
                 android:layout_height="22dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="0dp"
                 android:text="Long:"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/markerLatitudeTV"
-                app:layout_constraintTop_toBottomOf="@+id/markerLocationTV" />
+                app:layout_constraintTop_toTopOf="@+id/markerLatitudeTV" />
 
 
         </android.support.constraint.ConstraintLayout>

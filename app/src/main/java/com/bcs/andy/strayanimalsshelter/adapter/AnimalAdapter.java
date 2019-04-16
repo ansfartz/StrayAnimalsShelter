@@ -89,7 +89,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
             textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
             textViewAproxAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
-            speciesImageView = (ImageView) itemView.findViewById(R.id.imageViewMarker);
+            speciesImageView = (ImageView) itemView.findViewById(R.id.markerIconImageView);
             neutredCheckBox = (CheckBox) itemView.findViewById(R.id.neuteredCheckBox);
             adultCheckBox = (CheckBox) itemView.findViewById(R.id.adultCheckBox);
             cardView = (CardView) itemView.findViewById(R.id.list_item_animals_CardView);

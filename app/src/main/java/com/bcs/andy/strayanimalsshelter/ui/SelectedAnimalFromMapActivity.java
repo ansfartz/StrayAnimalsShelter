@@ -13,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
+import com.bcs.andy.strayanimalsshelter.database.MarkersDatabase;
 import com.bcs.andy.strayanimalsshelter.dialog.SendRemovalRequestDialog;
 import com.bcs.andy.strayanimalsshelter.dialog.SendRemovalRequestDialogListener;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
+import com.bcs.andy.strayanimalsshelter.model.RemovalRequest;
 import com.bcs.andy.strayanimalsshelter.model.User;
 import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.google.firebase.database.DataSnapshot;
@@ -37,8 +39,10 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
 
     // Firebase
     private DatabaseReference usersRef;
+    private MarkersDatabase markersDatabase;
 
     // vars
+    AnimalMarker animalMarker;
     private String creatorUser = null;
     private String creatorEmail = null;
     private boolean updatedCreator = false;
@@ -53,6 +57,7 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
     }
 
     private void init() {
+        markersDatabase = new MarkersDatabase();
         usersRef = UserUtils.getUsersReference();
         createdByTV = (TextView) findViewById(R.id.map_createdBy);
         animalNameTV = (TextView) findViewById(R.id.map_selectedAnimalNameTV);
@@ -95,7 +100,7 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
     }
 
     private void setUI() {
-        AnimalMarker animalMarker = getIntent().getParcelableExtra("animalMarker");
+        animalMarker = getIntent().getParcelableExtra("animalMarker");
         Log.d(TAG, "setUI: animalMarker: " + animalMarker);
 
         animalNameTV.setText(animalMarker.getAnimal().getAnimalName());
@@ -144,12 +149,14 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
             }
         });
 
-
     }
 
 
     @Override
-    public void applyMessage(String username, String message) {
+    public void sendRemovalRequest(String message) {
+        RemovalRequest removalRequest = new RemovalRequest(creatorUser, creatorEmail, message);
+        markersDatabase.addRemovalRequestToMarker(animalMarker, removalRequest);
+        finish();
 
     }
 }

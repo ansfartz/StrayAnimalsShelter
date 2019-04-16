@@ -13,7 +13,7 @@ public class AnimalMarker implements Parcelable {
     private Animal animal;
     private String location;
     private String userUid;
-    
+    private RemovalRequest removalRequest;
 
     public AnimalMarker() {
     }
@@ -96,17 +96,12 @@ public class AnimalMarker implements Parcelable {
         this.userUid = userUid;
     }
 
+    public RemovalRequest getRemovalRequest() {
+        return removalRequest;
+    }
 
-    @Override
-    public String toString() {
-        return "AnimalMarker{" +
-                "markerID='" + markerID + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", animal=" + animal +
-                ", location='" + location + '\'' +
-                ", userUid='" + userUid + '\'' +
-                '}';
+    public void setRemovalRequest(RemovalRequest removalRequest) {
+        this.removalRequest = removalRequest;
     }
 
     @Override
@@ -119,12 +114,26 @@ public class AnimalMarker implements Parcelable {
                 Objects.equals(latitude, that.latitude) &&
                 Objects.equals(animal, that.animal) &&
                 Objects.equals(location, that.location) &&
-                Objects.equals(userUid, that.userUid);
+                Objects.equals(userUid, that.userUid) &&
+                Objects.equals(removalRequest, that.removalRequest);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(markerID, longitude, latitude, animal, location, userUid);
+        return Objects.hash(markerID, longitude, latitude, animal, location, userUid, removalRequest);
+    }
+
+    @Override
+    public String toString() {
+        return "AnimalMarker{" +
+                "markerID='" + markerID + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", animal=" + animal +
+                ", location='" + location + '\'' +
+                ", userUid='" + userUid + '\'' +
+                ", removalRequest=" + removalRequest +
+                '}';
     }
 
     @Override
