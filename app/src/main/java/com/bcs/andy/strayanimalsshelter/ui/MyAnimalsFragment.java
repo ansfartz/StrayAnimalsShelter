@@ -17,6 +17,7 @@ import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabase;
 import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.adapter.AnimalAdapter;
+import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,17 +33,18 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     private static final String TAG = "MyAnimalsFragment";
 
     // Firebase
-    private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private DatabaseReference databaseReference;
+    private AnimalsDatabase animalsDatabase;
 
     // UI
     private ProgressBar animalsLoadingProgressBar;
     private FloatingActionButton addAnimalsBtn;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter animalAdapter;
-    private List<Animal> animalList = new ArrayList<>();
     private ConstraintLayout CL;
+
+    // vars
+    private List<Animal> animalList = new ArrayList<>();
 
 
     public MyAnimalsFragment() {
@@ -50,9 +52,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     }
 
     private void initFirebase() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        user = UserUtils.getCurrentUser();
     }
 
     private void init() {
@@ -71,14 +71,13 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AnimalsDatabase animalsDatabase = new AnimalsDatabase();
+        animalsDatabase = new AnimalsDatabase();
         animalsDatabase.readCurrentUserAnimals(new AnimalsDatabaseListener() {
             @Override
             public void onCallback(List<Animal> list) {
                 animalList.clear();
                 animalList.addAll(list);
                 animalsLoadingProgressBar.setVisibility(View.GONE);
-                Log.d(TAG, "onCurrentUserMarkersCallBack: MY ANIMALS LIST: " + animalList.toString());
 
                 animalAdapter = new AnimalAdapter(animalList, getActivity(), MyAnimalsFragment.this);
                 recyclerView.setAdapter(animalAdapter);
@@ -97,7 +96,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // use this CL inside init()
+        // use CL inside init()
         CL = (ConstraintLayout) inflater.inflate(R.layout.fragment_my_animals, container, false);
         initFirebase();
         init();

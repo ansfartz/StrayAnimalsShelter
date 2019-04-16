@@ -13,8 +13,7 @@ public class AnimalMarker implements Parcelable {
     private Animal animal;
     private String location;
     private String userUid;
-
-
+    
 
     public AnimalMarker() {
     }
