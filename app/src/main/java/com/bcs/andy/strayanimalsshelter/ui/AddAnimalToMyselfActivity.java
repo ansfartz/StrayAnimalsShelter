@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabase;
 import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabaseListener;
+import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabase;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.utils.ImageUtils;
 import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
@@ -53,17 +54,16 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
     private static final int CAMERA_EXT_STORAGE_PERMISSION_REQUEST_CODE = 200;
     private static final int REQUEST_IMAGE_CAPTURED_CODE = 201;
 
-
-    // Firebase
-    private AnimalPhotosDatabase animalPhotosDatabase;
-    private FirebaseUser firebaseUser;
-    private DatabaseReference animalsForUserRef;
-
     // vars
     private File imageFile;
     private String pathToImageFile;
     private Boolean mCameraPermissionGranted = false;
     private Boolean hasPhotoAssigned = false;
+
+    // Firebase
+    private AnimalPhotosDatabase animalPhotosDatabase;
+    private FirebaseUser firebaseUser;
+    private AnimalsDatabase animalsDatabase;
 
     // UI
     private EditText newAnimalName;
@@ -97,9 +97,9 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
     }
 
     private void initFirebase() {
+        animalsDatabase = new AnimalsDatabase();
         animalPhotosDatabase = new AnimalPhotosDatabase();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        animalsForUserRef = FirebaseDatabase.getInstance().getReference("users");
     }
 
     @Override
@@ -108,8 +108,8 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_animal_to_myself);
         setTitle("Add Sheltered Animal");
 
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
+//        DisplayMetrics dm = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(dm);
 //        int width = dm.widthPixels;
 //        int height = dm.heightPixels;
 //        getWindow().setLayout((int)(width * .8), (int)(height * .3));
@@ -165,15 +165,15 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
                 animalPhotosDatabase.addPhotoToAnimalGetURL(animal, pathToImageFile, new AnimalPhotosDatabaseListener() {
                     @Override
                     public void onPhotoUploadComplete(String uriString) {
-                        Log.d(TAG, "xxxxxx: have received URL! --> " + uriString);
+                        Log.d(TAG, "onPhotoUploadComplete: URL = " + uriString);
                         animal.setPhotoLink(uriString);
-                        animalsForUserRef.child(userUid).child("animals").child(animalID).setValue(animal);
+                        animalsDatabase.addAnimalToUser(animal, userUid);
                     }
                 });
 
             } else {
 
-                animalsForUserRef.child(userUid).child("animals").child(animalID).setValue(animal);
+                animalsDatabase.addAnimalToUser(animal, userUid);
 
             }
 

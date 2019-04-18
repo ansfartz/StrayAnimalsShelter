@@ -67,4 +67,24 @@ public class AnimalPhotosDatabase {
 
     }
 
+    /**
+     * Deleted the image of an animal from the Firebase Storage.
+     * <p>Should be used when deleting an animal entirely, and updating its photoLink is not necessary.</p>
+     * @param animal object whose photoLink is used for identifying and deleting the image
+     */
+    public void removePhotoFromStorage(Animal animal) {
+        StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(animal.getPhotoLink());
+        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: deleted file.");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: failed to delete file. exception: " + e.getMessage());
+            }
+        });
+    }
+
 }

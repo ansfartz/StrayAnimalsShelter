@@ -14,22 +14,29 @@ import android.widget.ProgressBar;
 
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.adapter.AnimalMarkerAdapter;
+import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabase;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabase;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabaseListener;
+import com.bcs.andy.strayanimalsshelter.dialog.GetRemovalRequestDialog;
+import com.bcs.andy.strayanimalsshelter.dialog.GetRemovalRequestDialogListener;
+import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
+import com.bcs.andy.strayanimalsshelter.model.RemovalRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.AnimalMarkerAdapterListener{
+public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.AnimalMarkerAdapterListener, 
+        GetRemovalRequestDialogListener {
 
     private static final String TAG = "MyMarkersFragment";
 
     // Firebase
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
+    private MarkersDatabase markersDatabase;
 
     // UI
     private ProgressBar markersLoadingProgressBar;
@@ -62,7 +69,7 @@ public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.A
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MarkersDatabase markersDatabase = new MarkersDatabase();
+        markersDatabase = new MarkersDatabase();
         markersDatabase.readCurrentUserMarkers(new MarkersDatabaseListener() {
             @Override
             public void onCurrentUserMarkersCallBack(List<AnimalMarker> list) {
@@ -109,5 +116,47 @@ public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.A
         Intent selectedAnimalIntent = new Intent(getContext(), SelectedAnimalFromListActivity.class);
         selectedAnimalIntent.putExtra("selectedAnimal", animalMarker.getAnimal());
         startActivity(selectedAnimalIntent);
+    }
+
+    /**
+     * Triggers when clicking the Warning sign of an AnimalMarker in the RecyclerView list.
+     */
+    @Override
+    public void onWarningClick(int position, AnimalMarker animalMarker) {
+        GetRemovalRequestDialog dialog = new GetRemovalRequestDialog();
+        Bundle args = new Bundle();
+        args.putParcelable("removalRequest", animalMarker.getRemovalRequest());
+        args.putParcelable("animalMarker", animalMarker);
+        dialog.setArguments(args);
+        dialog.setTargetFragment(this, 1000);
+
+        dialog.show(getFragmentManager(), "GetRemovalRequestDialog");
+    }
+
+    /**
+     * Called from within the {@link GetRemovalRequestDialog}.
+     * Adds an animal to the requesting user's animalList and remove the marker from the database.
+     */
+    @Override
+    public void resolveRemovalRequest(AnimalMarker animalMarker, RemovalRequest removalRequest) {
+
+        Animal animal = animalMarker.getAnimal();
+        markersDatabase.removeMarker(animalMarker);
+
+        AnimalsDatabase animalsDatabase = new AnimalsDatabase();
+        animalsDatabase.addAnimalToUser(animal, removalRequest.getSenderUserId());
+
+        Log.d(TAG, "resolveRemovalRequest: resolving RR");
+    }
+
+    /**
+     * Called from within the {@link GetRemovalRequestDialog}.
+     * Removes RemovalRequest from the marker.
+     */
+    @Override
+    public void denyRemovalRequest(AnimalMarker animalMarker) {
+        Log.d(TAG, "denyRemovalRequest: removing RR");
+        markersDatabase.removeRemovalRequestFromMarker(animalMarker);
+
     }
 }

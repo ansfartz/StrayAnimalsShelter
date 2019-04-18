@@ -65,6 +65,9 @@ public class AnimalMarkerAdapter extends RecyclerView.Adapter<AnimalMarkerAdapte
             @Override
             public void onClick(View v) {
                 // TODO: show the RemovalRequest object, and SOLVE(remove marker, add animal to the requesting user) or DISMISS(Remove RemovalRequest object)
+                viewHolder.animalMarkerAdapterListener.onWarningClick(viewHolder.getAdapterPosition(), listAnimalMarkers.get(viewHolder.getAdapterPosition()));
+
+
             }
         });
 
@@ -116,16 +119,15 @@ public class AnimalMarkerAdapter extends RecyclerView.Adapter<AnimalMarkerAdapte
         builder.setMessage("Deleting this marker will permanently remove it from all users.\nAre you sure?");
 
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
+            @Override
             public void onClick(DialogInterface dialog, int which) {
                 MarkersDatabase markersDatabase = new MarkersDatabase();
-                markersDatabase.removeMarker(animalMarker);
+                markersDatabase.destroyMarker(animalMarker);
                 dialog.dismiss();
             }
         });
 
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -138,6 +140,7 @@ public class AnimalMarkerAdapter extends RecyclerView.Adapter<AnimalMarkerAdapte
 
     public interface AnimalMarkerAdapterListener {
         void onAnimalMarkerClick(int position, AnimalMarker animalMarker);
+        void onWarningClick(int position, AnimalMarker animalMarker);
     }
 
 

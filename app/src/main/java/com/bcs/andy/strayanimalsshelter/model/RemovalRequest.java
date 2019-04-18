@@ -7,23 +7,23 @@ public class RemovalRequest implements Parcelable {
 
     private String requestId;
     private String senderUserId;
-    private String senderUserName;
+    private String senderUsername;
     private String senderUserEmail;
     private String message;
 
     public RemovalRequest() {
     }
 
-    public RemovalRequest(String senderUserName, String senderUserEmail, String message) {
-        this.senderUserName = senderUserName;
+    public RemovalRequest(String senderUsername, String senderUserEmail, String message) {
+        this.senderUsername = senderUsername;
         this.senderUserEmail = senderUserEmail;
         this.message = message;
     }
 
-    public RemovalRequest(String requestId, String senderUserId, String senderUserName, String senderUserEmail, String message) {
+    public RemovalRequest(String requestId, String senderUserId, String senderUsername, String senderUserEmail, String message) {
         this.requestId = requestId;
         this.senderUserId = senderUserId;
-        this.senderUserName = senderUserName;
+        this.senderUsername = senderUsername;
         this.senderUserEmail = senderUserEmail;
         this.message = message;
     }
@@ -44,12 +44,12 @@ public class RemovalRequest implements Parcelable {
         this.requestId = requestId;
     }
 
-    public String getSenderUserName() {
-        return senderUserName;
+    public String getSenderUsername() {
+        return senderUsername;
     }
 
-    public void setSenderUserName(String senderUserName) {
-        this.senderUserName = senderUserName;
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
     }
 
     public String getSenderUserEmail() {
@@ -73,7 +73,7 @@ public class RemovalRequest implements Parcelable {
         return "RemovalRequest{" +
                 "requestId='" + requestId + '\'' +
                 ", senderUserId='" + senderUserId + '\'' +
-                ", senderUserName='" + senderUserName + '\'' +
+                ", senderUsername='" + senderUsername + '\'' +
                 ", senderUserEmail='" + senderUserEmail + '\'' +
                 ", message='" + message + '\'' +
                 '}';
@@ -89,7 +89,7 @@ public class RemovalRequest implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.requestId);
         dest.writeString(this.senderUserId);
-        dest.writeString(this.senderUserName);
+        dest.writeString(this.senderUsername);
         dest.writeString(this.senderUserEmail);
         dest.writeString(this.message);
     }
@@ -97,7 +97,7 @@ public class RemovalRequest implements Parcelable {
     protected RemovalRequest(Parcel in) {
         this.requestId = in.readString();
         this.senderUserId = in.readString();
-        this.senderUserName = in.readString();
+        this.senderUsername = in.readString();
         this.senderUserEmail = in.readString();
         this.message = in.readString();
     }
