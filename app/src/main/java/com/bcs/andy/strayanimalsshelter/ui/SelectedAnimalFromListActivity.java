@@ -12,10 +12,7 @@ import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.squareup.picasso.Picasso;
 
-/**
- * This class should only be called from the {@link MyAnimalsFragment} class,
- * when clicking an item in it's list
- */
+
 public class SelectedAnimalFromListActivity extends AppCompatActivity {
 
     private static final String TAG = "SelectedAnimalFromListActivity";

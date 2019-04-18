@@ -1,8 +1,8 @@
 package com.bcs.andy.strayanimalsshelter.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.bcs.andy.strayanimalsshelter.R;
-import com.bcs.andy.strayanimalsshelter.adapter.MarkerAdapter;
+import com.bcs.andy.strayanimalsshelter.adapter.AnimalMarkerAdapter;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabase;
 import com.bcs.andy.strayanimalsshelter.database.MarkersDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyMarkersFragment extends Fragment {
+public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.AnimalMarkerAdapterListener{
 
     private static final String TAG = "MyMarkersFragment";
 
@@ -33,7 +33,6 @@ public class MyMarkersFragment extends Fragment {
 
     // UI
     private ProgressBar markersLoadingProgressBar;
-    private FloatingActionButton addMarkersBtn;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter markerAdapter;
     private List<AnimalMarker> animalMarkerList = new ArrayList<>();
@@ -53,7 +52,6 @@ public class MyMarkersFragment extends Fragment {
         markersLoadingProgressBar = (ProgressBar) CL.findViewById(R.id.loadingMarkersProgressBar);
         markersLoadingProgressBar.setVisibility(View.VISIBLE);
 
-        addMarkersBtn = (FloatingActionButton) CL.findViewById(R.id.addMarkersFloatingActionButton);
 
         recyclerView = (RecyclerView) CL.findViewById(R.id.myMarkersRecyclerView);
         recyclerView.setHasFixedSize(false);
@@ -73,7 +71,7 @@ public class MyMarkersFragment extends Fragment {
                 markersLoadingProgressBar.setVisibility(View.GONE);
                 Log.d(TAG, "onCurrentUserMarkersCallBack: MY MARKERS LIST: " + animalMarkerList.toString());
 
-                markerAdapter = new MarkerAdapter(animalMarkerList, getActivity());
+                markerAdapter = new AnimalMarkerAdapter(animalMarkerList, getActivity(), MyMarkersFragment.this);
                 recyclerView.setAdapter(markerAdapter);
 
             }
@@ -103,4 +101,13 @@ public class MyMarkersFragment extends Fragment {
     }
 
 
+    /**
+     * Triggers when clicking the left side of an AnimalMarker in the RecyclerView list
+     */
+    @Override
+    public void onAnimalMarkerClick(int position, AnimalMarker animalMarker) {
+        Intent selectedAnimalIntent = new Intent(getContext(), SelectedAnimalFromListActivity.class);
+        selectedAnimalIntent.putExtra("selectedAnimal", animalMarker.getAnimal());
+        startActivity(selectedAnimalIntent);
+    }
 }

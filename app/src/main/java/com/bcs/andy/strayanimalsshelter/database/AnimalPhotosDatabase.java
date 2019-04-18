@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.bcs.andy.strayanimalsshelter.model.Animal;
+import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,7 +38,7 @@ public class AnimalPhotosDatabase {
     public void addPhotoToAnimalGetURL(Animal animal, String pathToImageFile, AnimalPhotosDatabaseListener animalPhotosDatabaseListener) {
 
         Uri file = Uri.fromFile(new File(pathToImageFile));
-        StorageReference currentAnimalRef = animalsPhotosStorageRef.child(animal.getAnimalID()).child(UUID.randomUUID().toString());
+        StorageReference currentAnimalRef = animalsPhotosStorageRef.child(animal.getAnimalID()).child(UUIDGenerator.createUUID());
 
         UploadTask uploadTask = currentAnimalRef.putFile(file);
         Task<Uri> urlTask = uploadTask

@@ -34,6 +34,7 @@ import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabase;
 import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabaseListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.utils.ImageUtils;
+import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -148,7 +149,7 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
             Toast.makeText(AddAnimalToMyselfActivity.this, "Please check field errors and try again", Toast.LENGTH_SHORT).show();
         } else {
             String userUid = firebaseUser.getUid();
-            String animalID = UUID.randomUUID().toString();
+            String animalID = UUIDGenerator.createUUID();
             String name = newAnimalName.getText().toString().trim();
             String species = newAnimalSpecies.getSelectedItem().toString();
             String observations = newAnimalObservations.getText().toString().trim();

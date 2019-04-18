@@ -31,6 +31,7 @@ import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabase;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.utils.ImageUtils;
+import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -117,7 +118,7 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
                 if(!validate()) {
                     Toast.makeText(AddAnimalForMarkerActivity.this, "Please check field errors and try again", Toast.LENGTH_SHORT).show();
                 } else {
-                    String animalID = UUID.randomUUID().toString();
+                    String animalID = UUIDGenerator.createUUID();
                     String name = animalName.getText().toString().trim();
                     String species = animalSpecies.getSelectedItem().toString();
                     String obs = animalObservations.getText().toString();

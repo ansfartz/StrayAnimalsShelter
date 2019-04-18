@@ -136,6 +136,7 @@ public class AnimalMarker implements Parcelable {
                 '}';
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -149,6 +150,7 @@ public class AnimalMarker implements Parcelable {
         dest.writeParcelable(this.animal, flags);
         dest.writeString(this.location);
         dest.writeString(this.userUid);
+        dest.writeParcelable(this.removalRequest, flags);
     }
 
     protected AnimalMarker(Parcel in) {
@@ -158,9 +160,10 @@ public class AnimalMarker implements Parcelable {
         this.animal = in.readParcelable(Animal.class.getClassLoader());
         this.location = in.readString();
         this.userUid = in.readString();
+        this.removalRequest = in.readParcelable(RemovalRequest.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<AnimalMarker> CREATOR = new Parcelable.Creator<AnimalMarker>() {
+    public static final Creator<AnimalMarker> CREATOR = new Creator<AnimalMarker>() {
         @Override
         public AnimalMarker createFromParcel(Parcel source) {
             return new AnimalMarker(source);

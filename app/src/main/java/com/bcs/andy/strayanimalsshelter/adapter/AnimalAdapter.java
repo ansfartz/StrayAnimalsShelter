@@ -29,7 +29,6 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         this.animalAdapterListener = animalAdapterListener;
     }
 
-    // whenever a ViewHolder is created
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -93,7 +92,6 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             neutredCheckBox = (CheckBox) itemView.findViewById(R.id.neuteredCheckBox);
             adultCheckBox = (CheckBox) itemView.findViewById(R.id.adultCheckBox);
             cardView = (CardView) itemView.findViewById(R.id.list_item_animals_CardView);
-
             photoImageView = (ImageView) itemView.findViewById(R.id.animalPhotoImageView);
 
             this.animalAdapterListener = animalAdapterListener;

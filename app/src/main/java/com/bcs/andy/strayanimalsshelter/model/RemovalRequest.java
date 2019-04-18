@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 public class RemovalRequest implements Parcelable {
 
+    private String requestId;
+    private String senderUserId;
     private String senderUserName;
     private String senderUserEmail;
     private String message;
@@ -16,6 +18,30 @@ public class RemovalRequest implements Parcelable {
         this.senderUserName = senderUserName;
         this.senderUserEmail = senderUserEmail;
         this.message = message;
+    }
+
+    public RemovalRequest(String requestId, String senderUserId, String senderUserName, String senderUserEmail, String message) {
+        this.requestId = requestId;
+        this.senderUserId = senderUserId;
+        this.senderUserName = senderUserName;
+        this.senderUserEmail = senderUserEmail;
+        this.message = message;
+    }
+
+    public String getSenderUserId() {
+        return senderUserId;
+    }
+
+    public void setSenderUserId(String senderUserId) {
+        this.senderUserId = senderUserId;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 
     public String getSenderUserName() {
@@ -45,11 +71,14 @@ public class RemovalRequest implements Parcelable {
     @Override
     public String toString() {
         return "RemovalRequest{" +
-                "senderUserName='" + senderUserName + '\'' +
+                "requestId='" + requestId + '\'' +
+                ", senderUserId='" + senderUserId + '\'' +
+                ", senderUserName='" + senderUserName + '\'' +
                 ", senderUserEmail='" + senderUserEmail + '\'' +
                 ", message='" + message + '\'' +
                 '}';
     }
+
 
     @Override
     public int describeContents() {
@@ -58,18 +87,22 @@ public class RemovalRequest implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.requestId);
+        dest.writeString(this.senderUserId);
         dest.writeString(this.senderUserName);
         dest.writeString(this.senderUserEmail);
         dest.writeString(this.message);
     }
 
     protected RemovalRequest(Parcel in) {
+        this.requestId = in.readString();
+        this.senderUserId = in.readString();
         this.senderUserName = in.readString();
         this.senderUserEmail = in.readString();
         this.message = in.readString();
     }
 
-    public static final Parcelable.Creator<RemovalRequest> CREATOR = new Parcelable.Creator<RemovalRequest>() {
+    public static final Creator<RemovalRequest> CREATOR = new Creator<RemovalRequest>() {
         @Override
         public RemovalRequest createFromParcel(Parcel source) {
             return new RemovalRequest(source);

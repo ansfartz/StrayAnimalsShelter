@@ -36,6 +36,8 @@ import com.bcs.andy.strayanimalsshelter.dialog.SendRemovalRequestDialog;
 import com.bcs.andy.strayanimalsshelter.dialog.SendRemovalRequestDialogListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
+import com.bcs.andy.strayanimalsshelter.model.RemovalRequest;
+import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.common.ConnectionResult;
@@ -264,8 +266,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                             public void onPhotoUploadComplete(String uriString) {
                                 Log.d(TAG, "onPhotoUploadComplete: xxxx: have received URL! --> " + uriString);
 
-
-                                String animalMarkerUuid = UUID.randomUUID().toString().replace("-", "");
+                                String animalMarkerUuid = UUIDGenerator.createUUID();
                                 AnimalMarker animalMarker = new AnimalMarker(animalMarkerUuid, latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
                                 animal.setPhotoLink(uriString);
                                 animalMarker.setAnimal(animal);
@@ -286,7 +287,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     } else {
                         Log.d(TAG, "onMapLongClick: Marker doesn't have photo attached");
 
-                        String animalMarkerUuid = UUID.randomUUID().toString().replace("-", "");
+                        String animalMarkerUuid = UUIDGenerator.createUUID();
                         AnimalMarker animalMarker = new AnimalMarker(animalMarkerUuid, latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
                         animalMarker.setAnimal(animal);
                         markersDatabase.addMarker(animalMarker);
@@ -319,8 +320,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     Log.d(TAG, "onInfoWindowClick: selected animal marker is not in myMarkersHashmap nor in allMarkersHashmap.");
                     return;
                 }
+                RemovalRequest removalRequest = animalMarker.getRemovalRequest();
+
                 Intent selectedAnimal = new Intent(MapActivity.this, SelectedAnimalFromMapActivity.class);
                 selectedAnimal.putExtra("animalMarker", animalMarker);
+                selectedAnimal.putExtra("animalMarkerRemovalRequest", removalRequest);
+                Log.d(TAG, "onInfoWindowClick: animal marker = " + animalMarker);
                 startActivity(selectedAnimal);
             }
 

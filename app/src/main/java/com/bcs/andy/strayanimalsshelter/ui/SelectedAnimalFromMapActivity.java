@@ -19,6 +19,7 @@ import com.bcs.andy.strayanimalsshelter.dialog.SendRemovalRequestDialogListener;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
 import com.bcs.andy.strayanimalsshelter.model.RemovalRequest;
 import com.bcs.andy.strayanimalsshelter.model.User;
+import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
 import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -73,8 +74,10 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
 
+                Log.d(TAG, "onClick: animalMarker = " + animalMarker);
+
                 if(!updatedCreator) {
-                    Log.d(TAG, "onClick: Async task updateCreator has not finished yet.");
+                    Log.d(TAG, "onClick: Async task updateCreator not finished yet.");
                     Toast.makeText(SelectedAnimalFromMapActivity.this, "Please wait a moment...", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -82,6 +85,12 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
                 if(UserUtils.getCurrentUserName().equals(creatorUser)) {
                     Log.d(TAG, "onClick: currentUser = creatorUser");
                     Toast.makeText(SelectedAnimalFromMapActivity.this, "You can't send a removal request to yourself", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if(animalMarker.getRemovalRequest() != null) {
+                    Log.d(TAG, "onClick: attempted removalRequest on marker already requested for removal");
+                    Toast.makeText(SelectedAnimalFromMapActivity.this, "This animal has already been requested for removal. Please wait for the creator to solve it.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -152,9 +161,14 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
     }
 
 
+    /**
+     * If the RemovalRequestDialog has returned with the PositiveButton, this method will start.
+     * @param message String added in the RemovalRequest object
+     */
     @Override
     public void sendRemovalRequest(String message) {
-        RemovalRequest removalRequest = new RemovalRequest(creatorUser, creatorEmail, message);
+        String removalRequestId = UUIDGenerator.createUUID();
+        RemovalRequest removalRequest = new RemovalRequest(removalRequestId, UserUtils.getCurrentUserId(), creatorUser, creatorEmail, message);
         markersDatabase.addRemovalRequestToMarker(animalMarker, removalRequest);
         finish();
 

@@ -27,4 +27,6 @@ public class UserUtils {
         return currentUser.getEmail();
     }
 
+    public static String getCurrentUserId() {return currentUser.getUid();}
+
 }
