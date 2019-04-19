@@ -276,7 +276,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                                 animal = null;
                                 photoFilePath = null;
                                 isMarkerForAnimalRequired = false;
-
                             }
                         });
 
@@ -329,11 +328,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 startActivity(selectedAnimal);
             }
 
-//            @Override
-//            public void onInfoWindowClick(Marker marker) {
-//                SendRemovalRequestDialog dialog = new SendRemovalRequestDialog();
-//                dialog.show(getSupportFragmentManager(), "send removal request");
-//            }
         });
 
 

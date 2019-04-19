@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -74,18 +74,6 @@
         app:layout_constraintStart_toStartOf="@+id/selectedAnimalImageView"
         app:layout_constraintTop_toTopOf="@+id/selectedAnimalImageView" />
 
-    <TextView
-        android:id="@+id/selectedAnimalObsTV"
-        android:layout_width="379dp"
-        android:layout_height="352dp"
-        android:layout_marginTop="12dp"
-        android:scrollbars="vertical"
-        android:text="sample text # # # # # # # # # # # # # # # # # # # # # # # # # # # "
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalImageView" />
 
     <CheckBox
         android:id="@+id/selectedAnimalNeuteredCheckBox"
@@ -110,5 +98,85 @@
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/selectedAnimalNeuteredCheckBox"
         app:layout_constraintTop_toBottomOf="@+id/selectedAnimalNeuteredCheckBox" />
+
+    <TextView
+        android:id="@+id/selectedAnimalObsTV"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        android:scrollbars="vertical"
+        android:text="sample text # # # # # # # # # # # # # # # # # # # # # # # # # # # "
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalImageView" />
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_selected_animal_from_list_open_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        fab:menu_buttonSpacing="3dp"
+        fab:menu_colorNormal="@color/colorPrimary"
+        fab:menu_colorPressed="@color/colorPrimaryDark"
+        fab:menu_colorRipple="#99d4d4d4"
+        fab:menu_fab_label=""
+        fab:menu_fab_size="normal"
+        fab:menu_icon="@drawable/ic_animal_settings"
+        fab:menu_labels_colorNormal="@color/cardview_dark_background"
+        fab:menu_labels_colorPressed="#444"
+        fab:menu_labels_colorRipple="#66efecec"
+        fab:menu_labels_cornerRadius="3dp"
+        fab:menu_labels_ellipsize="none"
+        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+        fab:menu_labels_margin="0dp"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_padding="2dp"
+        fab:menu_labels_position="left"
+        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_singleLine="false"
+        fab:menu_labels_textColor="#f2f1f1"
+        fab:menu_labels_textSize="15sp"
+        fab:menu_openDirection="up"
+        fab:menu_shadowColor="#66aff198"
+        fab:menu_shadowRadius="4dp"
+        fab:menu_shadowXOffset="1dp"
+        fab:menu_shadowYOffset="4dp"
+        fab:menu_showShadow="true">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_selected_animal_from_list_discoverable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="280dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_discoverable"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="#444"
+            fab:fab_colorRipple="#66efecec"
+            fab:fab_elevationCompat="4dp"
+            fab:fab_label="Adoptable"
+            fab:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_selected_animal_from_list_make_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_animal_changes"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="#444"
+            fab:fab_colorRipple="#66efecec"
+            fab:fab_elevationCompat="4dp"
+            fab:fab_label="Change details"
+            fab:fab_size="normal" />
+
+
+    </com.github.clans.fab.FloatingActionMenu>
+
 
 </android.support.constraint.ConstraintLayout>

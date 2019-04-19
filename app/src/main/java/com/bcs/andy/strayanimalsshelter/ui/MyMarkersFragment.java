@@ -113,7 +113,7 @@ public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.A
      */
     @Override
     public void onAnimalMarkerClick(int position, AnimalMarker animalMarker) {
-        Intent selectedAnimalIntent = new Intent(getContext(), SelectedAnimalFromListActivity.class);
+        Intent selectedAnimalIntent = new Intent(getContext(), SelectedAnimalFromMarkerActivity.class);
         selectedAnimalIntent.putExtra("selectedAnimal", animalMarker.getAnimal());
         startActivity(selectedAnimalIntent);
     }

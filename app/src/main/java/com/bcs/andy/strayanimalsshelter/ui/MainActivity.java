@@ -2,7 +2,6 @@ package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,8 +22,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Base64;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -159,11 +156,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.fragment_container, new MyMarkersFragment())
                         .commit();
                 break;
-            case R.id.nav_friends:
-                Toast.makeText(this, "FRIENDS", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_shelter:
-                Toast.makeText(this, "SHELTERS", Toast.LENGTH_SHORT).show();
+            case R.id.nav_discover:
+                Toast.makeText(this, "DISCOVER", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_feedback:
 
