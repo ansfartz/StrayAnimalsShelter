@@ -65,6 +65,17 @@
         app:layout_constraintTop_toTopOf="@+id/staticSelectedAnimalAgeTV" />
 
     <ImageView
+        android:id="@+id/selectedAnimalAdoptableImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/round_red_background"
+        android:src="@drawable/ic_animal_list_item_discoverable"
+        app:layout_constraintStart_toEndOf="@+id/selectedAnimalAgeTV"
+        app:layout_constraintTop_toTopOf="@+id/selectedAnimalAgeTV" />
+
+    <ImageView
         android:id="@+id/selectedAnimalIconIV"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -150,7 +161,7 @@
         fab:menu_showShadow="true">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_selected_animal_from_list_discoverable"
+            android:id="@+id/fab_selected_animal_from_list_adoptable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="280dp"
@@ -172,7 +183,7 @@
             fab:fab_colorPressed="#444"
             fab:fab_colorRipple="#66efecec"
             fab:fab_elevationCompat="4dp"
-            fab:fab_label="Change details"
+            fab:fab_label="Edit details"
             fab:fab_size="normal" />
 
 

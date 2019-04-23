@@ -84,11 +84,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/animalNameTV" />
 
             <ImageView
-                android:id="@+id/markerIconImageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="54dp"
-                android:layout_marginTop="6dp"
+                android:background="@drawable/round_green_background"
+                android:padding="5dp"
+                android:id="@+id/animalAdoptableImageView"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_animal_list_item_discoverable"
+                app:layout_constraintStart_toEndOf="@+id/animalNameTV"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/animalIconImageView"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="0dp"
                 app:layout_constraintStart_toEndOf="@+id/animalNameTV"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/cat_icon" />

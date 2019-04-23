@@ -46,7 +46,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         holder.textViewAproxAge.setText(aproxAge);
         holder.textViewName.setText(animal.getAnimalName());
         holder.textViewObs.setText(animal.getObservations());
-
+        holder.neutredCheckBox.setChecked(animal.isNeutered());
+        holder.adultCheckBox.setChecked(animal.isAdult());
 
         switch (animal.getSpecies()) {
             case "dog":
@@ -59,10 +60,13 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                 holder.speciesImageView.setImageResource(R.drawable.dog_icon);
         }
 
-        holder.neutredCheckBox.setChecked(animal.isNeutered());
-        holder.adultCheckBox.setChecked(animal.isAdult());
+        if(animal.isAdoptable()) {
+            holder.adoptableImageView.setVisibility(View.VISIBLE);
+        } else {
+            holder.adoptableImageView.setVisibility(View.INVISIBLE);
+        }
 
-        if( animal.getPhotoLink() != null) {
+        if (animal.getPhotoLink() != null) {
             Picasso.get().load(animal.getPhotoLink()).fit().into(holder.photoImageView);
         }
 
@@ -73,13 +77,12 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         return listAnimals.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         CardView cardView;
         TextView textViewName, textViewObs, textViewAproxAge;
         CheckBox neutredCheckBox, adultCheckBox;
-        ImageView speciesImageView;
-        ImageView photoImageView;
+        ImageView speciesImageView, photoImageView, adoptableImageView;
 
         AnimalAdapterListener animalAdapterListener;
 
@@ -88,11 +91,12 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
             textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
             textViewAproxAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
-            speciesImageView = (ImageView) itemView.findViewById(R.id.markerIconImageView);
+            speciesImageView = (ImageView) itemView.findViewById(R.id.animalIconImageView);
             neutredCheckBox = (CheckBox) itemView.findViewById(R.id.neuteredCheckBox);
             adultCheckBox = (CheckBox) itemView.findViewById(R.id.adultCheckBox);
             cardView = (CardView) itemView.findViewById(R.id.list_item_animals_CardView);
             photoImageView = (ImageView) itemView.findViewById(R.id.animalPhotoImageView);
+            adoptableImageView = (ImageView) itemView.findViewById(R.id.animalAdoptableImageView);
 
             this.animalAdapterListener = animalAdapterListener;
 

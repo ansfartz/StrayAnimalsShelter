@@ -126,8 +126,7 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
                     boolean isAdult = animalAdultCheckBox.isChecked();
                     boolean isNeutered = animalNeuteredCheckBox.isChecked();
 
-                    Animal animal = new Animal(animalID, name, species, isAdult, isNeutered, aproxAge, obs);
-
+                    Animal animal = new Animal(animalID, name, species, isAdult, isNeutered, aproxAge, obs, false);
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("animal", animal);
 

@@ -3,6 +3,8 @@ package com.bcs.andy.strayanimalsshelter.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 public class Animal implements Parcelable {
     
     private String animalID;
@@ -13,9 +15,22 @@ public class Animal implements Parcelable {
     private Boolean adult;
     private Boolean neutered;
     private String photoLink;
+    private Boolean adoptable;
 
 
     public Animal() {
+    }
+
+    public Animal(Animal animal) {
+        this.animalID = animal.getAnimalID();
+        this.animalName= animal.getAnimalName();
+        this.species= animal.getSpecies();
+        this.observations= animal.getObservations();
+        this.aproxAge= animal.getAproxAge();
+        this.adult= animal.isAdult();
+        this.neutered= animal.isNeutered();
+        this.photoLink= animal.getPhotoLink();
+        this.adoptable= animal.isAdoptable();
     }
 
     public Animal(String animalName, String species, Integer aproxAge, String observations) {
@@ -42,6 +57,25 @@ public class Animal implements Parcelable {
         this.neutered = neutered;
         this.aproxAge = aproxAge;
         this.observations = observations;
+    }
+
+    public Animal(String animalID, String animalName, String species, Boolean adult, Boolean neutered, Integer aproxAge, String observations, Boolean adoptable) {
+        this.animalID = animalID;
+        this.animalName = animalName;
+        this.species = species;
+        this.observations = observations;
+        this.aproxAge = aproxAge;
+        this.adult = adult;
+        this.neutered = neutered;
+        this.adoptable = adoptable;
+    }
+
+    public Boolean isAdoptable() {
+        return adoptable;
+    }
+
+    public void setAdoptable(Boolean adoptable) {
+        this.adoptable = adoptable;
     }
 
     public String getAnimalID() {
@@ -119,7 +153,29 @@ public class Animal implements Parcelable {
                 ", adult=" + adult +
                 ", neutered=" + neutered +
                 ", photoLink='" + photoLink + '\'' +
+                ", adoptable=" + adoptable +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return animalID.equals(animal.animalID) &&
+                Objects.equals(animalName, animal.animalName) &&
+                Objects.equals(species, animal.species) &&
+                Objects.equals(observations, animal.observations) &&
+                Objects.equals(aproxAge, animal.aproxAge) &&
+                Objects.equals(adult, animal.adult) &&
+                Objects.equals(neutered, animal.neutered) &&
+                Objects.equals(photoLink, animal.photoLink) &&
+                Objects.equals(adoptable, animal.adoptable);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(animalID, animalName, species, observations, aproxAge, adult, neutered, photoLink, adoptable);
     }
 
     @Override
@@ -137,6 +193,7 @@ public class Animal implements Parcelable {
         dest.writeValue(this.adult);
         dest.writeValue(this.neutered);
         dest.writeString(this.photoLink);
+        dest.writeValue(this.adoptable);
     }
 
     protected Animal(Parcel in) {
@@ -148,9 +205,10 @@ public class Animal implements Parcelable {
         this.adult = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.neutered = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.photoLink = in.readString();
+        this.adoptable = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Animal> CREATOR = new Parcelable.Creator<Animal>() {
+    public static final Creator<Animal> CREATOR = new Creator<Animal>() {
         @Override
         public Animal createFromParcel(Parcel source) {
             return new Animal(source);

@@ -157,7 +157,7 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
             Boolean isAdult = newAnimalAdultCheckBox.isChecked();
             Boolean isNeutered = newAnimalNeuteredCheckBox.isChecked();
 
-            Animal animal = new Animal(animalID, name, species, isAdult, isNeutered, aproxAge, observations);
+            Animal animal = new Animal(animalID, name, species, isAdult, isNeutered, aproxAge, observations, false);
 
 
             if(hasPhotoAssigned) {
