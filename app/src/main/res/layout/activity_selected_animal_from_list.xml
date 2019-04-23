@@ -54,10 +54,10 @@
 
     <TextView
         android:id="@+id/selectedAnimalAgeTV"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
-        android:text="8 yrs"
+        android:text="80 yrs"
         android:textAlignment="viewStart"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textSize="22dp"
@@ -68,7 +68,7 @@
         android:id="@+id/selectedAnimalAdoptableImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="0dp"
         android:background="@drawable/round_red_background"
         android:src="@drawable/ic_animal_list_item_discoverable"

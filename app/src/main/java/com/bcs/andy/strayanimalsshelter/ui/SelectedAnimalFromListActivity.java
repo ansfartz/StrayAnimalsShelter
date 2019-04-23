@@ -84,10 +84,10 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
         animalNeuteredCB.setChecked(editedAnimal.isNeutered());
 
         switch (editedAnimal.getSpecies()) {
-            case "Dog":
+            case "dog":
                 animalIconIV.setImageResource(R.drawable.dog_icon);
                 break;
-            case "Cat":
+            case "cat":
                 animalIconIV.setImageResource(R.drawable.cat_icon);
                 break;
             default:
@@ -249,38 +249,100 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
     }
 
     private AlertDialog.Builder getEditNeuteredDialogBuilder() {
+        final boolean originalValue = editedAnimal.isNeutered();
+        int checkedItem = editedAnimal.isNeutered() ? 0 : 1;
         CharSequence[] array = {"Yes", "No"};
-        boolean result = false;
-
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SelectedAnimalFromListActivity.this)
-                .setTitle("Neutered ?")
-                .setMessage("Has this animal been neutered?")
-                .setSingleChoiceItems(array, 1, new DialogInterface.OnClickListener() {
+                .setTitle("Has this animal been neutered ?")
+                .setSingleChoiceItems(array, checkedItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+//                        array = {"Yes", "No"}; ----> (top) "Yes" = 0, (bottom) "No" = 1
                         if (which == 0) {
-                            editedAnimal.setNeutered(false);
-                            animalNeuteredCB.setChecked(false);
-                        } else {
+                            Log.d(TAG, "CHOICE onClick: Editing neutered = true");
                             editedAnimal.setNeutered(true);
                             animalNeuteredCB.setChecked(true);
+                        } else {
+                            Log.d(TAG, "CHOICE onClick: Editing neutered = false");
+                            editedAnimal.setNeutered(false);
+                            animalNeuteredCB.setChecked(false);
                         }
                     }
+
                 })
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-
+                        Log.d(TAG, "OK onClick: changes OK'ed");
+                        dialog.dismiss();
                     }
                 })
-                .setNegativeButton("Cancel", null);
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "CANCEL onClick: originalValue = " + originalValue);
+                        if(originalValue) {
+                            Log.d(TAG, "CANCEL onClick: reverting neutered to true");
+                            editedAnimal.setNeutered(true);
+                            animalNeuteredCB.setChecked(true);
+                        } else {
+                            Log.d(TAG, "CANCEL onClick: reverting neutered to false");
+                            editedAnimal.setNeutered(false);
+                            animalNeuteredCB.setChecked(false);
+                        }
+                        dialog.dismiss();
+                    }
+                });
 
         return dialogBuilder;
     }
 
     private AlertDialog.Builder getEditAdultDialogBuilder() {
-        return null;
+        final boolean originalValue = editedAnimal.isAdult();
+        int checkedItem = editedAnimal.isAdult() ? 0 : 1;
+        CharSequence[] array = {"Yes", "No"};
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SelectedAnimalFromListActivity.this)
+                .setTitle("Is this an adult animal ?")
+                .setSingleChoiceItems(array, checkedItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        array = {"Yes", "No"}; ----> (top) "Yes" = 0, (bottom) "No" = 1
+                        if (which == 0) {
+                            Log.d(TAG, "onClick: Editing adult = true");
+                            editedAnimal.setAdult(true);
+                            animalAdultCB.setChecked(true);
+                        } else {
+                            Log.d(TAG, "onClick: Editing adult = false");
+                            editedAnimal.setAdult(false);
+                            animalAdultCB.setChecked(false);
+                        }
+                    }
+
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "CANCEL onClick: originalValue = " + originalValue);
+                        if(originalValue) {
+                            Log.d(TAG, "CANCEL onClick: reverting adult to true");
+                            editedAnimal.setAdult(true);
+                            animalAdultCB.setChecked(true);
+                        } else {
+                            Log.d(TAG, "CANCEL onClick: reverting adult to false");
+                            editedAnimal.setAdult(false);
+                            animalAdultCB.setChecked(false);
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+        return dialogBuilder;
     }
 
 
@@ -309,13 +371,56 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
     }
 
     private AlertDialog.Builder getEditSpeciesDialogBuilder() {
-        return null;
+        final String originalValue = editedAnimal.getSpecies();
+        int checkedItem = 0;
+        if (editedAnimal.getSpecies().equals("dog")) checkedItem = 0;
+        else if (editedAnimal.getSpecies().equals("cat")) checkedItem = 1;
+        CharSequence[] array = {"Dog", "Cat"};
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SelectedAnimalFromListActivity.this)
+                .setTitle("Change animal species")
+                .setSingleChoiceItems(array, checkedItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            Log.d(TAG, "onClick: Editing species = dog");
+                            editedAnimal.setSpecies("dog");
+                            animalIconIV.setImageResource(R.drawable.dog_icon);
+                        } else {
+                            Log.d(TAG, "onClick: Editing species = cat");
+                            editedAnimal.setSpecies("cat");
+                            animalIconIV.setImageResource(R.drawable.cat_icon);
+                        }
+                    }
+                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "CANCEL onClick: originalValue = " + originalValue);
+                        if (originalValue.equals("cat")) {
+                            Log.d(TAG, "onClick: reverting species to cat");
+                            editedAnimal.setSpecies("cat");
+                            animalIconIV.setImageResource(R.drawable.cat_icon);
+                        } else if (originalValue.equals("dog")) {
+                            Log.d(TAG, "onClick: reverting species to dog");
+                            editedAnimal.setSpecies("dog");
+                            animalIconIV.setImageResource(R.drawable.dog_icon);
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+        return dialogBuilder;
     }
 
 
     private AlertDialog.Builder getAdoptableDialogBuilder() {
         String message;
-        if (editedAnimal.isAdoptable() == false)
+        if (!editedAnimal.isAdoptable())
             message = "You are about to make " + animalNameTV.getText().toString() + " adoptable. Are you sure?";
         else
             message = "You are about to make " + animalNameTV.getText().toString() + " no longer adoptable. Are you sure?";
@@ -332,13 +437,13 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
                         } else {
                             animalAdoptableImageView.setBackgroundResource(R.drawable.round_red_background);
                         }
-
+                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                        dialog.dismiss();
                     }
                 });
 
