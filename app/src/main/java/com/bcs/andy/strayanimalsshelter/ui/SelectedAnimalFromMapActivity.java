@@ -28,6 +28,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+/**
+ * This Activity is called / opened from the MapActivity, on clicking the InfoWindow of a Marker
+ */
 public class SelectedAnimalFromMapActivity extends AppCompatActivity implements SendRemovalRequestDialogListener {
 
     private static final String TAG = "SelectedAnimalFromMapAc";
@@ -84,7 +87,7 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
 
                 if(UserUtils.getCurrentUserName().equals(creatorUser)) {
                     Log.d(TAG, "onClick: currentUser = creatorUser");
-                    Toast.makeText(SelectedAnimalFromMapActivity.this, "You can't send a removal request to yourself", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SelectedAnimalFromMapActivity.this, "You can't send a removal request to yourself. Remove this marker from the Markers Page.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -133,6 +136,7 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
         if (animalMarker.getAnimal().getPhotoLink() != null) {
             Picasso.get().load(animalMarker.getAnimal().getPhotoLink()).fit().into(animalImageView);
         }
+
 
         Query query = usersRef.orderByChild("uuid").equalTo(animalMarker.getUserUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {

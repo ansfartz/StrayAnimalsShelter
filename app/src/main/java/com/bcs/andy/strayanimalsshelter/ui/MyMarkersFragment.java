@@ -22,6 +22,7 @@ import com.bcs.andy.strayanimalsshelter.dialog.GetRemovalRequestDialogListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
 import com.bcs.andy.strayanimalsshelter.model.RemovalRequest;
+import com.firebase.client.annotations.NotNull;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -30,6 +31,7 @@ import java.util.List;
 
 public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.AnimalMarkerAdapterListener, 
         GetRemovalRequestDialogListener {
+
 
     private static final String TAG = "MyMarkersFragment";
 
@@ -46,16 +48,14 @@ public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.A
 
     private ConstraintLayout CL;
 
-    public MyMarkersFragment() {
-        // Required empty public constructor
-    }
+    public MyMarkersFragment() { }
 
     private void initFirebase() {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
     }
 
-    private void init() {
+    private void initUI() {
         markersLoadingProgressBar = (ProgressBar) CL.findViewById(R.id.loadingMarkersProgressBar);
         markersLoadingProgressBar.setVisibility(View.VISIBLE);
 
@@ -89,9 +89,6 @@ public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.A
             }
         });
 
-        // code under readCurrentUserMarkers() will happen first
-        // because method is asynchronous
-
         Log.d(TAG, "AFTER: " + animalMarkerList.toString());
 
     }
@@ -101,7 +98,7 @@ public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.A
 
         CL = (ConstraintLayout) inflater.inflate(R.layout.fragment_my_markers, container, false);
         initFirebase();
-        init();
+        initUI();
 
 
         return CL;

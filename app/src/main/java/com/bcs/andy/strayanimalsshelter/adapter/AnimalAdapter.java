@@ -77,6 +77,10 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         return listAnimals.size();
     }
 
+    public Animal getAnimalAt(int position) {
+        return listAnimals.get(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         CardView cardView;

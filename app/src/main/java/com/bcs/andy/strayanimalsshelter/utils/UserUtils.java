@@ -9,24 +9,24 @@ import com.google.firebase.database.FirebaseDatabase;
 public class UserUtils {
 
     private static DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
-    private static FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     public static DatabaseReference getUsersReference() {
         return usersRef;
     }
 
     public static FirebaseUser getCurrentUser() {
-        return currentUser;
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public static String getCurrentUserName() {
-        return currentUser.getDisplayName();
+        return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
 
     public static String getCurrentUserEmail() {
-        return currentUser.getEmail();
+        return FirebaseAuth.getInstance().getCurrentUser().getEmail();
     }
 
-    public static String getCurrentUserId() {return currentUser.getUid();}
+    public static String getCurrentUserId() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();}
 
 }

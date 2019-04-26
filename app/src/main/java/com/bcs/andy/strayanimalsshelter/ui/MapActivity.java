@@ -248,6 +248,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     Toast.makeText(MapActivity.this, "Create an animal first", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d(TAG, "onMapLongClick: adding a new Marker");
+                    Toast.makeText(MapActivity.this, "Uploading data, please wait..", Toast.LENGTH_SHORT).show();
                     List<Address> addresses = new ArrayList<>();
                     try {
                         addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);

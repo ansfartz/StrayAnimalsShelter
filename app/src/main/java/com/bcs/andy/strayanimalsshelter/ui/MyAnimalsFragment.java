@@ -37,18 +37,18 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     private AnimalsDatabase animalsDatabase;
 
     // UI
+    private ConstraintLayout CL;
     private ProgressBar animalsLoadingProgressBar;
     private FloatingActionButton addAnimalsBtn;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter animalAdapter;
-    private ConstraintLayout CL;
 
     // vars
     private List<Animal> animalList = new ArrayList<>();
 
 
     public MyAnimalsFragment() {
-        // Required empty public constructor
+
     }
 
     private void initFirebase() {

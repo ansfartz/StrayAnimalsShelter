@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.bcs.andy.strayanimalsshelter.model.Animal;
+import com.bcs.andy.strayanimalsshelter.model.User;
+import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,15 +22,17 @@ public class AnimalsDatabase {
 
     private static final String TAG = "AnimalsDatabase";
 
-    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference usersRef;
     private DatabaseReference currentUserAnimalsRef;
     private List<Animal> animalList;
 
 
     public AnimalsDatabase() {
-        this.firebaseDatabase = FirebaseDatabase.getInstance();
-        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        this.currentUserAnimalsRef = firebaseDatabase.getReference("users").child(userUid).child("animals");
+
+        this.usersRef = UserUtils.getUsersReference();
+//        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        this.currentUserAnimalsRef = usersRef.child(userUid).child("animals");
+        this.currentUserAnimalsRef = usersRef.child(UserUtils.getCurrentUserId()).child("animals");
         animalList = new ArrayList<>();
     }
 
@@ -60,9 +64,10 @@ public class AnimalsDatabase {
     }
 
     public void addAnimalToUser(Animal animal, String userID) {
-        DatabaseReference userTarger = firebaseDatabase.getReference("users").child(userID).child("animals");
+//        DatabaseReference userTarget = firebaseDatabase.getReference("users").child(userID).child("animals");
+        DatabaseReference userTarget = usersRef.child(userID).child("animals");
 
-        userTarger.child(animal.getAnimalID()).setValue(animal)
+        userTarget.child(animal.getAnimalID()).setValue(animal)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -76,6 +81,45 @@ public class AnimalsDatabase {
                                 "\nException: " + e.getMessage());
                     }
                 });
+    }
+
+
+    /**
+     * Actually reads all users, and then the animals inside each.
+     */
+    public void readAllAnimals(final AnimalsDatabaseListener animalsDatabaseListener) {
+
+        List<Animal> animals = new ArrayList<>();
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                animals.clear();
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    User someUser = ds.getValue(User.class);
+                    if (!someUser.getUuid().equals(UserUtils.getCurrentUserId())) {
+                        // found a user that is not currently logged in user in database
+
+                        someUser.getAnimals().values()
+                                .stream()
+                                .filter(Animal::isAdoptable)
+                                .forEach(animals::add);
+                    }
+                }
+
+                animalsDatabaseListener.onCallback(animals);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, databaseError.getMessage());
+            }
+        };
+
+        usersRef.addValueEventListener(valueEventListener);
+
     }
 
 
