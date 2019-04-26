@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new MyAnimalsFragment())
                         .commit();
+
                 break;
             case R.id.nav_map:
                 Intent mapIntent = new Intent(MainActivity.this, MapActivity.class);
@@ -161,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new DiscoverFragment())
                         .commit();
+                navigationView.setCheckedItem(R.id.nav_discover);
                 break;
             case R.id.nav_feedback:
 

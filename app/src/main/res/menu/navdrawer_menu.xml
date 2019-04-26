@@ -19,22 +19,28 @@
             android:id="@+id/nav_markers"
             android:icon="@drawable/ic_marker_black"
             android:title="Markers" />
+
+        <item
+            android:id="@+id/nav_discover"
+            android:icon="@drawable/ic_shelter"
+            android:title="Discover" />
     </group>
 
-    <item android:title="Communicate">
+
+    <item
+        android:id="@+id/nav_communicate"
+        android:title="Communicate">
         <menu>
-            <item
-                android:id="@+id/nav_discover"
-                android:icon="@drawable/ic_shelter"
-                android:title="Discover" />
 
             <item
                 android:id="@+id/nav_feedback"
                 android:icon="@drawable/ic_feedback"
-                android:title="Feedback"/>
+                android:title="Feedback" />
 
         </menu>
     </item>
+    
+
 
 
 </menu>
