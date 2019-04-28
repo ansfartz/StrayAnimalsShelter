@@ -11,6 +11,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
     private ProgressBar animalsDiscoverProgressBar;
     private RecyclerView recyclerView;
     private AnimalAdapter animalAdapter;
+    private SearchView searchView;
 
     // vars
     private List<Animal> discoverAnimalList = new ArrayList<>();
@@ -54,8 +56,24 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
     }
 
     private void initUI() {
+
         animalsDiscoverProgressBar = (ProgressBar) CL.findViewById(R.id.loadingDiscoverAnimalsProgressBar);
 
+        searchView = (SearchView) CL.findViewById(R.id.discoverAnimalsSearchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // we dont need this method, our search is in RealTime, we have no "submit"
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                animalAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        
         recyclerView = (RecyclerView) CL.findViewById(R.id.discoverAnimalsRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -150,4 +168,10 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
         Log.d(TAG, "onAnimalClick: clicked an animal in discover");
         Toast.makeText(getActivity(), "clicked pos: " + position, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onHelpingHandClick(Animal animal) {
+
+    }
+
 }

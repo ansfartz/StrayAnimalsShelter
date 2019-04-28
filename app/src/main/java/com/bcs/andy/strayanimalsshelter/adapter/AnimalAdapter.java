@@ -11,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,18 +27,21 @@ import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
 import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder> {
+public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder> implements Filterable {
 
-    private List<Animal> listAnimals;
+    private List<Animal> animalList;
+    private List<Animal> animalListFull;
     private Context context;
     private AnimalAdapterListener animalAdapterListener;
 
-    public AnimalAdapter(List<Animal> listAnimals, Context context, AnimalAdapterListener animalAdapterListener) {
-        this.listAnimals = listAnimals;
+    public AnimalAdapter(List<Animal> animalList, Context context, AnimalAdapterListener animalAdapterListener) {
+        this.animalList = animalList;
         this.context = context;
         this.animalAdapterListener = animalAdapterListener;
+        animalListFull = new ArrayList<>(animalList);
     }
 
     @NonNull
@@ -49,51 +55,65 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     // called right after onCreateViewHolder method
     // binds the data to the ViewHolder.
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Animal animal = listAnimals.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        Animal animal = animalList.get(position);
         String aproxAge = String.valueOf(animal.getAproxAge()) + " yrs";
-        holder.textViewAproxAge.setText(aproxAge);
-        holder.textViewName.setText(animal.getAnimalName());
-        holder.textViewObs.setText(animal.getObservations());
-        holder.neutredCheckBox.setChecked(animal.isNeutered());
-        holder.adultCheckBox.setChecked(animal.isAdult());
+        viewHolder.textViewAproxAge.setText(aproxAge);
+        viewHolder.textViewName.setText(animal.getAnimalName());
+        viewHolder.textViewObs.setText(animal.getObservations());
+        viewHolder.neutredCheckBox.setChecked(animal.isNeutered());
+        viewHolder.adultCheckBox.setChecked(animal.isAdult());
 
         switch (animal.getSpecies()) {
             case "dog":
-                holder.speciesImageView.setImageResource(R.drawable.dog_icon);
+                viewHolder.speciesImageView.setImageResource(R.drawable.dog_icon);
                 break;
             case "cat":
-                holder.speciesImageView.setImageResource(R.drawable.cat_icon);
+                viewHolder.speciesImageView.setImageResource(R.drawable.cat_icon);
                 break;
             default:
-                holder.speciesImageView.setImageResource(R.drawable.dog_icon);
+                viewHolder.speciesImageView.setImageResource(R.drawable.dog_icon);
         }
 
         if(animal.isAdoptable()) {
-            holder.adoptableImageView.setVisibility(View.VISIBLE);
+            viewHolder.adoptableImageView.setVisibility(View.VISIBLE);
         } else {
-            holder.adoptableImageView.setVisibility(View.INVISIBLE);
+            viewHolder.adoptableImageView.setVisibility(View.INVISIBLE);
         }
 
         if(animal.getAdoptionRequest() != null) {
-            holder.adoptionRequestImageView.setVisibility(View.VISIBLE);
+            viewHolder.adoptionRequestImageView.setVisibility(View.VISIBLE);
         } else {
-            holder.adoptionRequestImageView.setVisibility(View.INVISIBLE);
+            viewHolder.adoptionRequestImageView.setVisibility(View.INVISIBLE);
         }
 
         if (animal.getPhotoLink() != null) {
-            Picasso.get().load(animal.getPhotoLink()).fit().into(holder.photoImageView);
+            Picasso.get().load(animal.getPhotoLink()).fit().into(viewHolder.photoImageView);
         }
+
+        viewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.animalAdapterListener.onAnimalClick(viewHolder.getAdapterPosition(), animalList.get(viewHolder.getAdapterPosition()));
+            }
+        });
+
+        viewHolder.adoptionRequestImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.animalAdapterListener.onHelpingHandClick(animalList.get(viewHolder.getAdapterPosition()));
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        return listAnimals.size();
+        return animalList.size();
     }
 
     public Animal getAnimalAt(int position) {
-        return listAnimals.get(position);
+        return animalList.get(position);
     }
 
     public void sendAdoptionRequestAnimalAt(int position) {
@@ -108,12 +128,52 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         dialog.show();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+
+        // this method will return the filteredList to the publishResults methods
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+           List<Animal> filteredList = new ArrayList<>();
+
+           if (constraint == null || constraint.length() == 0) {
+               filteredList.addAll(animalListFull);
+           } else {
+               String filterPattern = constraint.toString().toLowerCase().trim();
+
+               for(Animal animal : animalListFull) {
+                   if (animal.getAnimalName().toLowerCase().contains(filterPattern)) {
+                       filteredList.add(animal);
+                   }
+               }
+
+           }
+
+           FilterResults results = new FilterResults();
+           results.values = filteredList;
+
+           return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            animalList.clear();
+            animalList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
         TextView textViewName, textViewObs, textViewAproxAge;
         CheckBox neutredCheckBox, adultCheckBox;
         ImageView speciesImageView, photoImageView, adoptableImageView, adoptionRequestImageView;
+        RelativeLayout relativeLayout;
 
         AnimalAdapterListener animalAdapterListener;
 
@@ -129,16 +189,12 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             photoImageView = (ImageView) itemView.findViewById(R.id.animalPhotoImageView);
             adoptableImageView = (ImageView) itemView.findViewById(R.id.animalAdoptableImageView);
             adoptionRequestImageView = (ImageView) itemView.findViewById(R.id.animalAdoptionRequestImageView);
+            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.list_item_animal_relative_layout);
 
             this.animalAdapterListener = animalAdapterListener;
 
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-            animalAdapterListener.onAnimalClick(getAdapterPosition(), listAnimals.get(getAdapterPosition()));
-        }
     }
 
     private AlertDialog.Builder dialogSendAdoptionRequest(int position) {
@@ -199,6 +255,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
     public interface AnimalAdapterListener {
         void onAnimalClick(int position, Animal animal);
+        void onHelpingHandClick(Animal animal);
     }
 
 

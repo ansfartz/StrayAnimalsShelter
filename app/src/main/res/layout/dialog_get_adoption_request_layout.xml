@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#272727"
     android:padding="10dp">
 
-
     <TextView
-        android:id="@+id/dialogGR_FromTextView"
+        android:id="@+id/dialogGA_FromTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -18,10 +18,10 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/dialogGR_FromUsernameTextView"
+        android:id="@+id/dialogGA_FromUsernameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialogGR_FromTextView"
+        android:layout_below="@id/dialogGA_FromTextView"
         android:background="#2E2E2E"
         android:padding="2dp"
         android:text="Username"
@@ -29,43 +29,27 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/dialogGR_FromEmailTextView"
+        android:id="@+id/dialogGA_FromEmailTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialogGR_FromUsernameTextView"
+        android:layout_below="@id/dialogGA_FromUsernameTextView"
         android:layout_marginTop="1dp"
-
         android:background="#2E2E2E"
         android:padding="2dp"
         android:text="Email address"
         android:textColor="#fff"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/dialogGR_MessageTextView"
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_below="@id/dialogGR_FromEmailTextView"
-        android:layout_marginTop="10dp"
-        android:background="#2E2E2E"
-        android:gravity="top"
-        android:hint="Additional message..."
-        android:scrollbars="vertical"
-        android:padding="3dp"
-        android:textColor="#fff"
-        android:textColorHint="#fff"
-        android:textSize="20sp" />
-
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialogGR_MessageTextView"
+        android:layout_below="@id/dialogGA_FromEmailTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="8dp">
+
 
         <TextView
-            android:id="@+id/dialogGR_DenyTV"
+            android:id="@+id/dialogGA_DenyTV"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginEnd="20dp"
@@ -78,8 +62,9 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+
         <TextView
-            android:id="@+id/dialogGR_ResolveTV"
+            android:id="@+id/dialogGA_ResolveTV"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:gravity="center"
@@ -91,7 +76,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/dialogGR_DoNothingTV"
+            android:id="@+id/dialogGA_DoNothingTV"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:gravity="center"
@@ -104,7 +89,10 @@
             android:textStyle="bold"/>
 
 
+
+
     </LinearLayout>
+
 
 
 </RelativeLayout>

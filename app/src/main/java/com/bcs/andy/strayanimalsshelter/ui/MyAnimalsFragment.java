@@ -1,5 +1,6 @@
 package com.bcs.andy.strayanimalsshelter.ui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -15,6 +16,8 @@ import android.widget.ProgressBar;
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabase;
 import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabaseListener;
+import com.bcs.andy.strayanimalsshelter.dialog.GetAdoptionRequestDialog;
+import com.bcs.andy.strayanimalsshelter.dialog.GetAdoptionRequestDialogListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.adapter.AnimalAdapter;
 import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
@@ -28,7 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalAdapterListener {
+public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalAdapterListener,
+        GetAdoptionRequestDialogListener {
 
     private static final String TAG = "MyAnimalsFragment";
 
@@ -41,7 +45,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     private ProgressBar animalsLoadingProgressBar;
     private FloatingActionButton addAnimalsBtn;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter animalAdapter;
+    private AnimalAdapter animalAdapter;
 
     // vars
     private List<Animal> animalList = new ArrayList<>();
@@ -117,5 +121,36 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         Intent selectedAnimalIntent = new Intent(getContext(), SelectedAnimalFromListActivity.class);
         selectedAnimalIntent.putExtra("selectedAnimal", animal);
         startActivity(selectedAnimalIntent);
+    }
+
+    @Override
+    public void onHelpingHandClick(Animal animal) {
+        GetAdoptionRequestDialog dialog = new GetAdoptionRequestDialog();
+        Bundle args = new Bundle();
+        args.putParcelable("animal", animal);
+        dialog.setArguments(args);
+        dialog.setTargetFragment(this, 1000);
+
+        dialog.show(getFragmentManager(), "GetAdoptionRequestDialog");
+    }
+
+
+    /**
+     * Sends the animal from the current user to the one requesting the adoption.
+     * @param animal object that will be moved between users. Currently has the owner userUid, and the
+     *               new userUid inside it's AdoptionRequest.
+     */
+    @Override
+    public void resolveAdoptionRequest(Animal animal) {
+        animalsDatabase.transferAnimalToRequestingUser(animal);
+    }
+
+    /**
+     * Removes the adoption request from the animal and doesn't move it from the current user.
+     * @param animal object that will have it's AdoptionRequest removed ( made null ).
+     */
+    @Override
+    public void denyAdoptionRequest(Animal animal) {
+        animalsDatabase.removeAdoptionRequestFromAnimal(animal);
     }
 }

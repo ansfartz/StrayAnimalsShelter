@@ -64,10 +64,7 @@ public class AnimalMarkerAdapter extends RecyclerView.Adapter<AnimalMarkerAdapte
         viewHolder.markerWarningIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: show the RemovalRequest object, and SOLVE(remove marker, add animal to the requesting user) or DISMISS(Remove RemovalRequest object)
                 viewHolder.animalMarkerAdapterListener.onWarningClick(viewHolder.getAdapterPosition(), listAnimalMarkers.get(viewHolder.getAdapterPosition()));
-
-
             }
         });
 

@@ -9,11 +9,9 @@ import com.bcs.andy.strayanimalsshelter.model.User;
 import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -145,16 +143,100 @@ public class AnimalsDatabase {
                     }
                 });
 
+    }
 
 
+    /**
+     * Changes the owner userUid inside the Animal to the new userUid inside the AdoptionRequest,
+     * while removing the AdoptionRequest
+     * @param animal that will be moved from one user to the other
+     */
+    public void transferAnimalToRequestingUser(Animal animal) {
+
+        AdoptionRequest adoptionRequest = animal.getAdoptionRequest();
+
+        DatabaseReference ownerUserAnimalRef = UserUtils.getUsersReference()
+                .child(animal.getUserUid())
+                .child("animals")
+                .child(animal.getAnimalID());
+
+        ownerUserAnimalRef.child("adoptionRequest").removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: Removed adoptionRequest from animal " + animal.getAnimalID());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Could not remove adoptionRequest from animal " + animal.getAnimalID());
+                    }
+                });
+
+        ownerUserAnimalRef.removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: Removed animal " + animal.getAnimalID() + " from user " + animal.getUserUid());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Could not remove animal " + animal.getAnimalID() + " from user " + animal.getUserUid());
+                    }
+                });
 
 
+        animal.setAdoptionRequest(null);
+        animal.setUserUid(adoptionRequest.getSenderUserId());
 
 
+        DatabaseReference newOwnerUser = UserUtils.getUsersReference()
+                .child(animal.getUserUid())
+                .child("animals");
 
+        newOwnerUser.child(animal.getAnimalID()).setValue(animal)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: added animal " + animal.getAnimalID() + " to user " + adoptionRequest.getSenderUserId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: could not add animal " + animal.getAnimalID() + " to user " + adoptionRequest.getSenderUserId());
+                    }
+                });
 
 
     }
 
+    /**
+     * Removes the AdoptionRequest from the Animal
+     * @param animal that will have it's AdoptionRequest set to null
+     */
+    public void removeAdoptionRequestFromAnimal(Animal animal) {
+        DatabaseReference targetAnimal = UserUtils.getUsersReference()
+                .child(animal.getUserUid())
+                .child("animals")
+                .child(animal.getAnimalID());
 
+        targetAnimal.child("adoptionRequest").removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: Removed adoptionRequest from animal " + animal.getAnimalID());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Could not remove adoptionRequest from animal " + animal.getAnimalID());
+                    }
+                });
+
+    }
 }
