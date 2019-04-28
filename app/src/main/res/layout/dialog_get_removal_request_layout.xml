@@ -69,14 +69,14 @@
             android:id="@+id/dialogGR_DenyTV"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="20dp"
             android:gravity="center"
             android:text="Deny"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#32B4E3"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -88,8 +88,21 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#32B4E3"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dialogGR_DoNothingTV"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="Do Nothing"
+            android:layout_marginStart="20dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#32B4E3"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
 
     </LinearLayout>

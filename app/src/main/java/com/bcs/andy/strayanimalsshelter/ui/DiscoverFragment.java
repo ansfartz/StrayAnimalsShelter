@@ -1,12 +1,17 @@
 package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +40,8 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
     private ConstraintLayout CL;
     private ProgressBar animalsDiscoverProgressBar;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter animalAdapter;
+    //    private RecyclerView.Adapter animalAdapter;
+    private AnimalAdapter animalAdapter;
 
     // vars
     private List<Animal> discoverAnimalList = new ArrayList<>();
@@ -70,10 +76,56 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
 
                 animalAdapter = new AnimalAdapter(discoverAnimalList, getActivity(), DiscoverFragment.this);
                 recyclerView.setAdapter(animalAdapter);
+
+                new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+                    private final ColorDrawable background = new ColorDrawable(Color.parseColor("#72B90E"));
+
+                    // onMove is for drag and drop, not needed here.
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                        return false;
+                    }
+
+                    // i = direction
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                        animalAdapter.sendAdoptionRequestAnimalAt(viewHolder.getAdapterPosition());
+                        animalAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                    }
+
+                    @Override
+                    public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                        super.onChildDraw(c, recyclerView, viewHolder, dX / 8, dY, actionState, isCurrentlyActive);
+
+                        View itemView = viewHolder.itemView;
+                        // backgroundCornerOffset = used to push the background behind the edge of the parent view so that it appears underneath the rounded corners
+                        // The larger the corner radius of your view, the larger backgroundCornerOffset should be.
+                        int backgroundCornerOffset = 20;
+
+                        if (dX > 0) { // Swiping to the right
+                            background.setBounds(itemView.getLeft(),
+                                    itemView.getTop() + 7,
+                                    itemView.getLeft() + ((int) dX) + backgroundCornerOffset,
+                                    itemView.getBottom() - 7);
+
+                        } else if (dX < 0) { // Swiping to the left
+                            background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
+                                    itemView.getTop() + 7,
+                                    itemView.getRight(),
+                                    itemView.getBottom() - 7);
+                        } else { // view is unSwiped
+                            background.setBounds(0, 0, 0, 0);
+                        }
+                        background.draw(c);
+
+
+                    }
+                }).attachToRecyclerView(recyclerView);
+
+
             }
         });
-
-        Log.d(TAG, "AFTER: " + discoverAnimalList.toString());
     }
 
     @Override

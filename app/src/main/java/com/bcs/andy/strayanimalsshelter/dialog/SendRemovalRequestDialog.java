@@ -2,7 +2,6 @@ package com.bcs.andy.strayanimalsshelter.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -16,7 +15,7 @@ import com.bcs.andy.strayanimalsshelter.R;
 
 public class SendRemovalRequestDialog extends AppCompatDialogFragment {
 
-    private EditText mesageET;
+    private EditText messageET;
     private TextView toUsernameTV, toEmailTV, fromUsernameTV, fromEmailTV;
     private TextView sendTV, cancelTV;
     private SendRemovalRequestDialogListener listener;
@@ -39,7 +38,7 @@ public class SendRemovalRequestDialog extends AppCompatDialogFragment {
         sendTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = mesageET.getText().toString();
+                String message = messageET.getText().toString();
                 listener.sendRemovalRequest(message);
                 dismiss();
             }
@@ -60,8 +59,8 @@ public class SendRemovalRequestDialog extends AppCompatDialogFragment {
         toEmailTV = (TextView) view.findViewById(R.id.dialogSR_ToEmailTextView);
         fromUsernameTV = (TextView) view.findViewById(R.id.dialogSR_FromUsernameTextView);
         fromEmailTV = (TextView) view.findViewById(R.id.dialogSR_FromEmailTextView);
-        mesageET = (EditText) view.findViewById(R.id.dialogSR_messageEditText);
-        mesageET.setMovementMethod(new ScrollingMovementMethod());
+        messageET = (EditText) view.findViewById(R.id.dialogSR_messageEditText);
+        messageET.setMovementMethod(new ScrollingMovementMethod());
         sendTV = (TextView) view.findViewById(R.id.SendTV);
         cancelTV = (TextView) view.findViewById(R.id.CancelTV);
     }

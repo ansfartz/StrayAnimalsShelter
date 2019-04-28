@@ -138,6 +138,8 @@ public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.A
     public void resolveRemovalRequest(AnimalMarker animalMarker, RemovalRequest removalRequest) {
 
         Animal animal = animalMarker.getAnimal();
+        animal.setUserUid(removalRequest.getSenderUserId());
+
         markersDatabase.removeMarker(animalMarker);
 
         AnimalsDatabase animalsDatabase = new AnimalsDatabase();

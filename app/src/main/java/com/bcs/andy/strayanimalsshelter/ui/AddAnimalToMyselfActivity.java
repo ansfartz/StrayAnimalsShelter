@@ -36,6 +36,7 @@ import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabase;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.utils.ImageUtils;
 import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
+import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -148,7 +149,7 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
         if (!validate()) {
             Toast.makeText(AddAnimalToMyselfActivity.this, "Please check field errors and try again", Toast.LENGTH_SHORT).show();
         } else {
-            String userUid = firebaseUser.getUid();
+            String userUid = UserUtils.getCurrentUserId();
             String animalID = UUIDGenerator.createUUID();
             String name = newAnimalName.getText().toString().trim();
             String species = newAnimalSpecies.getSelectedItem().toString();
@@ -157,7 +158,7 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
             Boolean isAdult = newAnimalAdultCheckBox.isChecked();
             Boolean isNeutered = newAnimalNeuteredCheckBox.isChecked();
 
-            Animal animal = new Animal(animalID, name, species, isAdult, isNeutered, aproxAge, observations, false);
+            Animal animal = new Animal(userUid, animalID, name, species, isAdult, isNeutered, aproxAge, observations, false);
 
 
             if(hasPhotoAssigned) {

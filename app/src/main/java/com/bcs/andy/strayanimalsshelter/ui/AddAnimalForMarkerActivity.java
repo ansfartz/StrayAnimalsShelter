@@ -32,6 +32,7 @@ import com.bcs.andy.strayanimalsshelter.database.AnimalPhotosDatabase;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.utils.ImageUtils;
 import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
+import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -126,7 +127,7 @@ public class AddAnimalForMarkerActivity extends AppCompatActivity {
                     boolean isAdult = animalAdultCheckBox.isChecked();
                     boolean isNeutered = animalNeuteredCheckBox.isChecked();
 
-                    Animal animal = new Animal(animalID, name, species, isAdult, isNeutered, aproxAge, obs, false);
+                    Animal animal = new Animal(UserUtils.getCurrentUserId(), animalID, name, species, isAdult, isNeutered, aproxAge, obs, false);
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("animal", animal);
 

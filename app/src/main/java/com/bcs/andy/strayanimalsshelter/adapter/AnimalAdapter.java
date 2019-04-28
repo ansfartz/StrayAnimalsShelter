@@ -1,6 +1,9 @@
 package com.bcs.andy.strayanimalsshelter.adapter;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +13,15 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
+import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabase;
+import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabaseListener;
+import com.bcs.andy.strayanimalsshelter.model.AdoptionRequest;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
+import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
+import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -77,8 +86,47 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         return listAnimals.size();
     }
 
-    public Animal getAnimalAt(int position) {
+    private Animal getAnimalAt(int position) {
         return listAnimals.get(position);
+    }
+
+    public void sendAdoptionRequestAnimalAt(int position) {
+        Toast.makeText(context, "Creating AdoptionRequest : " + position, Toast.LENGTH_SHORT).show();
+        Animal swipedAnimal = getAnimalAt(position);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
+                .setTitle("Adopt " + swipedAnimal.getAnimalName())
+                .setMessage("The owner of this animal will be notified that you would like to adopt it. Are you sure ?")
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Toast.makeText(context, "PRESSED YES", Toast.LENGTH_SHORT).show();
+
+                        AdoptionRequest adoptionRequest = new AdoptionRequest(UUIDGenerator.createUUID(), UserUtils.getCurrentUserId(), UserUtils.getCurrentUserName(), UserUtils.getCurrentUserEmail());
+                        AnimalsDatabase animalsDatabase = new AnimalsDatabase();
+                        animalsDatabase.addAdoptionRequestToAnimal(swipedAnimal, swipedAnimal.getUserUid(), adoptionRequest, new AnimalsDatabaseListener() {
+                            @Override
+                            public void onCallback(List<Animal> list) {
+
+                            }
+                        });
+
+
+                    }
+                });
+
+        Dialog dialog = dialogBuilder.create();
+        dialog.show();
+
+
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -112,6 +160,9 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             animalAdapterListener.onAnimalClick(getAdapterPosition(), listAnimals.get(getAdapterPosition()));
         }
     }
+
+
+
 
     public interface AnimalAdapterListener {
         void onAnimalClick(int position, Animal animal);

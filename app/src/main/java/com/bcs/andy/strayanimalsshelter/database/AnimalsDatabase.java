@@ -3,6 +3,7 @@ package com.bcs.andy.strayanimalsshelter.database;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.bcs.andy.strayanimalsshelter.model.AdoptionRequest;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.model.User;
 import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
@@ -65,7 +66,8 @@ public class AnimalsDatabase {
 
     public void addAnimalToUser(Animal animal, String userID) {
 //        DatabaseReference userTarget = firebaseDatabase.getReference("users").child(userID).child("animals");
-        DatabaseReference userTarget = usersRef.child(userID).child("animals");
+        DatabaseReference userTarget = usersRef.child(userID)
+                .child("animals");
 
         userTarget.child(animal.getAnimalID()).setValue(animal)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -119,6 +121,38 @@ public class AnimalsDatabase {
         };
 
         usersRef.addValueEventListener(valueEventListener);
+
+    }
+
+
+    public void addAdoptionRequestToAnimal(Animal animal, String userUid, AdoptionRequest adoptionRequest, final AnimalsDatabaseListener animalsDatabaseListener) {
+
+        DatabaseReference targetAnimalRef = usersRef.child(userUid).child("animals")
+                .child(animal.getAnimalID());
+
+        targetAnimalRef.child("adoptionRequest").setValue(adoptionRequest)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: added adoptionRequest " + adoptionRequest + " to Animal " + animal.getAnimalID() + " in user " + userUid);
+                        animalsDatabaseListener.onCallback(null);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: couldn't add Adoption Request.\nException: " + e.getMessage());
+                    }
+                });
+
+
+
+
+
+
+
+
+
 
     }
 

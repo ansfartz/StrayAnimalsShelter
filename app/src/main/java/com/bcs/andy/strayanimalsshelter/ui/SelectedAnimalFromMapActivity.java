@@ -172,7 +172,7 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
     @Override
     public void sendRemovalRequest(String message) {
         String removalRequestId = UUIDGenerator.createUUID();
-        RemovalRequest removalRequest = new RemovalRequest(removalRequestId, UserUtils.getCurrentUserId(), creatorUser, creatorEmail, message);
+        RemovalRequest removalRequest = new RemovalRequest(removalRequestId, UserUtils.getCurrentUserId(), UserUtils.getCurrentUserName(), UserUtils.getCurrentUserEmail(), message);
         markersDatabase.addRemovalRequestToMarker(animalMarker, removalRequest);
         finish();
 

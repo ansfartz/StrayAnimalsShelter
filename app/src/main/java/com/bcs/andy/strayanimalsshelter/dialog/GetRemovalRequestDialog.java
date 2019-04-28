@@ -27,7 +27,7 @@ public class GetRemovalRequestDialog extends DialogFragment {
     // UI
     private View view;
     private TextView fromUsernameTV, fromEmailTV, messageTV;
-    private TextView denyTV, resolveTV;
+    private TextView denyTV, resolveTV, doNothingTV;
 
     @Nullable
     @Override
@@ -63,6 +63,14 @@ public class GetRemovalRequestDialog extends DialogFragment {
             }
         });
 
+        doNothingTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: doNothingTV");
+                getDialog().dismiss();
+            }
+        });
+
 
         return view;
     }
@@ -74,6 +82,7 @@ public class GetRemovalRequestDialog extends DialogFragment {
         messageTV.setMovementMethod(new ScrollingMovementMethod());
         denyTV = (TextView) view.findViewById(R.id.dialogGR_DenyTV);
         resolveTV = (TextView) view.findViewById(R.id.dialogGR_ResolveTV);
+        doNothingTV = (TextView) view.findViewById(R.id.dialogGR_DoNothingTV);
     }
 
     @Override
