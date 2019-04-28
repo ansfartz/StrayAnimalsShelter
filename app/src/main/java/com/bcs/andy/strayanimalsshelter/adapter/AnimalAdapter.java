@@ -75,6 +75,12 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             holder.adoptableImageView.setVisibility(View.INVISIBLE);
         }
 
+        if(animal.getAdoptionRequest() != null) {
+            holder.adoptionRequestImageView.setVisibility(View.VISIBLE);
+        } else {
+            holder.adoptionRequestImageView.setVisibility(View.INVISIBLE);
+        }
+
         if (animal.getPhotoLink() != null) {
             Picasso.get().load(animal.getPhotoLink()).fit().into(holder.photoImageView);
         }
@@ -86,12 +92,57 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         return listAnimals.size();
     }
 
-    private Animal getAnimalAt(int position) {
+    public Animal getAnimalAt(int position) {
         return listAnimals.get(position);
     }
 
     public void sendAdoptionRequestAnimalAt(int position) {
         Toast.makeText(context, "Creating AdoptionRequest : " + position, Toast.LENGTH_SHORT).show();
+        Dialog dialog = dialogSendAdoptionRequest(position).create();
+        dialog.show();
+    }
+
+    public void impossibleAdoptionRequest(int position) {
+        Toast.makeText(context, "Impossible AdoptionRequest : " + position, Toast.LENGTH_SHORT).show();
+        Dialog dialog = dialogImpossibleAdoptionRequest(position).create();
+        dialog.show();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        CardView cardView;
+        TextView textViewName, textViewObs, textViewAproxAge;
+        CheckBox neutredCheckBox, adultCheckBox;
+        ImageView speciesImageView, photoImageView, adoptableImageView, adoptionRequestImageView;
+
+        AnimalAdapterListener animalAdapterListener;
+
+        public ViewHolder(@NonNull View itemView, AnimalAdapterListener animalAdapterListener) {
+            super(itemView);
+            textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
+            textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
+            textViewAproxAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
+            speciesImageView = (ImageView) itemView.findViewById(R.id.animalIconImageView);
+            neutredCheckBox = (CheckBox) itemView.findViewById(R.id.neuteredCheckBox);
+            adultCheckBox = (CheckBox) itemView.findViewById(R.id.adultCheckBox);
+            cardView = (CardView) itemView.findViewById(R.id.list_item_animals_CardView);
+            photoImageView = (ImageView) itemView.findViewById(R.id.animalPhotoImageView);
+            adoptableImageView = (ImageView) itemView.findViewById(R.id.animalAdoptableImageView);
+            adoptionRequestImageView = (ImageView) itemView.findViewById(R.id.animalAdoptionRequestImageView);
+
+            this.animalAdapterListener = animalAdapterListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            animalAdapterListener.onAnimalClick(getAdapterPosition(), listAnimals.get(getAdapterPosition()));
+        }
+    }
+
+    private AlertDialog.Builder dialogSendAdoptionRequest(int position) {
+
         Animal swipedAnimal = getAnimalAt(position);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
@@ -114,7 +165,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                         animalsDatabase.addAdoptionRequestToAnimal(swipedAnimal, swipedAnimal.getUserUid(), adoptionRequest, new AnimalsDatabaseListener() {
                             @Override
                             public void onCallback(List<Animal> list) {
-
+                                // list is null here
                             }
                         });
 
@@ -122,43 +173,25 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                     }
                 });
 
-        Dialog dialog = dialogBuilder.create();
-        dialog.show();
-
-
-
+        return dialogBuilder;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private AlertDialog.Builder dialogImpossibleAdoptionRequest(int position) {
 
-        CardView cardView;
-        TextView textViewName, textViewObs, textViewAproxAge;
-        CheckBox neutredCheckBox, adultCheckBox;
-        ImageView speciesImageView, photoImageView, adoptableImageView;
+        Animal swipedAnimal = getAnimalAt(position);
 
-        AnimalAdapterListener animalAdapterListener;
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
+                .setTitle("Adopt " + swipedAnimal.getAnimalName())
+                .setMessage("You can't ask to adopt this animal, it has already been requested by someone else.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
-        public ViewHolder(@NonNull View itemView, AnimalAdapterListener animalAdapterListener) {
-            super(itemView);
-            textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
-            textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
-            textViewAproxAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
-            speciesImageView = (ImageView) itemView.findViewById(R.id.animalIconImageView);
-            neutredCheckBox = (CheckBox) itemView.findViewById(R.id.neuteredCheckBox);
-            adultCheckBox = (CheckBox) itemView.findViewById(R.id.adultCheckBox);
-            cardView = (CardView) itemView.findViewById(R.id.list_item_animals_CardView);
-            photoImageView = (ImageView) itemView.findViewById(R.id.animalPhotoImageView);
-            adoptableImageView = (ImageView) itemView.findViewById(R.id.animalAdoptableImageView);
+        return dialogBuilder;
 
-            this.animalAdapterListener = animalAdapterListener;
-
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            animalAdapterListener.onAnimalClick(getAdapterPosition(), listAnimals.get(getAdapterPosition()));
-        }
     }
 
 

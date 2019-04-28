@@ -40,7 +40,6 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
     private ConstraintLayout CL;
     private ProgressBar animalsDiscoverProgressBar;
     private RecyclerView recyclerView;
-    //    private RecyclerView.Adapter animalAdapter;
     private AnimalAdapter animalAdapter;
 
     // vars
@@ -90,7 +89,14 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
                     // i = direction
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                        animalAdapter.sendAdoptionRequestAnimalAt(viewHolder.getAdapterPosition());
+                        int position = viewHolder.getAdapterPosition();
+                        Animal animal = animalAdapter.getAnimalAt(position);
+                        if (animal.getAdoptionRequest() == null) {
+                            animalAdapter.sendAdoptionRequestAnimalAt(position);
+                        } else {
+                            animalAdapter.impossibleAdoptionRequest(position);
+                        }
+
                         animalAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                     }
 
