@@ -55,10 +55,6 @@ public class RegisterAskEmailFragment extends Fragment {
                     emailET.setError("Please fill a valid email address");
                 }
 
-
-
-
-
             }
         });
 
