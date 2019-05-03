@@ -92,6 +92,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private GoogleMap mMap;
     private Geocoder geocoder;
     private Boolean isMarkerForAnimalRequired = false;
+    private Boolean isAddingAnimalInProgress = false;
 
     private HashMap<Marker, AnimalMarker> myMarkersHashMap;
     private HashMap<Marker, AnimalMarker> allMarkersHashMap;
@@ -244,62 +245,73 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onMapLongClick(LatLng latLng) {
                 if (!isMarkerForAnimalRequired) {
+
                     Log.d(TAG, "onMapLongClick: isMarkerForAnimalRequired = " + isMarkerForAnimalRequired);
                     Toast.makeText(MapActivity.this, "Create an animal first", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    Log.d(TAG, "onMapLongClick: adding a new Marker");
-                    Toast.makeText(MapActivity.this, "Uploading data, please wait..", Toast.LENGTH_SHORT).show();
-                    List<Address> addresses = new ArrayList<>();
-                    try {
-                        addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
 
-                    String locationTitle = addresses.get(0).getAddressLine(0);
-                    Log.d(TAG, "onMapLongClick: addresses = " + addresses.get(0));
-
-                    if (photoFilePath != null) {
-                        Log.d(TAG, "onMapLongClick: Marker has photo attached");
-
-                        animalPhotosDatabase.addPhotoToAnimalGetURL(animal, photoFilePath, new AnimalPhotosDatabaseListener() {
-                            @Override
-                            public void onPhotoUploadComplete(String uriString) {
-                                Log.d(TAG, "onPhotoUploadComplete: xxxx: have received URL! --> " + uriString);
-
-                                String animalMarkerUuid = UUIDGenerator.createUUID();
-                                AnimalMarker animalMarker = new AnimalMarker(animalMarkerUuid, latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
-                                animal.setPhotoLink(uriString);
-                                animalMarker.setAnimal(animal);
-
-                                markersDatabase.addMarker(animalMarker);
-
-                                animal = null;
-                                photoFilePath = null;
-                                isMarkerForAnimalRequired = false;
-                            }
-                        });
-
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), DEFAULT_ZOOM));
-                        // stopAnimationWarning();
-
-
+                    if (isAddingAnimalInProgress) {
+                        Toast.makeText(MapActivity.this, "Please wait for previous marker to complete", Toast.LENGTH_LONG).show();
                     } else {
-                        Log.d(TAG, "onMapLongClick: Marker doesn't have photo attached");
+                        isAddingAnimalInProgress = true;
 
-                        String animalMarkerUuid = UUIDGenerator.createUUID();
-                        AnimalMarker animalMarker = new AnimalMarker(animalMarkerUuid, latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
-                        animalMarker.setAnimal(animal);
-                        markersDatabase.addMarker(animalMarker);
+                        Log.d(TAG, "onMapLongClick: adding a new Marker");
+                        Toast.makeText(MapActivity.this, "Uploading data, please wait..", Toast.LENGTH_SHORT).show();
 
-                        animal = null;
-                        photoFilePath = null;
+                        List<Address> addresses = new ArrayList<>();
+                        try {
+                            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), DEFAULT_ZOOM));
-                        isMarkerForAnimalRequired = false;
+                        String locationTitle = addresses.get(0).getAddressLine(0);
+                        Log.d(TAG, "onMapLongClick: addresses = " + addresses.get(0));
+
+                        if (photoFilePath != null) {
+                            Log.d(TAG, "onMapLongClick: Marker has photo attached");
+
+                            animalPhotosDatabase.addPhotoToAnimalGetURL(animal, photoFilePath, new AnimalPhotosDatabaseListener() {
+                                @Override
+                                public void onPhotoUploadComplete(String uriString) {
+                                    Log.d(TAG, "onPhotoUploadComplete: xxxx: have received URL! --> " + uriString);
+
+                                    String animalMarkerUuid = UUIDGenerator.createUUID();
+                                    AnimalMarker animalMarker = new AnimalMarker(animalMarkerUuid, latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
+                                    animal.setPhotoLink(uriString);
+                                    animalMarker.setAnimal(animal);
+
+                                    markersDatabase.addMarker(animalMarker);
+
+                                    animal = null;
+                                    photoFilePath = null;
+                                    isMarkerForAnimalRequired = false;
+                                    isAddingAnimalInProgress = false;
+                                }
+                            });
+
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), DEFAULT_ZOOM));
+
+
+                        } else {
+                            Log.d(TAG, "onMapLongClick: Marker doesn't have photo attached");
+
+                            String animalMarkerUuid = UUIDGenerator.createUUID();
+                            AnimalMarker animalMarker = new AnimalMarker(animalMarkerUuid, latLng.latitude, latLng.longitude, locationTitle, firebaseAuth.getCurrentUser().getUid());
+                            animalMarker.setAnimal(animal);
+                            markersDatabase.addMarker(animalMarker);
+
+                            animal = null;
+                            photoFilePath = null;
+
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), DEFAULT_ZOOM));
+                            isMarkerForAnimalRequired = false;
+                        }
+
+                        stopWarningAnimation();
+
                     }
-
-                    stopWarningAnimation();
 
                 }
 
@@ -311,7 +323,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             public void onInfoWindowClick(Marker marker) {
                 AnimalMarker animalMarker = null;
                 animalMarker = myMarkersHashMap.get(marker);
-                if(animalMarker == null) {
+                if (animalMarker == null) {
                     animalMarker = allMarkersHashMap.get(marker);
                 }
 
@@ -487,7 +499,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                             .visible(myMarkersVisible));
 
-                    if(animalMarker.getRemovalRequest() != null) {
+                    if (animalMarker.getRemovalRequest() != null) {
                         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                     }
 
@@ -521,7 +533,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                             .visible(allMarkersVisible));
 
-                    if(animalMarker.getRemovalRequest() != null) {
+                    if (animalMarker.getRemovalRequest() != null) {
                         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                     }
 
