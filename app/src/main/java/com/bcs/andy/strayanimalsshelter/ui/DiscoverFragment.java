@@ -73,7 +73,7 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
                 return false;
             }
         });
-        
+
         recyclerView = (RecyclerView) CL.findViewById(R.id.discoverAnimalsRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
