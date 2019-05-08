@@ -22,6 +22,7 @@ import com.bcs.andy.strayanimalsshelter.R;
 
 public class RegisterAskNameFragment extends Fragment {
 
+    private static final String TAG = "RegisterAskNameFragment";
 
     // vars
     private Boolean allFieldsSet = false;
@@ -39,12 +40,11 @@ public class RegisterAskNameFragment extends Fragment {
         fabNextFragment = (FloatingActionButton) view.findViewById(R.id.register_aN_next);
         firstNameET = (EditText) view.findViewById(R.id.register_aN_firstNameET);
         lastNameET = (EditText) view.findViewById(R.id.register_aN_lastNameET);
-        fabNextFragment.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_right_arrow_green));
+//        fabNextFragment.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_right_arrow_green));
 
         fabNextFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "allFieldsSet = " + allFieldsSet, Toast.LENGTH_SHORT).show();
                 if (allFieldsSet) {
                     RegisterAskEmailFragment emailFragment = new RegisterAskEmailFragment();
                     Bundle args = new Bundle();
@@ -69,7 +69,7 @@ public class RegisterAskNameFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!TextUtils.isEmpty(firstNameET.getText().toString()) && !TextUtils.isEmpty(lastNameET.getText().toString())) {
+                if(!TextUtils.isEmpty(firstNameET.getText().toString().trim()) && !TextUtils.isEmpty(lastNameET.getText().toString().trim())) {
                     allFieldsSet = true;
                 } else {
                     allFieldsSet = false;
@@ -78,7 +78,7 @@ public class RegisterAskNameFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!TextUtils.isEmpty(firstNameET.getText().toString()) && !TextUtils.isEmpty(lastNameET.getText().toString())) {
+                if(!TextUtils.isEmpty(firstNameET.getText().toString().trim()) && !TextUtils.isEmpty(lastNameET.getText().toString().trim())) {
                     allFieldsSet = true;
                 } else {
                     allFieldsSet = false;
@@ -95,7 +95,7 @@ public class RegisterAskNameFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!TextUtils.isEmpty(firstNameET.getText().toString()) && !TextUtils.isEmpty(lastNameET.getText().toString())) {
+                if(!TextUtils.isEmpty(firstNameET.getText().toString().trim()) && !TextUtils.isEmpty(lastNameET.getText().toString().trim())) {
                     allFieldsSet = true;
                 } else {
                     allFieldsSet = false;
@@ -104,7 +104,7 @@ public class RegisterAskNameFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!TextUtils.isEmpty(firstNameET.getText().toString()) && !TextUtils.isEmpty(lastNameET.getText().toString())) {
+                if(!TextUtils.isEmpty(firstNameET.getText().toString().trim()) && !TextUtils.isEmpty(lastNameET.getText().toString().trim())) {
                     allFieldsSet = true;
                 } else {
                     allFieldsSet = false;
@@ -129,12 +129,10 @@ public class RegisterAskNameFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_register_ask_name, container, false);
         init();
 
