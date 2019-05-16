@@ -9,6 +9,7 @@ build/
 /local.properties
 
 # User-specific configurations
+google_maps_api.xml
 .idea/caches/
 .idea/libraries/
 .idea/shelf/

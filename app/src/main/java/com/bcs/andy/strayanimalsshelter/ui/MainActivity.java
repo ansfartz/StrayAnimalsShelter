@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.default_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home");
 
         drawer = (DrawerLayout) findViewById(R.id.myDrawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -102,33 +103,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.default_toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle toolbar item clicks here.
-
-        switch (item.getItemId()) {
-            case R.id.supportField:
-                Toast.makeText(this, "Support", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.helpField:
-                Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.logoutField:
-                firebaseAuth.signOut();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -163,22 +137,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigationView.setCheckedItem(R.id.nav_discover);
                 break;
             case R.id.nav_feedback:
-
-                String sendTo[] = new String[]{"carolsfartz@gmail.com"};
-
                 String deviceInformation = "\n\n\n\n\n\nOS Version: " + System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")" +
                         "\n OS API Level: " + android.os.Build.VERSION.SDK_INT +
                         "\n Device: " + android.os.Build.DEVICE +
                         "\n Model: " + android.os.Build.MODEL;
 
+                String[] sendTo = new String[]{"carolsfartz@gmail.com"};
                 Intent emailIntent = new Intent(Intent.ACTION_SEND)
                         .setType("plain/text")
                         .putExtra(Intent.EXTRA_EMAIL, sendTo)
                         .putExtra(Intent.EXTRA_SUBJECT, "Stray Animals Shelter Feedback")
                         .putExtra(Intent.EXTRA_TEXT, deviceInformation);
                 startActivity(Intent.createChooser(emailIntent, ""));
-
                 break;
+
+            case R.id.nav_logout:
+                firebaseAuth.signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+                break;
+
 
         }
         drawer.closeDrawer(GravityCompat.START);

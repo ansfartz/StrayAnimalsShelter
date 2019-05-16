@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
-    android:background="@color/colorPrimaryDark"
-    android:gravity="bottom"
-    android:padding="6dp"
+    android:layout_height="220dp"
+    android:background="@color/navDrawer_Header"
+    android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="10dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:id="@+id/nav_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
+        android:id="@+id/nav_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/nav_icon"
+        android:layout_centerHorizontal="true"
         android:padding="6dp"
-        android:layout_marginStart="10dp"
         android:text="Name"
+        android:textColor="#FFFFFF"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-        android:textSize="25sp"
-        android:id="@+id/nav_username"/>
+        android:textSize="25sp" />
 
     <TextView
+        android:id="@+id/nav_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="6dp"
+        android:layout_below="@+id/nav_username"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="-5dp"
+        android:padding="6dp"
         android:text="user@email.com"
+        android:textColor="#FFFFFF"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-        android:textSize="20sp"
-        android:id="@+id/nav_email"/>
+        android:textSize="18sp" />
 
-</LinearLayout>
+</RelativeLayout>
