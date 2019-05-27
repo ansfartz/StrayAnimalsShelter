@@ -4,7 +4,7 @@
     <!-- margins/border color -->
     <stroke
         android:width="2dp"
-        android:color="#477210" />
+        android:color="@color/colorPrimary" />
 
     <!-- overall color -->
     <solid android:color="#E4F7F6F6" />

@@ -48,9 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void init() {
-        toolbar = (Toolbar) findViewById(R.id.default_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.default_toolbar_main_activity);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Home");
 
         drawer = (DrawerLayout) findViewById(R.id.myDrawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

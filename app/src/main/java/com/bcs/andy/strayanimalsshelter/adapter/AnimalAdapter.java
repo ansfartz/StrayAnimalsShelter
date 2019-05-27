@@ -60,7 +60,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         String aproxAge = String.valueOf(animal.getAproxAge()) + " yrs";
         viewHolder.textViewAproxAge.setText(aproxAge);
         viewHolder.textViewName.setText(animal.getAnimalName());
-        viewHolder.textViewObs.setText(animal.getObservations());
+//        viewHolder.textViewObs.setText(animal.getObservations());
         viewHolder.neutredCheckBox.setChecked(animal.isNeutered());
         viewHolder.adultCheckBox.setChecked(animal.isAdult());
 
@@ -170,7 +170,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
-        TextView textViewName, textViewObs, textViewAproxAge;
+        TextView textViewName, textViewAproxAge, textViewObs;
         CheckBox neutredCheckBox, adultCheckBox;
         ImageView speciesImageView, photoImageView, adoptableImageView, adoptionRequestImageView;
         RelativeLayout relativeLayout;
@@ -180,7 +180,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView, AnimalAdapterListener animalAdapterListener) {
             super(itemView);
             textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
-            textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
+//            textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
             textViewAproxAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
             speciesImageView = (ImageView) itemView.findViewById(R.id.animalIconImageView);
             neutredCheckBox = (CheckBox) itemView.findViewById(R.id.neuteredCheckBox);

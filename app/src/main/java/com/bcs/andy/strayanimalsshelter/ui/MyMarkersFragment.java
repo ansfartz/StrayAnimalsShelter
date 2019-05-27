@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -56,6 +57,8 @@ public class MyMarkersFragment extends Fragment implements AnimalMarkerAdapter.A
     }
 
     private void initUI() {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Markers");
+
         markersLoadingProgressBar = (ProgressBar) CL.findViewById(R.id.loadingMarkersProgressBar);
         markersLoadingProgressBar.setVisibility(View.VISIBLE);
 

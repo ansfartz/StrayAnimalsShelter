@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bcs.andy.strayanimalsshelter.R;
@@ -68,7 +69,7 @@ public class AnimalMarkerAdapter extends RecyclerView.Adapter<AnimalMarkerAdapte
             }
         });
 
-        viewHolder.innerConstraintLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.innerRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewHolder.animalMarkerAdapterListener.onAnimalMarkerClick(viewHolder.getAdapterPosition(), listAnimalMarkers.get(viewHolder.getAdapterPosition()));
@@ -90,7 +91,7 @@ public class AnimalMarkerAdapter extends RecyclerView.Adapter<AnimalMarkerAdapte
         public TextView markerLatitudeTV;
         public TextView markerLongitudeTV;
         public ImageView markerDeleteIV, markerIconIV, markerWarningIV;
-        public ConstraintLayout innerConstraintLayout;
+        public RelativeLayout innerRelativeLayout;
         public AnimalMarkerAdapterListener animalMarkerAdapterListener;
 
         public ViewHolder(@NonNull View itemView, AnimalMarkerAdapterListener animalMarkerAdapterListener) {
@@ -103,7 +104,7 @@ public class AnimalMarkerAdapter extends RecyclerView.Adapter<AnimalMarkerAdapte
             markerIconIV = (ImageView) itemView.findViewById(R.id.markerIconImageView);
             markerWarningIV = (ImageView) itemView.findViewById(R.id.markerItemWarningIV);
             cardView = (CardView) itemView.findViewById(R.id.list_item_markers_CardView);
-            innerConstraintLayout = (ConstraintLayout) itemView.findViewById(R.id.list_item_markers_innerCL);
+            innerRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.list_item_markers_innerRL);
 
             this.animalMarkerAdapterListener = animalMarkerAdapterListener;
         }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -56,6 +57,8 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
     }
 
     private void initUI() {
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Discover Animals");
 
         animalsDiscoverProgressBar = (ProgressBar) CL.findViewById(R.id.loadingDiscoverAnimalsProgressBar);
 

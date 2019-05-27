@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,6 +35,7 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
     private Boolean changesBeenMade;
 
     // UI
+    private Toolbar toolbar;
     private TextView animalNameTV, animalAgeTV, animalObsTV;
     private CheckBox animalAdultCB, animalNeuteredCB;
     private ImageView animalIconIV, animalImageView, animalAdoptableImageView;
@@ -45,7 +47,7 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selected_animal_from_list);
+        setContentView(R.layout.activity_selected_animal_from_list2);
 
         init();
         setUI();
@@ -76,6 +78,10 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
     }
 
     private void setUI() {
+
+        toolbar = (Toolbar) findViewById(R.id.default_toolbar_animal_from_list);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(editedAnimal.getAnimalName());
 
         animalNameTV.setText(editedAnimal.getAnimalName());
         animalAgeTV.setText(editedAnimal.getAproxAge().toString());

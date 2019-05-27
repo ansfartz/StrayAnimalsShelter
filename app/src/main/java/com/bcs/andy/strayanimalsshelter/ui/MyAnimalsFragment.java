@@ -1,10 +1,10 @@
 package com.bcs.andy.strayanimalsshelter.ui;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,10 +22,7 @@ import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.adapter.AnimalAdapter;
 import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.github.clans.fab.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +56,9 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         user = UserUtils.getCurrentUser();
     }
 
-    private void init() {
+    private void initUI() {
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Home");
 
         animalsLoadingProgressBar = (ProgressBar) CL.findViewById(R.id.loadingAnimalsProgressBar);
         animalsLoadingProgressBar.setVisibility(View.VISIBLE);
@@ -100,10 +99,10 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // use CL inside init()
+        // use CL inside initUI()
         CL = (ConstraintLayout) inflater.inflate(R.layout.fragment_my_animals, container, false);
         initFirebase();
-        init();
+        initUI();
 
         addAnimalsBtn.setOnClickListener(new View.OnClickListener() {
             @Override

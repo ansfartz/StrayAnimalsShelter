@@ -37,6 +37,7 @@ import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.utils.ImageUtils;
 import com.bcs.andy.strayanimalsshelter.utils.UUIDGenerator;
 import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -74,6 +75,8 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
     private CheckBox newAnimalAdultCheckBox;
     private CheckBox newAnimalNeuteredCheckBox;
     private ImageView newAnimalPictureImageView;
+    private FloatingActionButton acceptBtn;
+    private FloatingActionButton cancelBtn;
 
     private void init() {
         newAnimalName = (EditText) findViewById(R.id.newAnimalNameET);
@@ -94,6 +97,23 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
                 takePicture();
             }
         });
+
+        acceptBtn = (FloatingActionButton) findViewById(R.id.fab_acceptNewAnimal);
+        acceptBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveTlbLogic();
+            }
+        });
+        cancelBtn = (FloatingActionButton) findViewById(R.id.fab_cancelNewAnimal);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
 
     }
 
@@ -122,28 +142,27 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
     }
 
 
-    // for the Toolbar  that I created, to be used
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-
-        inflater.inflate(R.menu.add_animal_to_myself_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    // for the onClickListeners on toolbar
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.tlb1save:
-                saveTlbLogic();
-                return true;
-            case R.id.tlb1cancel:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    // for the Toolbar  that I created, to be used
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.add_animal_to_myself_menu, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    // for the onClickListeners on toolbar
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.tlb1save:
+//                saveTlbLogic();
+//                return true;
+//            case R.id.tlb1cancel:
+//                finish();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public void saveTlbLogic() {
         if (!validate()) {

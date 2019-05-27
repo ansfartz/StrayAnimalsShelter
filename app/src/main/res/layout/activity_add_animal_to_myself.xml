@@ -2,9 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/colorAccent"
     tools:context=".ui.AddAnimalToMyselfActivity">
 
     <ImageView
@@ -59,8 +60,8 @@
             android:inputType="textPersonName|textCapSentences"
             android:padding="10dp"
             android:textAlignment="center"
-            android:textColor="#477210"
-            android:textColorHint="#477210"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.024"
@@ -82,8 +83,8 @@
             android:padding="10dp"
             android:scrollbars="vertical"
             android:textAlignment="textStart"
-            android:textColor="#477210"
-            android:textColorHint="#477210"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent"
             android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -99,7 +100,7 @@
             android:layout_toEndOf="@+id/newAnimalNameET"
             android:background="@drawable/newanimalspinner_background"
             android:spinnerMode="dropdown"
-            android:textColor="#477210"
+            android:textColor="@color/colorAccent"
             app:layout_constraintStart_toEndOf="@+id/newAnimalNameET"
             app:layout_constraintTop_toTopOf="@+id/newAnimalNameET" />
 
@@ -113,8 +114,8 @@
             android:hint="Aprox. Age"
             android:inputType="number"
             android:textAlignment="center"
-            android:textColor="#477210"
-            android:textColorHint="#477210"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorAccent"
             android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -148,6 +149,31 @@
 
 
     </android.support.constraint.ConstraintLayout>
+
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_acceptNewAnimal"
+        android:layout_width="82dp"
+        android:layout_height="79dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="460dp"
+        android:src="@drawable/ic_accept"
+        app:layout_constraintStart_toStartOf="@+id/addAnimalLayout"
+        app:layout_constraintTop_toTopOf="@+id/addAnimalLayout"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="#444" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_cancelNewAnimal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:src="@drawable/ic_cancel"
+        app:layout_constraintEnd_toEndOf="@+id/addAnimalLayout"
+        app:layout_constraintTop_toTopOf="@+id/fab_acceptNewAnimal"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="#444" />
+
 
 
 </android.support.constraint.ConstraintLayout>
