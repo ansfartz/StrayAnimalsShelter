@@ -10,7 +10,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,7 +46,7 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selected_animal_from_list2);
+        setContentView(R.layout.activity_selected_animal_from_list);
 
         init();
         setUI();
@@ -79,7 +78,7 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
 
     private void setUI() {
 
-        toolbar = (Toolbar) findViewById(R.id.default_toolbar_animal_from_list);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_default_animal_from_list);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(editedAnimal.getAnimalName());
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,128 +9,175 @@
 
 
     <include
-        android:id="@+id/default_toolbar_animal_from_list"
-        layout="@layout/default_toolbar">
-    </include>
-
-    <ImageView
-        android:id="@+id/selectedAnimalImageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/green_border_background"
-        android:padding="3dp"
-        android:src="@drawable/ic_no_image_available"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/default_toolbar_animal_from_list" />
+        android:id="@+id/toolbar_default_animal_from_list"
+        layout="@layout/toolbar_default" />
 
 
-    <TextView
-        android:id="@+id/selectedAnimalNameTV"
-        android:layout_width="171dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Animal Name"
-        android:textAlignment="viewStart"
-        android:textAllCaps="false"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textSize="22dp"
-        app:layout_constraintStart_toEndOf="@+id/selectedAnimalImageView"
-        app:layout_constraintTop_toBottomOf="@+id/default_toolbar_animal_from_list" />
-
-    <TextView
-        android:id="@+id/staticSelectedAnimalAgeTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="8dp"
-        android:text="Age: "
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textSize="22dp"
-        app:layout_constraintStart_toStartOf="@+id/selectedAnimalNameTV"
-        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalNameTV" />
-
-    <TextView
-        android:id="@+id/selectedAnimalAgeTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:text="80 yrs"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textSize="22dp"
-        app:layout_constraintStart_toEndOf="@+id/staticSelectedAnimalAgeTV"
-        app:layout_constraintTop_toTopOf="@+id/staticSelectedAnimalAgeTV" />
-
-    <ImageView
-        android:id="@+id/selectedAnimalAdoptableImageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/round_red_background"
-        android:src="@drawable/ic_animal_list_item_discoverable"
-        app:layout_constraintStart_toEndOf="@+id/selectedAnimalAgeTV"
-        app:layout_constraintTop_toTopOf="@+id/selectedAnimalAgeTV" />
-
-    <ImageView
-        android:id="@+id/selectedAnimalIconIV"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="2dp"
-        android:src="@drawable/dog_icon"
-        app:layout_constraintStart_toStartOf="@+id/selectedAnimalImageView"
-        app:layout_constraintTop_toTopOf="@+id/selectedAnimalImageView" />
-
-
-    <CheckBox
-        android:id="@+id/selectedAnimalNeuteredCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="8dp"
-        android:clickable="false"
-        android:text="Neutered"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/staticSelectedAnimalAgeTV"
-        app:layout_constraintTop_toBottomOf="@+id/staticSelectedAnimalAgeTV" />
-
-    <CheckBox
-        android:id="@+id/selectedAnimalAdultCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="8dp"
-        android:clickable="false"
-        android:text="Adult"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/selectedAnimalNeuteredCheckBox"
-        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalNeuteredCheckBox" />
-
-    <TextView
-        android:id="@+id/selectedAnimalObsTV"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:layout_marginTop="8dp"
-        android:padding="10dp"
-        android:scrollbars="vertical"
-        android:text="sample text # # # # # # # # # # # # # # # # # # # # # # # # # # # "
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectedAnimalImageView" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_default_animal_from_list">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/selectedAnimalImageView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:background="@drawable/green_border_background"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_no_image_available" />
+
+            <View
+                android:id="@+id/safl_sep1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/selectedAnimalImageView"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="6dp"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:id="@+id/selectedAnimalLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/safl_sep1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/selectedAnimalIconIV"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/dog_icon" />
+
+                <ImageView
+                    android:id="@+id/selectedAnimalAdoptableImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/round_red_background"
+                    android:src="@drawable/ic_animal_list_item_discoverable" />
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/safl_sep2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/selectedAnimalLL"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="6dp"
+                android:background="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/selectedAnimalNameTV"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/safl_sep2"
+                android:layout_alignStart="@id/selectedAnimalImageView"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Animal Name"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/staticSelectedAnimalAgeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/selectedAnimalNameTV"
+                android:layout_alignStart="@id/selectedAnimalImageView"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:text="Age: "
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/selectedAnimalAgeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/selectedAnimalNameTV"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_toEndOf="@id/staticSelectedAnimalAgeTV"
+                android:text="80 yrs"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="22sp" />
+
+
+            <CheckBox
+                android:id="@+id/selectedAnimalNeuteredCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/staticSelectedAnimalAgeTV"
+                android:layout_alignStart="@id/safl_sep2"
+                android:layout_marginStart="-4dp"
+                android:layout_marginTop="6dp"
+                android:clickable="false"
+                android:text="Neutered"
+                android:textSize="22sp" />
+
+            <CheckBox
+                android:id="@+id/selectedAnimalAdultCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/selectedAnimalNeuteredCheckBox"
+                android:layout_alignStart="@id/selectedAnimalNeuteredCheckBox"
+                android:layout_marginTop="6dp"
+                android:clickable="false"
+                android:text="Adult"
+                android:textSize="22sp" />
+
+            <View
+                android:id="@+id/safl_sep3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/selectedAnimalAdultCheckBox"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="6dp"
+                android:background="@color/colorPrimary" />
+
+
+            <TextView
+                android:id="@+id/selectedAnimalObsTV"
+                android:paddingStart="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/safl_sep3"
+                android:layout_alignStart="@id/selectedAnimalImageView"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:scrollbars="vertical"
+                android:text="sample text # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="22sp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab_selected_animal_from_list_open_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         fab:menu_buttonSpacing="3dp"
         fab:menu_colorNormal="@color/colorPrimary"
         fab:menu_colorPressed="@color/colorPrimaryDark"
@@ -190,4 +237,4 @@
     </com.github.clans.fab.FloatingActionMenu>
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

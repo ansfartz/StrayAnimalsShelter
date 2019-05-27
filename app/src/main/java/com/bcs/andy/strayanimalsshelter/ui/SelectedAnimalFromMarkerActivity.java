@@ -2,6 +2,7 @@ package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,8 @@ public class SelectedAnimalFromMarkerActivity extends AppCompatActivity {
     private TextView animalNameTV, animalAgeTV, animalObsTV;
     private CheckBox animalAdultCB, animalNeuteredCB;
     private ImageView animalIconIV, animalImageView;
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,10 @@ public class SelectedAnimalFromMarkerActivity extends AppCompatActivity {
     private void setUI() {
         Animal animal = getIntent().getParcelableExtra("selectedAnimal");
         Log.d(TAG, "setUI: animal: " + animal);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_default_animal_from_marker);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(animal.getAnimalName());
 
         animalNameTV.setText(animal.getAnimalName());
         animalAgeTV.setText(animal.getAproxAge().toString());

@@ -30,7 +30,7 @@
             <ImageView
                 android:id="@+id/markerIconImageView"
                 android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_height="90dp"
                 android:layout_marginStart="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,39 +41,43 @@
                 android:layout_width="225dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
                 android:layout_toRightOf="@id/markerIconImageView"
                 android:text="Location"
+                android:textStyle="bold"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
 
             <TextView
                 android:id="@+id/markerLatitudeTV"
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:layout_below="@id/markerLocationTV"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@id/staticLatTV"
                 android:text="100.0"
+                android:maxLines="1"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/markerLongitudeTV"
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:layout_below="@id/markerLocationTV"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@id/staticLongTV"
                 android:text="100.5"
+                android:maxLines="1"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/staticLatTV"
@@ -85,7 +89,7 @@
                 android:layout_toRightOf="@id/markerIconImageView"
                 android:text="Lat:"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/staticLongTV"
@@ -97,7 +101,7 @@
                 android:layout_toRightOf="@id/markerLatitudeTV"
                 android:text="Long:"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
 
             <ImageView
