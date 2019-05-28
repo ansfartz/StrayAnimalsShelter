@@ -12,7 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.database.AnimalsDatabase;
@@ -44,9 +49,13 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     private FloatingActionButton addAnimalsBtn;
     private RecyclerView recyclerView;
     private AnimalAdapter animalAdapter;
+
     private SearchView searchView;
+    private RadioGroup radioGroup;
+    private RadioButton observationsRadioButton;
 
     // vars
+    private boolean adapterCreated = false;
     private List<Animal> animalList = new ArrayList<>();
 
 
@@ -82,6 +91,40 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
         recyclerView = (RecyclerView) CL.findViewById(R.id.myAnimalsRecyclerView);
         recyclerView.setHasFixedSize(false); // no adapter content ( card with data ) has fixed size. They may vary, depending on the length of text inside them; use this for recyclerView internal optimisation! Won't affect anything else
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+        radioGroup = (RadioGroup) CL.findViewById(R.id.myAnimalsRadioGroup);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if (checkedId == R.id.myAnimalsDescriptionRB && adapterCreated) {
+                    Toast.makeText(getContext(), "aaa", Toast.LENGTH_SHORT).show();
+                    animalAdapter.makeObservationsVisible();
+                    animalAdapter.notifyDataSetChanged();
+                }
+
+                if (checkedId == R.id.myAnimalsAgeRB && adapterCreated) {
+                    Toast.makeText(getContext(), "bbb", Toast.LENGTH_SHORT).show();
+                    animalAdapter.makeAgeVisible();
+                    animalAdapter.notifyDataSetChanged();
+                }
+
+                if (checkedId == R.id.myAnimalsDetailsRB && adapterCreated) {
+                    Toast.makeText(getContext(), "cccc", Toast.LENGTH_SHORT).show();
+                    animalAdapter.makeDetailsVisible();
+                    animalAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+        observationsRadioButton = (RadioButton) CL.findViewById(R.id.myAnimalsDescriptionRB);
+        observationsRadioButton.setChecked(true);
+
+
+
     }
 
     @Override
@@ -97,6 +140,7 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
                 animalsLoadingProgressBar.setVisibility(View.GONE);
 
                 animalAdapter = new AnimalAdapter(animalList, getActivity(), MyAnimalsFragment.this);
+                adapterCreated = true;
                 recyclerView.setAdapter(animalAdapter);
 
             }

@@ -31,7 +31,7 @@
                 android:id="@+id/animalNameTV"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="0dp"
                 android:layout_toRightOf="@id/animalPhotoImageView"
                 android:ellipsize="end"
@@ -39,7 +39,7 @@
                 android:paddingStart="4dp"
                 android:text="Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
 
             <!--android:background="@drawable/green_border_background"-->
             <de.hdodenhof.circleimageview.CircleImageView
@@ -47,9 +47,8 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:src="@drawable/ic_no_image_available"
-                app:civ_border_width="1dp"
                 app:civ_border_color="@color/colorPrimary"
-                />
+                app:civ_border_width="1dp" />
 
             <TextView
                 android:id="@+id/animalAgeTV"
@@ -57,52 +56,74 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/animalNameTV"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@id/animalPhotoImageView"
                 android:paddingStart="4dp"
                 android:text="30 yrs"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/animalObsTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/animalNameTV"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="4dp"
+                android:layout_toLeftOf="@id/animalAdoptableImageView"
+                android:layout_toRightOf="@id/animalPhotoImageView"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:paddingStart="4dp"
+                android:text="Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxmmmmmmmmmmmmmmmmmmmmmmmmmmmmmxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="#696969"
+                android:textSize="14sp"
+                android:visibility="visible" />
 
             <CheckBox
                 android:id="@+id/neuteredCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_below="@id/animalAgeTV"
+                android:layout_below="@id/animalNameTV"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_toRightOf="@id/adultCheckBox"
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:text="Neutered"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <CheckBox
                 android:id="@+id/adultCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_below="@+id/animalAgeTV"
+                android:layout_below="@+id/animalNameTV"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_toRightOf="@id/animalPhotoImageView"
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:text="Adult"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/animalIconImageView"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="4dp"
                 android:src="@drawable/cat_icon" />
 
             <ImageView
                 android:id="@+id/animalAdoptableImageView"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="4dp"
                 android:layout_toStartOf="@id/animalIconImageView"
                 android:background="@drawable/round_green_background"
                 android:padding="5dp"
@@ -112,10 +133,10 @@
                 android:id="@+id/animalAdoptionRequestImageView"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_below="@+id/animalAgeTV"
+                android:layout_below="@+id/animalNameTV"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
                 android:src="@drawable/ic_helping_hand" />
 
 

@@ -37,6 +37,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     private Context context;
     private AnimalAdapterListener animalAdapterListener;
 
+    private boolean descriptionVisible = true, ageVisible = false, detailsVisible = false;
+
     public AnimalAdapter(List<Animal> animalList, Context context, AnimalAdapterListener animalAdapterListener) {
         this.animalList = animalList;
         this.context = context;
@@ -57,12 +59,34 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         Animal animal = animalList.get(position);
-        String aproxAge = String.valueOf(animal.getAproxAge()) + " yrs";
-        viewHolder.textViewAproxAge.setText(aproxAge);
+
         viewHolder.textViewName.setText(animal.getAnimalName());
-//        viewHolder.textViewObs.setText(animal.getObservations());
-        viewHolder.neutredCheckBox.setChecked(animal.isNeutered());
-        viewHolder.adultCheckBox.setChecked(animal.isAdult());
+        if (ageVisible) {
+            String aproxAge = String.valueOf(animal.getAproxAge()) + " years";
+            viewHolder.textViewAproxAge.setText(aproxAge);
+            viewHolder.textViewAproxAge.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.textViewAproxAge.setVisibility(View.GONE);
+        }
+
+        if (descriptionVisible) {
+            viewHolder.textViewObs.setText(animal.getObservations());
+            viewHolder.textViewObs.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.textViewObs.setVisibility(View.GONE);
+        }
+
+        if (detailsVisible) {
+            viewHolder.neutredCheckBox.setChecked(animal.isNeutered());
+            viewHolder.adultCheckBox.setChecked(animal.isAdult());
+
+            viewHolder.neutredCheckBox.setVisibility(View.VISIBLE);
+            viewHolder.adultCheckBox.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.neutredCheckBox.setVisibility(View.GONE);
+            viewHolder.adultCheckBox.setVisibility(View.GONE);
+        }
+
 
         switch (animal.getSpecies()) {
             case "dog":
@@ -75,13 +99,13 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                 viewHolder.speciesImageView.setImageResource(R.drawable.dog_icon);
         }
 
-        if(animal.isAdoptable()) {
+        if (animal.isAdoptable()) {
             viewHolder.adoptableImageView.setVisibility(View.VISIBLE);
         } else {
             viewHolder.adoptableImageView.setVisibility(View.INVISIBLE);
         }
 
-        if(animal.getAdoptionRequest() != null) {
+        if (animal.getAdoptionRequest() != null) {
             viewHolder.adoptionRequestImageView.setVisibility(View.VISIBLE);
         } else {
             viewHolder.adoptionRequestImageView.setVisibility(View.INVISIBLE);
@@ -138,25 +162,24 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         // this method will return the filteredList to the publishResults methods
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-           List<Animal> filteredList = new ArrayList<>();
+            List<Animal> filteredList = new ArrayList<>();
 
-           if (constraint == null || constraint.length() == 0) {
-               filteredList.addAll(animalListFull);
-           } else {
-               String filterPattern = constraint.toString().toLowerCase().trim();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(animalListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
 
-               for(Animal animal : animalListFull) {
-                   if (animal.getAnimalName().toLowerCase().contains(filterPattern)) {
-                       filteredList.add(animal);
-                   }
-               }
+                for (Animal animal : animalListFull) {
+                    if (animal.getAnimalName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(animal);
+                    }
+                }
+            }
 
-           }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
 
-           FilterResults results = new FilterResults();
-           results.values = filteredList;
-
-           return results;
+            return results;
         }
 
         @Override
@@ -180,7 +203,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView, AnimalAdapterListener animalAdapterListener) {
             super(itemView);
             textViewName = (TextView) itemView.findViewById(R.id.animalNameTV);
-//            textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
+            textViewObs = (TextView) itemView.findViewById(R.id.animalObsTV);
             textViewAproxAge = (TextView) itemView.findViewById(R.id.animalAgeTV);
             speciesImageView = (ImageView) itemView.findViewById(R.id.animalIconImageView);
             neutredCheckBox = (CheckBox) itemView.findViewById(R.id.neuteredCheckBox);
@@ -192,9 +215,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.list_item_animal_relative_layout);
 
             this.animalAdapterListener = animalAdapterListener;
-
         }
-
     }
 
     private AlertDialog.Builder dialogSendAdoptionRequest(int position) {
@@ -224,8 +245,6 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                                 // list is null here
                             }
                         });
-
-
                     }
                 });
 
@@ -247,14 +266,34 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                 });
 
         return dialogBuilder;
-
     }
 
 
+    // textViewObs,
+    // textViewAproxAge,
+    // neutredCheckBox, adultCheckBox
+    public void makeObservationsVisible() {
+        descriptionVisible = true;
+        ageVisible = false;
+        detailsVisible = false;
+    }
+
+    public void makeAgeVisible() {
+        descriptionVisible = false;
+        ageVisible = true;
+        detailsVisible = false;
+    }
+
+    public void makeDetailsVisible() {
+        descriptionVisible = false;
+        ageVisible = false;
+        detailsVisible = true;
+    }
 
 
     public interface AnimalAdapterListener {
         void onAnimalClick(int position, Animal animal);
+
         void onHelpingHandClick(Animal animal);
     }
 

@@ -26,13 +26,50 @@
             android:layout_marginEnd="4dp"
             android:background="@drawable/round_grey_background" />
 
+
+        <RadioGroup
+            android:id="@+id/myAnimalsRadioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/myAnimalsSearchView"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_centerHorizontal="true">
+
+            <RadioButton
+                android:id="@+id/myAnimalsDescriptionRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="16sp"
+                />
+
+            <RadioButton
+                android:layout_marginStart="20dp"
+                android:id="@+id/myAnimalsAgeRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:layout_marginStart="20dp"
+                android:id="@+id/myAnimalsDetailsRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Details"
+                android:textSize="16sp"/>
+
+        </RadioGroup>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/myAnimalsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/myAnimalsSearchView"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="62dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="16dp"
             android:scrollbars="vertical"
