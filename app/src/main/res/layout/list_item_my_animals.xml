@@ -9,9 +9,9 @@
         android:id="@+id/list_item_animals_CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,8 +44,8 @@
             <!--android:background="@drawable/green_border_background"-->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/animalPhotoImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:src="@drawable/ic_no_image_available"
                 app:civ_border_width="1dp"
                 app:civ_border_color="@color/colorPrimary"

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#006072</color>
-    <color name="colorPrimaryDark">#03221F</color>
+    <color name="colorPrimaryDark">#D9042C2C</color>
     <color name="colorAccent">#03312E</color>
 
     <color name="colorBackground">#03312E</color>
     <color name="colorOther">#EEE5E9</color>
 
-    <color name="navDrawer_Header">#D9042C2C</color>
     <color name="navDrawer_Body">#D92C3233</color>
 
 

@@ -1,10 +1,8 @@
 package com.bcs.andy.strayanimalsshelter.ui;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -30,10 +28,10 @@ import com.bcs.andy.strayanimalsshelter.model.Animal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAdapterListener {
+public class DiscoverAnimalsFragment extends Fragment implements AnimalAdapter.AnimalAdapterListener {
 
 
-    private static final String TAG = "DiscoverFragment";
+    private static final String TAG = "DiscoverAnimalsFragment";
 
     // Firebase
     private AnimalsDatabase animalsDatabase;
@@ -49,7 +47,7 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
     private List<Animal> discoverAnimalList = new ArrayList<>();
 
 
-    public DiscoverFragment() {
+    public DiscoverAnimalsFragment() {
 
     }
 
@@ -94,7 +92,7 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
                 discoverAnimalList.addAll(list);
                 animalsDiscoverProgressBar.setVisibility(View.GONE);
 
-                animalAdapter = new AnimalAdapter(discoverAnimalList, getActivity(), DiscoverFragment.this);
+                animalAdapter = new AnimalAdapter(discoverAnimalList, getActivity(), DiscoverAnimalsFragment.this);
                 recyclerView.setAdapter(animalAdapter);
 
                 new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -158,7 +156,7 @@ public class DiscoverFragment extends Fragment implements AnimalAdapter.AnimalAd
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        CL = (ConstraintLayout) inflater.inflate(R.layout.fragment_discover, container, false);
+        CL = (ConstraintLayout) inflater.inflate(R.layout.fragment_discover_animals, container, false);
         initFirebase();
         initUI();
 

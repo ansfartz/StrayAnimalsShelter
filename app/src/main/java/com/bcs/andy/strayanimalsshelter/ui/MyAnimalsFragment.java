@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,27 +44,40 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
     private FloatingActionButton addAnimalsBtn;
     private RecyclerView recyclerView;
     private AnimalAdapter animalAdapter;
+    private SearchView searchView;
 
     // vars
     private List<Animal> animalList = new ArrayList<>();
 
 
-    public MyAnimalsFragment() {
-
-    }
+    public MyAnimalsFragment() { }
 
     private void initFirebase() {
         user = UserUtils.getCurrentUser();
     }
 
     private void initUI() {
-
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Home");
 
         animalsLoadingProgressBar = (ProgressBar) CL.findViewById(R.id.loadingAnimalsProgressBar);
         animalsLoadingProgressBar.setVisibility(View.VISIBLE);
 
         addAnimalsBtn = (FloatingActionButton) CL.findViewById(R.id.addAnimalsFloatingActionBtn);
+
+        searchView = (SearchView) CL.findViewById(R.id.myAnimalsSearchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // we dont need this method, our search is in RealTime, we have no "submit"
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                animalAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         recyclerView = (RecyclerView) CL.findViewById(R.id.myAnimalsRecyclerView);
         recyclerView.setHasFixedSize(false); // no adapter content ( card with data ) has fixed size. They may vary, depending on the length of text inside them; use this for recyclerView internal optimisation! Won't affect anything else
