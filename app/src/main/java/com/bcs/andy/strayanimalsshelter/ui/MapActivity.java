@@ -208,8 +208,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
                 TextView miwLocation = (TextView) view.findViewById(R.id.miwLocation);
                 TextView miwAnimalName = (TextView) view.findViewById(R.id.miwAnimalName);
-                CheckBox miwAdultCB = (CheckBox) view.findViewById(R.id.miwAdultCB);
-                CheckBox miwNeuteredCB = (CheckBox) view.findViewById(R.id.miwNeuteredCB);
+                TextView miwAdultTV = (TextView) view.findViewById(R.id.miwAdultTV);
+                TextView miwNeuteredTV = (TextView) view.findViewById(R.id.miwNeuteredTV);
                 TextView miwAnimalAge = (TextView) view.findViewById(R.id.miwAnimalAge);
                 ImageView miwImage = (ImageView) view.findViewById(R.id.miwImage);
 
@@ -217,14 +217,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 miwAnimalName.setText(animalMarker.getAnimal().getAnimalName());
                 Log.d(TAG, "getInfoWindow: animal name: " + animalMarker.getAnimal().getAnimalName());
 
-                miwAnimalAge.setText(animalMarker.getAnimal().getAproxAge().toString() + " yrs");
+                miwAnimalAge.setText(animalMarker.getAnimal().getAproxAge().toString() + " years");
                 Log.d(TAG, "getInfoWindow: age: " + animalMarker.getAnimal().getAproxAge());
 
-                miwAdultCB.setChecked(animalMarker.getAnimal().isAdult());
-                Log.d(TAG, "getInfoWindow: made AdultCB = " + animalMarker.getAnimal().isAdult());
+                if (animalMarker.getAnimal().isAdult()) {
+                    miwAdultTV.setVisibility(View.VISIBLE);
+                    Log.d(TAG, "getInfoWindow: adult: " + animalMarker.getAnimal().isAdult());
+                }
+                if (animalMarker.getAnimal().isNeutered()) {
+                    miwNeuteredTV.setVisibility(View.VISIBLE);
+                    Log.d(TAG, "getInfoWindow: neutered: " + animalMarker.getAnimal().isNeutered());
+                }
 
-                miwNeuteredCB.setChecked(animalMarker.getAnimal().isNeutered());
-                Log.d(TAG, "getInfoWindow: made NeuteredCB = " + animalMarker.getAnimal().isNeutered());
 
                 switch (animalMarker.getAnimal().getSpecies()) {
                     case "dog":

@@ -35,7 +35,7 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
 
     // UI
     private Toolbar toolbar;
-    private TextView animalNameTV, animalAgeTV, animalObsTV;
+    private TextView animalNameTV, animalAgeTV, animalObsTV, animalAdoptableTV;
     private CheckBox animalAdultCB, animalNeuteredCB;
     private ImageView animalIconIV, animalImageView, animalAdoptableImageView;
     private FloatingActionButton adoptableFab, makeChangesFab;
@@ -46,7 +46,7 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selected_animal_from_list);
+        setContentView(R.layout.activity_selected_animal_from_list2);
 
         init();
         setUI();
@@ -67,6 +67,7 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
         animalAgeTV = (TextView) findViewById(R.id.selectedAnimalAgeTV);
         animalObsTV = (TextView) findViewById(R.id.selectedAnimalObsTV);
         animalObsTV.setMovementMethod(new ScrollingMovementMethod());
+        animalAdoptableTV = (TextView) findViewById(R.id.selectedAnimalAdoptableTV);
         animalIconIV = (ImageView) findViewById(R.id.selectedAnimalIconIV);
         animalImageView = (ImageView) findViewById(R.id.selectedAnimalImageView);
         animalAdultCB = (CheckBox) findViewById(R.id.selectedAnimalAdultCheckBox);
@@ -108,8 +109,11 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
 
         if (editedAnimal.isAdoptable()) {
             animalAdoptableImageView.setBackgroundResource(R.drawable.round_green_background);
+            animalAdoptableTV.setText("Adoptable");
+
         } else {
             animalAdoptableImageView.setBackgroundResource(R.drawable.round_red_background);
+            animalAdoptableTV.setText("Not adoptable");
         }
 
 
@@ -441,8 +445,10 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
                         editedAnimal.setAdoptable(!editedAnimal.isAdoptable());
                         if (editedAnimal.isAdoptable()) {
                             animalAdoptableImageView.setBackgroundResource(R.drawable.round_green_background);
+                            animalAdoptableTV.setText("Adoptable");
                         } else {
                             animalAdoptableImageView.setBackgroundResource(R.drawable.round_red_background);
+                            animalAdoptableTV.setText("Not adoptable");
                         }
                         dialog.dismiss();
                     }

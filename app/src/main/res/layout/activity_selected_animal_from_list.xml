@@ -14,6 +14,7 @@
 
 
     <ScrollView
+        android:background="#52005F72"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_default_animal_from_list">
@@ -28,15 +29,21 @@
                 android:layout_height="300dp"
                 android:layout_centerHorizontal="true"
                 android:adjustViewBounds="true"
-                android:background="@drawable/green_border_background"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_no_image_available" />
+
+            <ImageView
+                android:id="@+id/selectedAnimalImageShadow"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_below="@id/selectedAnimalImageView"
+                android:background="@drawable/image_shadow_gradient"/>
 
             <View
                 android:id="@+id/safl_sep1"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_below="@id/selectedAnimalImageView"
+                android:layout_below="@id/selectedAnimalImageShadow"
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="6dp"
@@ -88,11 +95,12 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:ellipsize="end"
+                android:fontFamily="@font/roboto_bold"
                 android:maxLines="1"
                 android:text="Animal Name"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="22sp" />
 
             <TextView

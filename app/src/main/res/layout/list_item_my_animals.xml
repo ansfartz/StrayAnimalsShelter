@@ -35,11 +35,13 @@
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@id/animalPhotoImageView"
                 android:ellipsize="end"
+                android:fontFamily="@font/roboto_mono_medium"
                 android:maxLines="1"
                 android:paddingStart="4dp"
                 android:text="Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <!--android:background="@drawable/green_border_background"-->
             <de.hdodenhof.circleimageview.CircleImageView
@@ -47,8 +49,8 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:src="@drawable/ic_no_image_available"
-                app:civ_border_color="#000000"
-                app:civ_border_width="1dp" />
+                app:civ_border_color="#777575"
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:id="@+id/animalAgeTV"
@@ -60,8 +62,9 @@
                 android:layout_toRightOf="@id/animalPhotoImageView"
                 android:paddingStart="4dp"
                 android:text="30 yrs"
+                android:fontFamily="@font/roboto_mono_medium"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:visibility="gone" />
 
             <TextView
@@ -76,12 +79,13 @@
                 android:layout_toRightOf="@id/animalPhotoImageView"
                 android:ellipsize="end"
                 android:maxLines="3"
+                android:fontFamily="@font/roboto_mono_medium"
                 android:paddingStart="4dp"
                 android:text="Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxmmmmmmmmmmmmmmmmmmmmmmmmmmmmmxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="#696969"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <CheckBox
                 android:id="@+id/neuteredCheckBox"
@@ -94,8 +98,9 @@
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:text="Neutered"
-                android:textSize="18sp"
-                android:visibility="visible" />
+                android:fontFamily="@font/roboto_mono_medium"
+                android:textSize="14sp"
+                android:visibility="gone" />
 
             <CheckBox
                 android:id="@+id/adultCheckBox"
@@ -106,10 +111,11 @@
                 android:layout_marginTop="4dp"
                 android:layout_toRightOf="@id/animalPhotoImageView"
                 android:background="@android:color/transparent"
+                android:fontFamily="@font/roboto_mono_medium"
                 android:clickable="false"
                 android:text="Adult"
-                android:textSize="18sp"
-                android:visibility="visible" />
+                android:textSize="14sp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/animalIconImageView"

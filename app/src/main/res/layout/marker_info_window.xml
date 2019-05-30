@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="@drawable/white_border"
     android:orientation="horizontal"
@@ -12,82 +12,112 @@
 
         <TextView
             android:id="@+id/miwLocation"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="viewStart"
+            android:layout_gravity="start"
+            android:layout_marginTop="2dp"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="miwLocation"
             android:textColor="#000000"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <ImageView
-            android:src="@drawable/dog_icon"
             android:id="@+id/miwImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_below="@+id/miwLocation"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="3dp" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/dog_icon" />
 
         <TextView
             android:id="@+id/miwAnimalName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="140dp"
             android:layout_below="@+id/miwLocation"
             android:layout_marginStart="30dp"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@+id/miwImage"
             android:layout_toRightOf="@id/miwImage"
             android:ellipsize="end"
-            android:maxLines="2"
-            android:textStyle="bold"
+            android:maxLines="1"
             android:text="miwAnimalName"
             android:textColor="#000000"
-            android:textSize="15sp" />
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/miwAnimalAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/miwLocation"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@id/miwAnimalName"
             android:text="3 years"
-            android:textStyle="normal"
             android:textColor="#000000"
-            android:textSize="15sp" />
+            android:textSize="12sp"
+            android:textStyle="normal" />
 
-        <CheckBox
-            android:id="@+id/miwAdultCB"
+        <TextView
+            android:id="@+id/miwAdultTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/miwAnimalName"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/miwImage"
+            android:text="Adult"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/miwNeuteredTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/miwAnimalName"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
-            android:layout_toRightOf="@id/miwImage"
-            android:text=" Adult"
-            android:textSize="18dp"
-
-            android:clickable="false"/>
-
-        <CheckBox
-            android:id="@+id/miwNeuteredCB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/miwAnimalName"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_toRightOf="@id/miwAdultCB"
+            android:layout_toEndOf="@id/miwAdultTV"
             android:text=" Neutered"
-            android:textSize="18dp"
-            android:clickable="false"/>
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+        <!--<CheckBox-->
+        <!--android:id="@+id/miwAdultCB"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/miwAnimalName"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_toRightOf="@id/miwImage"-->
+        <!--android:text=" Adult"-->
+        <!--android:textSize="18dp"-->
+
+        <!--android:clickable="false"/>-->
+
+        <!--<CheckBox-->
+        <!--android:id="@+id/miwNeuteredCB"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/miwAnimalName"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_toRightOf="@id/miwAdultCB"-->
+        <!--android:text=" Neutered"-->
+        <!--android:textSize="18dp"-->
+        <!--android:clickable="false"/>-->
 
     </RelativeLayout>
 
