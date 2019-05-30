@@ -51,6 +51,8 @@ public class SelectedAnimalFromMarkerActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar_default_animal_from_marker);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(animal.getAnimalName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         animalNameTV.setText(animal.getAnimalName());
         animalAgeTV.setText(animal.getAproxAge().toString());
@@ -73,6 +75,11 @@ public class SelectedAnimalFromMarkerActivity extends AppCompatActivity {
         if (animal.getPhotoLink() != null) {
             Picasso.get().load(animal.getPhotoLink()).fit().into(animalImageView);
         }
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

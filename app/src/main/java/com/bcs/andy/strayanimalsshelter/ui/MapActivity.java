@@ -216,11 +216,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 miwLocation.setText(marker.getTitle());
                 miwAnimalName.setText(animalMarker.getAnimal().getAnimalName());
                 Log.d(TAG, "getInfoWindow: animal name: " + animalMarker.getAnimal().getAnimalName());
-                Log.d(TAG, "getInfoWindow: age: " + animalMarker.getAnimal().getAproxAge());
+
                 miwAnimalAge.setText(animalMarker.getAnimal().getAproxAge().toString() + " yrs");
+                Log.d(TAG, "getInfoWindow: age: " + animalMarker.getAnimal().getAproxAge());
+
                 miwAdultCB.setChecked(animalMarker.getAnimal().isAdult());
                 Log.d(TAG, "getInfoWindow: made AdultCB = " + animalMarker.getAnimal().isAdult());
+
                 miwNeuteredCB.setChecked(animalMarker.getAnimal().isNeutered());
+                Log.d(TAG, "getInfoWindow: made NeuteredCB = " + animalMarker.getAnimal().isNeutered());
+
                 switch (animalMarker.getAnimal().getSpecies()) {
                     case "dog":
                         miwImage.setImageResource(R.drawable.dog_icon);

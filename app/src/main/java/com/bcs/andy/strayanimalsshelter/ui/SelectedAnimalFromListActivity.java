@@ -81,6 +81,8 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar_default_animal_from_list);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(editedAnimal.getAnimalName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         animalNameTV.setText(editedAnimal.getAnimalName());
         animalAgeTV.setText(editedAnimal.getAproxAge().toString());
@@ -495,7 +497,14 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
         }
     }
 
-//    private boolean validate() {
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+
+    //    private boolean validate() {
 //        String animalName = newAnimalName.getText().toString().trim();
 //        if (newAnimalAproxAge.getText().toString().isEmpty()) {
 //            newAnimalAproxAge.setError("Please enter an age");
