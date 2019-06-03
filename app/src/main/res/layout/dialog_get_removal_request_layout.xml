@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="#272727"
+        android:fontFamily="@font/roboto_mono"
         android:padding="2dp"
         android:text="From:"
         android:textColor="#32B4E3"
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dialogGR_FromTextView"
         android:background="#2E2E2E"
+        android:fontFamily="@font/roboto_mono"
         android:padding="2dp"
         android:text="Username"
         android:textColor="#fff"
@@ -36,6 +38,7 @@
         android:layout_marginTop="1dp"
 
         android:background="#2E2E2E"
+        android:fontFamily="@font/roboto_mono"
         android:padding="2dp"
         android:text="Email address"
         android:textColor="#fff"
@@ -48,10 +51,11 @@
         android:layout_below="@id/dialogGR_FromEmailTextView"
         android:layout_marginTop="10dp"
         android:background="#2E2E2E"
+        android:fontFamily="@font/roboto_mono"
         android:gravity="top"
         android:hint="Additional message..."
-        android:scrollbars="vertical"
         android:padding="3dp"
+        android:scrollbars="vertical"
         android:textColor="#fff"
         android:textColorHint="#fff"
         android:textSize="20sp" />
@@ -69,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginEnd="20dp"
+            android:fontFamily="@font/roboto_mono"
             android:gravity="center"
             android:text="Deny"
             android:textAlignment="center"
@@ -82,6 +87,7 @@
             android:id="@+id/dialogGR_ResolveTV"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:fontFamily="@font/roboto_mono"
             android:gravity="center"
             android:text="Resolve"
             android:textAlignment="center"
@@ -94,14 +100,15 @@
             android:id="@+id/dialogGR_DoNothingTV"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/roboto_mono"
             android:gravity="center"
             android:text="Do Nothing"
-            android:layout_marginStart="20dp"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#32B4E3"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
 
     </LinearLayout>

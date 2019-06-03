@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder> implements Filterable {
 
+    private static final String TAG = "AnimalAdapter";
     private List<Animal> animalList;
     private List<Animal> animalListFull;
     private Context context;
@@ -141,7 +144,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     }
 
     public void sendAdoptionRequestAnimalAt(int position) {
-        Toast.makeText(context, "Creating AdoptionRequest : " + position, Toast.LENGTH_SHORT).show();
+
+        Log.d(TAG, "sendAdoptionRequestAnimalAt: Creating AdoptionRequest :" + position);
         Dialog dialog = dialogSendAdoptionRequest(position).create();
         dialog.show();
     }

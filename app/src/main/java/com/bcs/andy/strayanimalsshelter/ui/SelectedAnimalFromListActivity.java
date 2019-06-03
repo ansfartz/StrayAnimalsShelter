@@ -46,7 +46,7 @@ public class SelectedAnimalFromListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selected_animal_from_list2);
+        setContentView(R.layout.activity_selected_animal_from_list);
 
         init();
         setUI();

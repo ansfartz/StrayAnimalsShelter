@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#272727"
@@ -12,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="#272727"
+        android:fontFamily="@font/roboto_mono"
         android:padding="2dp"
         android:text="From:"
         android:textColor="#32B4E3"
@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dialogGA_FromTextView"
         android:background="#2E2E2E"
+        android:fontFamily="@font/roboto_mono"
         android:padding="2dp"
         android:text="Username"
         android:textColor="#fff"
@@ -35,6 +36,7 @@
         android:layout_below="@id/dialogGA_FromUsernameTextView"
         android:layout_marginTop="1dp"
         android:background="#2E2E2E"
+        android:fontFamily="@font/roboto_mono"
         android:padding="2dp"
         android:text="Email address"
         android:textColor="#fff"
@@ -53,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginEnd="20dp"
+            android:fontFamily="@font/roboto_mono"
             android:gravity="center"
             android:text="Deny"
             android:textAlignment="center"
@@ -67,6 +70,7 @@
             android:id="@+id/dialogGA_ResolveTV"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:fontFamily="@font/roboto_mono"
             android:gravity="center"
             android:text="Resolve"
             android:textAlignment="center"
@@ -79,20 +83,18 @@
             android:id="@+id/dialogGA_DoNothingTV"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/roboto_mono"
             android:gravity="center"
             android:text="Do Nothing"
-            android:layout_marginStart="20dp"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#32B4E3"
             android:textSize="18sp"
-            android:textStyle="bold"/>
-
-
+            android:textStyle="bold" />
 
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

@@ -49,9 +49,11 @@ public class AnimalMarkerAdapter extends RecyclerView.Adapter<AnimalMarkerAdapte
 
         if (animalMarker.getRemovalRequest() != null) {
             viewHolder.markerIconIV.setImageResource(R.drawable.ic_marker_yellow);
+            viewHolder.innerRelativeLayout.setBackgroundResource(R.drawable.list_item_marker_gradient_yellow);
             viewHolder.markerWarningIV.setVisibility(View.VISIBLE);
         } else {
             viewHolder.markerIconIV.setImageResource(R.drawable.ic_marker_green);
+            viewHolder.innerRelativeLayout.setBackgroundResource(R.drawable.list_item_marker_gradient_blue);
             viewHolder.markerWarningIV.setVisibility(View.INVISIBLE);
         }
 

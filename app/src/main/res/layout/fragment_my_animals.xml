@@ -11,6 +11,7 @@
         android:id="@+id/myAnimalsRecyclerViewHolderRL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#370B9EBD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -31,35 +32,34 @@
             android:id="@+id/myAnimalsRadioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@id/myAnimalsSearchView"
-            android:layout_marginTop="8dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginStart="4dp"
-            android:layout_centerHorizontal="true">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/myAnimalsDescriptionRB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Description"
-                android:textSize="16sp"
-                />
+                android:textSize="16sp" />
 
             <RadioButton
-                android:layout_marginStart="20dp"
                 android:id="@+id/myAnimalsAgeRB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:text="Age"
                 android:textSize="16sp" />
 
             <RadioButton
-                android:layout_marginStart="20dp"
                 android:id="@+id/myAnimalsDetailsRB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:text="Details"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </RadioGroup>
 
@@ -68,15 +68,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/myAnimalsSearchView"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="62dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:scrollbars="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.53"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:scrollbars="vertical" />
 
 
     </RelativeLayout>

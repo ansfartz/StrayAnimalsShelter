@@ -97,7 +97,7 @@ public class DiscoverAnimalsFragment extends Fragment implements AnimalAdapter.A
 
                 new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
-                    private final ColorDrawable background = new ColorDrawable(Color.parseColor("#72B90E"));
+                    private final ColorDrawable background = new ColorDrawable(Color.parseColor("#AB007F97"));
 
                     // onMove is for drag and drop, not needed here.
                     @Override

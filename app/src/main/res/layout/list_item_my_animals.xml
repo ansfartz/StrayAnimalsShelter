@@ -20,6 +20,7 @@
 
 
         <RelativeLayout
+            android:background="#598CCEE6"
             android:id="@+id/list_item_animal_relative_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

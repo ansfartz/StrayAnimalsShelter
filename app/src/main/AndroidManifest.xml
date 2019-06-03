@@ -24,6 +24,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.SelectedAnimalFromMarkerActivity" />
         <activity android:name=".ui.SelectedAnimalFromMapActivity" />
+
         <activity
             android:name=".ui.AddAnimalForMarkerActivity"
             android:theme="@style/AppTheme.NoActionBar" />

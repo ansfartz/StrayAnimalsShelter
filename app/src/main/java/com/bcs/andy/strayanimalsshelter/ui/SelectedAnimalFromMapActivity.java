@@ -3,8 +3,10 @@ package com.bcs.andy.strayanimalsshelter.ui;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,6 +38,7 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
     private static final String TAG = "SelectedAnimalFromMapAc";
 
     // UI
+    private Toolbar toolbar;
     private TextView animalNameTV, animalAgeTV, animalObsTV, createdByTV;
     private CheckBox animalAdultCB, animalNeuteredCB;
     private ImageView animalIconIV, animalImageView;
@@ -115,6 +118,13 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
         animalMarker = getIntent().getParcelableExtra("animalMarker");
         Log.d(TAG, "setUI: animalMarker: " + animalMarker);
 
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_default_animal_from_map);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(animalMarker.getAnimal().getAnimalName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         animalNameTV.setText(animalMarker.getAnimal().getAnimalName());
         animalAgeTV.setText(animalMarker.getAnimal().getAproxAge().toString());
         animalObsTV.setText(animalMarker.getAnimal().getObservations());
@@ -176,5 +186,23 @@ public class SelectedAnimalFromMapActivity extends AppCompatActivity implements 
         markersDatabase.addRemovalRequestToMarker(animalMarker, removalRequest);
         finish();
 
+    }
+
+    /*
+     * The equivalent of onSupportNavigateUp method overridden below
+     */
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == android.R.id.home) {
+//            onBackPressed();
+//            return true;
+//        }
+//        return false;
+//    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
