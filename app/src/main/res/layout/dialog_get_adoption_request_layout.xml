@@ -15,7 +15,7 @@
         android:padding="2dp"
         android:text="From:"
         android:textColor="#32B4E3"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/dialogGA_FromUsernameTextView"
