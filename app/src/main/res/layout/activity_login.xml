@@ -42,7 +42,7 @@
 
     <EditText
         android:id="@+id/registerEmailEditText"
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
@@ -63,7 +63,7 @@
 
     <EditText
         android:id="@+id/registerPasswordEditText"
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -109,7 +109,7 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
-        android:textSize="26sp"
+        android:textSize="28sp"
         android:fontFamily="sans-serif-thin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

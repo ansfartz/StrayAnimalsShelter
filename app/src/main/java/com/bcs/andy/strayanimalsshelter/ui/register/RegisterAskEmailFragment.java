@@ -1,11 +1,13 @@
 package com.bcs.andy.strayanimalsshelter.ui.register;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,6 @@ import com.bcs.andy.strayanimalsshelter.R;
 public class RegisterAskEmailFragment extends Fragment {
 
     // vars
-    private Boolean allFieldsSet = false;
 
     // UI
     private ImageView backIcon;
@@ -37,18 +38,14 @@ public class RegisterAskEmailFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (validateEmail()) {
-                    RegisterAskUserPasswordFragment passwordFragment = new RegisterAskUserPasswordFragment();
+                if (validateEmail(emailET.getText().toString())) {
+                    RegisterAskUserPasswordFragment userAndPasswordFragment = new RegisterAskUserPasswordFragment();
                     Bundle args = new Bundle();
-                    String firstName = getArguments().getString("firstName");
-                    String lastName = getArguments().getString("lastName");
-                    args.putString("firstName", firstName);
-                    args.putString("lastName", lastName);
                     args.putString("email", emailET.getText().toString().trim());
-                    passwordFragment.setArguments(args);
+                    userAndPasswordFragment.setArguments(args);
 
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.register_fragment_container, passwordFragment)
+                            .replace(R.id.register_fragment_container, userAndPasswordFragment)
                             .commit();
 
                 } else {
@@ -68,9 +65,9 @@ public class RegisterAskEmailFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(emailET.getText().toString().trim())) {
-                    allFieldsSet = true;
+                    fabNextFragment.show();
                 } else {
-                    allFieldsSet = false;
+                    fabNextFragment.hide();
                 }
             }
 
@@ -89,7 +86,11 @@ public class RegisterAskEmailFragment extends Fragment {
         });
     }
 
-    private boolean validateEmail() {
+    private boolean validateEmail(String email) {
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailET.setError("Please enter a valid email address");
+            return false;
+        }
         return true;
     }
 

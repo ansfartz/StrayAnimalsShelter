@@ -13,7 +13,7 @@ public class MyRegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_register);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.register_fragment_container, new RegisterAskNameFragment())
+                .replace(R.id.register_fragment_container, new RegisterAskEmailFragment())
                 .commit();
 
 

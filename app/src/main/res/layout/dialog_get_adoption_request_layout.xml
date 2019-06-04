@@ -67,12 +67,12 @@
 
 
         <TextView
-            android:id="@+id/dialogGA_ResolveTV"
+            android:id="@+id/dialogGA_AcceptTV"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:fontFamily="@font/roboto_mono"
             android:gravity="center"
-            android:text="Resolve"
+            android:text="Accept"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#32B4E3"

@@ -39,7 +39,6 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     private List<Animal> animalListFull;
     private Context context;
     private AnimalAdapterListener animalAdapterListener;
-
     private boolean descriptionVisible = true, ageVisible = false, detailsVisible = false;
 
     public AnimalAdapter(List<Animal> animalList, Context context, AnimalAdapterListener animalAdapterListener) {

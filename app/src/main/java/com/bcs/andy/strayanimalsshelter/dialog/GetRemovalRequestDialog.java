@@ -27,7 +27,7 @@ public class GetRemovalRequestDialog extends DialogFragment {
     // UI
     private View view;
     private TextView fromUsernameTV, fromEmailTV, messageTV;
-    private TextView denyTV, resolveTV, doNothingTV;
+    private TextView denyTV, acceptTV, doNothingTV;
 
     @Nullable
     @Override
@@ -54,10 +54,10 @@ public class GetRemovalRequestDialog extends DialogFragment {
             }
         });
 
-        resolveTV.setOnClickListener(new View.OnClickListener() {
+        acceptTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: resolveTV");
+                Log.d(TAG, "onClick: acceptTV");
                 listener.resolveRemovalRequest(animalMarker, removalRequest);
                 getDialog().dismiss();
             }
@@ -81,7 +81,7 @@ public class GetRemovalRequestDialog extends DialogFragment {
         messageTV = (TextView) view.findViewById(R.id.dialogGR_MessageTextView);
         messageTV.setMovementMethod(new ScrollingMovementMethod());
         denyTV = (TextView) view.findViewById(R.id.dialogGR_DenyTV);
-        resolveTV = (TextView) view.findViewById(R.id.dialogGR_ResolveTV);
+        acceptTV = (TextView) view.findViewById(R.id.dialogGR_AcceptTV);
         doNothingTV = (TextView) view.findViewById(R.id.dialogGR_DoNothingTV);
     }
 

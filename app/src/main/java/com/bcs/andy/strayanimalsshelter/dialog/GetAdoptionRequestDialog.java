@@ -17,7 +17,7 @@ import com.bcs.andy.strayanimalsshelter.model.Animal;
 
 public class GetAdoptionRequestDialog extends DialogFragment {
 
-    private static final String TAG = "GetAdoptionRequestDialo";
+    private static final String TAG = "GetAdoptionRequestDialog";
 
     // vars
     private GetAdoptionRequestDialogListener listener;
@@ -27,7 +27,7 @@ public class GetAdoptionRequestDialog extends DialogFragment {
     // UI
     private View view;
     private TextView fromUsernameTV, fromEmailTV;
-    private TextView denyTV, resolveTV, doNothingTV;
+    private TextView denyTV, acceptTV, doNothingTV;
 
     @Nullable
     @Override
@@ -51,10 +51,10 @@ public class GetAdoptionRequestDialog extends DialogFragment {
             }
         });
 
-        resolveTV.setOnClickListener(new View.OnClickListener() {
+        acceptTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: resolveTV");
+                Log.d(TAG, "onClick: acceptTV");
                 listener.resolveAdoptionRequest(animal);
                 getDialog().dismiss();
             }
@@ -76,7 +76,7 @@ public class GetAdoptionRequestDialog extends DialogFragment {
         fromUsernameTV = (TextView) view.findViewById(R.id.dialogGA_FromUsernameTextView);
         fromEmailTV = (TextView) view.findViewById(R.id.dialogGA_FromEmailTextView);
         denyTV = (TextView) view.findViewById(R.id.dialogGA_DenyTV);
-        resolveTV = (TextView) view.findViewById(R.id.dialogGA_ResolveTV);
+        acceptTV = (TextView) view.findViewById(R.id.dialogGA_AcceptTV);
         doNothingTV = (TextView) view.findViewById(R.id.dialogGA_DoNothingTV);
     }
 

@@ -71,13 +71,13 @@ public class AnimalsDatabase {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "addAnimalToUser - onSuccess: added animal " + animal.getAnimalID() + " to user "+ userID);
+                        Log.d(TAG, "addAnimalToUser - onSuccess: added animal " + animal.getAnimalID() + " to user " + userID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "addAnimalToUser - onFailure: couldn't add animal " + animal.getAnimalID() + " to user "+ userID +
+                        Log.d(TAG, "addAnimalToUser - onFailure: couldn't add animal " + animal.getAnimalID() + " to user " + userID +
                                 "\nException: " + e.getMessage());
                     }
                 });
@@ -100,10 +100,12 @@ public class AnimalsDatabase {
                     if (!someUser.getUuid().equals(UserUtils.getCurrentUserId())) {
                         // found a user that is not currently logged in user in database
 
-                        someUser.getAnimals().values()
-                                .stream()
-                                .filter(Animal::isAdoptable)
-                                .forEach(animals::add);
+                        if (someUser.getAnimals() != null) {
+                            someUser.getAnimals().values()
+                                    .stream()
+                                    .filter(Animal::isAdoptable)
+                                    .forEach(animals::add);
+                        }
                     }
                 }
 
@@ -149,6 +151,7 @@ public class AnimalsDatabase {
     /**
      * Changes the owner userUid inside the Animal to the new userUid inside the AdoptionRequest,
      * while removing the AdoptionRequest
+     *
      * @param animal that will be moved from one user to the other
      */
     public void transferAnimalToRequestingUser(Animal animal) {
@@ -216,6 +219,7 @@ public class AnimalsDatabase {
 
     /**
      * Removes the AdoptionRequest from the Animal
+     *
      * @param animal that will have it's AdoptionRequest set to null
      */
     public void removeAdoptionRequestFromAnimal(Animal animal) {
