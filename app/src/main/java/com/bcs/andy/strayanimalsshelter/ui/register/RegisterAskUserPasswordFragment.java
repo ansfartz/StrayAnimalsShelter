@@ -140,33 +140,51 @@ public class RegisterAskUserPasswordFragment extends Fragment {
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    // ----------- add user to Firebase Database ----------------------
 
-                                    String uid = task.getResult().getUser().getUid();
-                                    User mUser = new User(uid, email, username);
-                                    usersRef.child(uid).setValue(mUser);
+                                    if(task.isSuccessful()) {
 
-                                    // ----------------------------------------------------------------
+                                        // ----------- add user to Firebase Database ----------------------
+
+                                        String uid = task.getResult().getUser().getUid();
+                                        User mUser = new User(uid, email, username);
+                                        usersRef.child(uid).setValue(mUser);
+
+                                        // ----------------------------------------------------------------
 
 
-                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                            .setDisplayName(username).build();
-                                    user.updateProfile(profileUpdates);
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(username).build();
+                                        user.updateProfile(profileUpdates);
 
-                                    startActivity(new Intent(getActivity(), MainActivity.class).putExtra("displayName", username));
-                                    getActivity().finish();
+                                        startActivity(new Intent(getActivity(), MainActivity.class).putExtra("displayName", username));
+                                        getActivity().finish();
+                                    } else {
+                                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                            Toast.makeText(getActivity(), "Email is already in use.", Toast.LENGTH_SHORT).show();
+                                            getActivity().getSupportFragmentManager().beginTransaction()
+                                                    .replace(R.id.register_fragment_container, new RegisterAskEmailFragment())
+                                                    .commit();
+                                        }
+                                        else {
+                                            Toast.makeText(getActivity(), "An error occurred, please try again later.", Toast.LENGTH_SHORT).show();
+                                            getActivity().getSupportFragmentManager().beginTransaction()
+                                                    .replace(R.id.register_fragment_container, new RegisterAskEmailFragment())
+                                                    .commit();
+                                        }
+                                    }
 
 
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            if (e instanceof FirebaseAuthUserCollisionException) {
-                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                            });
+//                            .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            if (e instanceof FirebaseAuthUserCollisionException) {
+//                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
 
 
                 }

@@ -15,11 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -40,13 +36,10 @@ import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.UUID;
 
 public class AddAnimalToMyselfActivity extends AppCompatActivity {
 
@@ -135,7 +128,7 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
 //        int height = dm.heightPixels;
 //        getWindow().setLayout((int)(width * .8), (int)(height * .3));
 
-        getCameraPermission();
+        getCameraAndStoragePermission();
         initFirebase();
         init();
 
@@ -229,8 +222,8 @@ public class AddAnimalToMyselfActivity extends AppCompatActivity {
         return true;
     }
 
-    private void getCameraPermission() {
-        Log.d(TAG, "getCameraPermission: GETTING CAMERA / EXTERNAL STORAGE PERMISSIONS");
+    private void getCameraAndStoragePermission() {
+        Log.d(TAG, "getCameraAndStoragePermission: GETTING CAMERA / EXTERNAL STORAGE PERMISSIONS");
         String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED

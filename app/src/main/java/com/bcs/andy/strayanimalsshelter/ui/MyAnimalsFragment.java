@@ -100,19 +100,19 @@ public class MyAnimalsFragment extends Fragment implements AnimalAdapter.AnimalA
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.myAnimalsDescriptionRB && adapterCreated) {
-                    Toast.makeText(getContext(), "aaa", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "a", Toast.LENGTH_SHORT).show();
                     animalAdapter.makeObservationsVisible();
                     animalAdapter.notifyDataSetChanged();
                 }
 
                 if (checkedId == R.id.myAnimalsAgeRB && adapterCreated) {
-                    Toast.makeText(getContext(), "bbb", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "b", Toast.LENGTH_SHORT).show();
                     animalAdapter.makeAgeVisible();
                     animalAdapter.notifyDataSetChanged();
                 }
 
                 if (checkedId == R.id.myAnimalsDetailsRB && adapterCreated) {
-                    Toast.makeText(getContext(), "cccc", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "c", Toast.LENGTH_SHORT).show();
                     animalAdapter.makeDetailsVisible();
                     animalAdapter.notifyDataSetChanged();
                 }

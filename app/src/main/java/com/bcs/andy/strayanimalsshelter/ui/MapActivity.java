@@ -648,6 +648,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
             }
         }
+
     }
 
     @Override
@@ -671,7 +672,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             photoFilePath = data.getStringExtra("photoPath");
             Log.d(TAG, "onActivityResult: animal = " + animal);
             Log.d(TAG, "onActivityResult: filepath = " + photoFilePath);
-            Toast.makeText(this, "Please click and hold where want to add the animal marker", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please click and hold where you want to add the animal marker", Toast.LENGTH_SHORT).show();
             isMarkerForAnimalRequired = true;
 
         } else {

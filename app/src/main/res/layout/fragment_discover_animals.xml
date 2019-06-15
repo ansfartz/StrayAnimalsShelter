@@ -27,6 +27,42 @@
             android:background="@drawable/round_grey_background" />
 
 
+        <RadioGroup
+            android:id="@+id/discoverAnimalsRadioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/discoverAnimalsSearchView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/discoverAnimalsDescriptionRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/discoverAnimalsAgeRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Age"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/discoverAnimalsDetailsRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Details"
+                android:textSize="16sp" />
+
+        </RadioGroup>
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/discoverAnimalsRecyclerView"
             android:layout_width="match_parent"

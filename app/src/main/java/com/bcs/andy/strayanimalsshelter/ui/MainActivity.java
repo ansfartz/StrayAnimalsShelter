@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * Uploading and updating a user's name that has just registered is an Async task,
      * therefore the name will not be updated yet upon calling setText() in {@link #navigationViewEmail} inside this method
-     * If {@link MainActivity} has been started from {@link RegisterActivity}, this will correctly set the navigation username using the Bundle.
+     * If {@link MainActivity} has been started from {@link com.bcs.andy.strayanimalsshelter.ui.register.MyRegisterActivity}, this will correctly set the navigation username using the Bundle.
      */
     private void setNavigationUserDetails() {
         if (user.getDisplayName() == null)

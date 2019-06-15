@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
@@ -41,9 +43,13 @@ public class DiscoverAnimalsFragment extends Fragment implements AnimalAdapter.A
     private ProgressBar animalsDiscoverProgressBar;
     private RecyclerView recyclerView;
     private AnimalAdapter animalAdapter;
+
     private SearchView searchView;
+    private RadioGroup radioGroup;
+    private RadioButton observationsRadioButton;
 
     // vars
+    private boolean adapterCreated = false;
     private List<Animal> discoverAnimalList = new ArrayList<>();
 
 
@@ -78,6 +84,35 @@ public class DiscoverAnimalsFragment extends Fragment implements AnimalAdapter.A
         recyclerView = (RecyclerView) CL.findViewById(R.id.discoverAnimalsRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        radioGroup = (RadioGroup) CL.findViewById(R.id.discoverAnimalsRadioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if (checkedId == R.id.discoverAnimalsDescriptionRB && adapterCreated) {
+//                    Toast.makeText(getContext(), "a", Toast.LENGTH_SHORT).show();
+                    animalAdapter.makeObservationsVisible();
+                    animalAdapter.notifyDataSetChanged();
+                }
+
+                if (checkedId == R.id.discoverAnimalsAgeRB && adapterCreated) {
+//                    Toast.makeText(getContext(), "b", Toast.LENGTH_SHORT).show();
+                    animalAdapter.makeAgeVisible();
+                    animalAdapter.notifyDataSetChanged();
+                }
+
+                if (checkedId == R.id.discoverAnimalsDetailsRB && adapterCreated) {
+//                    Toast.makeText(getContext(), "c", Toast.LENGTH_SHORT).show();
+                    animalAdapter.makeDetailsVisible();
+                    animalAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+        observationsRadioButton = (RadioButton) CL.findViewById(R.id.discoverAnimalsDescriptionRB);
+        observationsRadioButton.setChecked(true);
     }
 
     @Override
@@ -93,6 +128,7 @@ public class DiscoverAnimalsFragment extends Fragment implements AnimalAdapter.A
                 animalsDiscoverProgressBar.setVisibility(View.GONE);
 
                 animalAdapter = new AnimalAdapter(discoverAnimalList, getActivity(), DiscoverAnimalsFragment.this);
+                adapterCreated = true;
                 recyclerView.setAdapter(animalAdapter);
 
                 new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
