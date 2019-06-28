@@ -203,7 +203,7 @@ public class DiscoverAnimalsFragment extends Fragment implements AnimalAdapter.A
     @Override
     public void onAnimalClick(int position, Animal animal) {
         Log.d(TAG, "onAnimalClick: clicked an animal in discover");
-        Toast.makeText(getActivity(), "clicked pos: " + position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "clicked pos: " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override

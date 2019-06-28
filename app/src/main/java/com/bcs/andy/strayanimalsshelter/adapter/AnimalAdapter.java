@@ -238,7 +238,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Toast.makeText(context, "PRESSED YES", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "PRESSED YES", Toast.LENGTH_SHORT).show();
 
                         AdoptionRequest adoptionRequest = new AdoptionRequest(UUIDGenerator.createUUID(), UserUtils.getCurrentUserId(), UserUtils.getCurrentUserName(), UserUtils.getCurrentUserEmail());
                         AnimalsDatabase animalsDatabase = new AnimalsDatabase();
