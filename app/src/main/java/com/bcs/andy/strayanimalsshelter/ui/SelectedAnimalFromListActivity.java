@@ -2,10 +2,10 @@ package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;

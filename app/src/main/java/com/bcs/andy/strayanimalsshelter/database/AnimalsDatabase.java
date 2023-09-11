@@ -1,6 +1,6 @@
 package com.bcs.andy.strayanimalsshelter.database;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.bcs.andy.strayanimalsshelter.model.AdoptionRequest;

@@ -2,16 +2,13 @@ package com.bcs.andy.strayanimalsshelter.ui.register;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.PasswordTransformationMethod;
-import android.text.method.SingleLineTransformationMethod;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +20,8 @@ import android.widget.Toast;
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.model.User;
 import com.bcs.andy.strayanimalsshelter.ui.MainActivity;
-import com.bcs.andy.strayanimalsshelter.ui.RegisterActivity;
 import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +29,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 
 public class RegisterAskUserPasswordFragment extends Fragment {

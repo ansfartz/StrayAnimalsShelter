@@ -2,11 +2,11 @@ package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +23,6 @@ import com.bcs.andy.strayanimalsshelter.dialog.GetRemovalRequestDialogListener;
 import com.bcs.andy.strayanimalsshelter.model.Animal;
 import com.bcs.andy.strayanimalsshelter.model.AnimalMarker;
 import com.bcs.andy.strayanimalsshelter.model.RemovalRequest;
-import com.firebase.client.annotations.NotNull;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

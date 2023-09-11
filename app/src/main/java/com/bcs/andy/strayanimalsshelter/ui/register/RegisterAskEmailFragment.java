@@ -1,9 +1,8 @@
 package com.bcs.andy.strayanimalsshelter.ui.register;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;

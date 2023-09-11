@@ -1,8 +1,8 @@
 package com.bcs.andy.strayanimalsshelter.ui;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.bcs.andy.strayanimalsshelter.R;
 import com.bcs.andy.strayanimalsshelter.model.User;
-import com.bcs.andy.strayanimalsshelter.utils.UserUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

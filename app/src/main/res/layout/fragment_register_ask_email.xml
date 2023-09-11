@@ -73,7 +73,7 @@
 
 
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/register_aE_next_backgroundButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         android:stateListAnimator="@null" />
 
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/register_aE_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

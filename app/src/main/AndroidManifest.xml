@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bcs.andy.strayanimalsshelter">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Allows an app to access precise location. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Allows an app to access approximate location. -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Used by the API to download map tiles from Google Maps servers. -->
@@ -53,7 +56,8 @@
             android:name=".ui.MainActivity"
             android:theme="@style/AppTheme.customToolBar" />
 
-        <activity android:name=".ui.LoginActivity">
+        <activity android:name=".ui.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -61,7 +65,7 @@
         </activity>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.bcs.andy.strayanimalsshelter.ui.AddAnimalToMyselfActivity.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
